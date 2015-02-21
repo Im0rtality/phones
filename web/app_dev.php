@@ -22,7 +22,7 @@ Debug::enable();
 
 require_once __DIR__.'/../app/AppKernel.php';
 
-$kernel = new AppKernel('prod', true); //change to prod if want see on production or dev
+$kernel = new AppKernel('dev', true); //change to prod if want see on production or dev
 $kernel->loadClassCache();
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
