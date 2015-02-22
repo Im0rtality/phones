@@ -10,3 +10,9 @@
 /vendor/
 /bin/
 /composer.phar
+
+bower_components/*
+
+# Configuration files
+app/config/parameters.ini
+app/config/parameters.yml
