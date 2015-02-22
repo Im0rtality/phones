@@ -1,0 +1,11 @@
+{% extends '::base.html.twig' %}
+{% block pageheader %} {{ parent() }} {{ 'home page' | trans }}
+{% endblock %}
+{% block content %}
+    {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+
