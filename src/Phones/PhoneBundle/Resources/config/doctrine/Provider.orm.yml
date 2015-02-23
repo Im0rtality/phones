@@ -1,0 +1,19 @@
+Phones\PhoneBundle\Entity\Provider:
+    type: entity
+    table: providers
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        provider_id:
+            type: string
+        name:
+            type: string
+            nullable: true
+        deep_link:
+            type: string
+        info:
+            type: text
+            nullable: true

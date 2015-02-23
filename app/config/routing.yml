@@ -1,3 +1,7 @@
 phones_front_end:
     resource: "@PhonesFrontEndBundle/Resources/config/routing.yml"
     prefix:   /
+
+phones_phone:
+    resource: "@PhonesPhoneBundle/Resources/config/routing.yml"
+    prefix:   /

@@ -1,0 +1,11 @@
+Phones\PhoneBundle\Entity\Phone:
+    type: entity
+    table: phones
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        data:
+            type: text

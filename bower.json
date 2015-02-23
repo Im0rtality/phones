@@ -1,0 +1,17 @@
+{
+  "name": "phones",
+  "version": "0.0.0",
+  "homepage": "https://github.com/Mazvis/phones",
+  "authors": [
+    "Mazvis <sivzam@gmail.com>"
+  ],
+  "main": "bower.json",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
