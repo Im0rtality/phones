@@ -4,7 +4,36 @@
 {% endblock %}
 
 {% block content %}
-    dddddd
+    <div class="list-group-item">
+        <p class="pull-left" style="font-style: italic">TEXT</p>
+        <a download="products.json" class="btn btn-primary pull-right" href="#">(COUNT)</a>
+        <p>&nbsp</p>
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-4 col-lg-4 col-md-4" style="padding-top: 20px; cursor:pointer;" onclick="location.href='#';">
+            <div class="thumbnail">
+                <div style="width:260px;height:160px;overflow:hidden"> <!-- height=122 -->
+                    <img src="http://placehold.it/320x150" alt="">
+                </div>
+                <div class="caption">
+                    <h4 class="pull-right">€</h4>
+                    <h5><a href="#">category</a></h5>
+                    <p>DESCRIPTION</p>
+                </div>
+                <div class="ratings">
+                    <p class="pull-right">DATA</p>
+                    <p>
+                        <span class="glyphicon glyphicon-star"></span>
+                        <span class="glyphicon glyphicon-star"></span>
+                        <span class="glyphicon glyphicon-star"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
 {% endblock %}
 
 {% block javascripts %}

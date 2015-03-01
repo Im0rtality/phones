@@ -7,9 +7,6 @@ Phones\PhoneBundle\Entity\Cost:
             id: true
             generator:
                 strategy: AUTO
-    indexes:
-        phone_id_idx:
-            columns: [ phone_id ]
     fields:
         phone_id:
             type: string
