@@ -12,25 +12,14 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('PhonesFrontEndBundle:Default:index.html.twig');
-//        $id = 'Apple iPhone 6';s
-//        $product = $this->getDoctrine()
-//            ->getRepository('PhonesPhoneBundle:Phone')
-//            ->find($id);
-//
-//        $costs = $product->getCosts();
-////        var_dump($costs);
-//        if ($costs) {
-//            /** @var Cost $cost */
-//            foreach ($costs as $cost) {
-//                var_dump($cost->getPhone()->getCosts());
-//            }
-//        }
-//
-//        if (!$product) {
-//            throw $this->createNotFoundException(
-//                'No product found for id '.$id
-//            );
-//        }
+        $params =[];
+
+        $products = $this->getDoctrine()
+            ->getRepository('PhonesPhoneBundle:Phone')
+            ->findAll();
+
+        $params['products'] = $products;
+
+        return $this->render('PhonesFrontEndBundle:Default:index.html.twig', $params);
     }
 }

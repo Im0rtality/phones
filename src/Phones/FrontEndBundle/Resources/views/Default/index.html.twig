@@ -11,11 +11,11 @@
     </div>
 
     <div class="row">
-
+        {% for phone in products %}
         <div class="col-sm-4 col-lg-4 col-md-4" style="padding-top: 20px; cursor:pointer;" onclick="location.href='#';">
             <div class="thumbnail">
                 <div style="width:260px;height:160px;overflow:hidden"> <!-- height=122 -->
-                    <img src="http://placehold.it/320x150" alt="">
+                    <img src="{{ phone.getImage() }}" alt="">
                 </div>
                 <div class="caption">
                     <h4 class="pull-right">€</h4>
@@ -23,7 +23,7 @@
                     <p>DESCRIPTION</p>
                 </div>
                 <div class="ratings">
-                    <p class="pull-right">DATA</p>
+                    <p class="pull-right">{{ phone.getBrand() }}</p>
                     <p>
                         <span class="glyphicon glyphicon-star"></span>
                         <span class="glyphicon glyphicon-star"></span>
@@ -32,7 +32,7 @@
                 </div>
             </div>
         </div>
-
+        {% endfor %}
     </div>
 {% endblock %}
 
