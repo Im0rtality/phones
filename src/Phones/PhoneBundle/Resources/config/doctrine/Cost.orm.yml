@@ -1,20 +1,44 @@
 Phones\PhoneBundle\Entity\Cost:
     type: entity
-    table: costs
+#    table: costs
     id:
         id:
             type: integer
+            id: true
             generator:
                 strategy: AUTO
+    indexes:
+        phone_id_idx:
+            columns: [ phone_id ]
     fields:
         phone_id:
             type: string
             nullable: true
+        provider_id:
+            type: string
         cost:
             type: float
             nullable: true
-        provider_id:
-            type: string
         deep_link:
             type: text
             nullable: true
+    manyToOne:
+        phone:
+            targetEntity: Phone
+            inversedBy: costs
+            joinColumn:
+                name: phone_id
+                referencedColumnName: phoneId
+#        provider:
+#            targetEntity: Provider
+#            inversedBy: costs
+#            joinCollumn:
+#                name: provider_id
+#                referencedCollumnName: providerId
+#    manyToOne:
+#        provider:
+#            targetEntity: Provider
+#            inversedBy: cost
+#            joinCollumn:
+#                name: provider_id
+#                referencedCollumnName: provider_id

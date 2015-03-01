@@ -1,11 +1,67 @@
 Phones\PhoneBundle\Entity\Phone:
     type: entity
-    table: phones
+#    table: phones
     id:
-        id:
-            type: integer
+        phoneId:
+            type: string
             generator:
-                strategy: AUTO
+                strategy: NONE
     fields:
-        data:
-            type: text
+        brand:
+            type: string
+            nullable: true
+        image:
+            type: string
+            nullable: true
+        weight:
+            type: integer
+            nullable: true
+        os:
+            type: string
+            nullable: true
+        cpu_freq:
+            type: integer
+            nullable: true
+        cpu_cores:
+            type: integer
+            nullable: true
+        ram_mb:
+            type: integer
+            nullable: true
+        external_sd:
+            type: boolean
+            nullable: true
+        display_size:
+            type: float
+            nullable: true
+        camera_mpx:
+            type: float
+            nullable: true
+        video_p:
+            type: integer
+            nullable: true
+        flash:
+            type: boolean
+            nullable: true
+        technology:
+            type: string
+            nullable: true
+        gps:
+            type: string
+            nullable: true
+        wlan:
+            type: string
+            nullable: true
+        bluetooth_version:
+            type: float
+            nullable: true
+        battery_stand_by_h:
+            type: integer
+            nullable: true
+        battery_talk_time:
+            type: integer
+            nullable: true
+    oneToMany:
+        costs:
+            targetEntity: Cost
+            mappedBy: phone

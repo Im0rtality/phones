@@ -1,14 +1,12 @@
 Phones\PhoneBundle\Entity\Provider:
     type: entity
-    table: providers
+#    table: providers
     id:
-        id:
-            type: integer
-            generator:
-                strategy: AUTO
-    fields:
-        provider_id:
+        providerId:
             type: string
+            generator:
+                strategy: NONE
+    fields:
         name:
             type: string
             nullable: true
@@ -17,3 +15,7 @@ Phones\PhoneBundle\Entity\Provider:
         info:
             type: text
             nullable: true
+#    oneToMany:
+#        costs:
+#            targetEntity: Cost
+#            mappedBy: provider
