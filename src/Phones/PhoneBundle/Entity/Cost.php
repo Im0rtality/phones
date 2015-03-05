@@ -25,6 +25,11 @@ class Cost
     private $provider_id;
 
     /**
+     * @var string
+     */
+    private $original_phone_name;
+
+    /**
      * @var float
      */
     private $cost;
@@ -94,6 +99,29 @@ class Cost
     public function getProviderId()
     {
         return $this->provider_id;
+    }
+
+    /**
+     * Set original_phone_name
+     *
+     * @param string $originalPhoneName
+     * @return Cost
+     */
+    public function setOriginalPhoneName($originalPhoneName)
+    {
+        $this->original_phone_name = $originalPhoneName;
+
+        return $this;
+    }
+
+    /**
+     * Get original_phone_name
+     *
+     * @return string 
+     */
+    public function getOriginalPhoneName()
+    {
+        return $this->original_phone_name;
     }
 
     /**

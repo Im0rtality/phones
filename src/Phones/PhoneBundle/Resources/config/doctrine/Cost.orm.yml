@@ -13,6 +13,9 @@ Phones\PhoneBundle\Entity\Cost:
             nullable: true
         provider_id:
             type: string
+        original_phone_name:
+            type: string
+            nullable: true
         cost:
             type: float
             nullable: true

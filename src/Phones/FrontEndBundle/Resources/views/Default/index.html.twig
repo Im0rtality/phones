@@ -19,11 +19,18 @@
                 </div>
                 <div class="caption">
                     <h4 class="pull-right">€</h4>
-                    <h5><a href="#">category</a></h5>
-                    <p>DESCRIPTION</p>
+                    <h5><a href="#">{{ phone.getPhoneId() }}</a></h5>
+                    <p>{{ phone.getOs() }}</p>
                 </div>
                 <div class="ratings">
-                    <p class="pull-right">{{ phone.getBrand() }}</p>
+                    {#<p class="pull-right">text</p>#}
+                    {% if (phone.costs) %}
+                        <p>
+                        {% for cost in phone.costs %}
+                            <a href="{{ cost.deeplink }}">{{ cost.cost }}</a>&nbsp&nbsp
+                        {% endfor %}
+                        </p>
+                    {% endif %}
                     <p>
                         <span class="glyphicon glyphicon-star"></span>
                         <span class="glyphicon glyphicon-star"></span>
