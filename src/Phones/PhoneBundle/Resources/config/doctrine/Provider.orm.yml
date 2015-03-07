@@ -2,7 +2,7 @@ Phones\PhoneBundle\Entity\Provider:
     type: entity
 #    table: providers
     id:
-        providerId:
+        id:
             type: string
             generator:
                 strategy: NONE
@@ -15,7 +15,7 @@ Phones\PhoneBundle\Entity\Provider:
         info:
             type: text
             nullable: true
-#    oneToMany:
-#        costs:
-#            targetEntity: Cost
-#            mappedBy: provider
+    oneToMany:
+        costs:
+            targetEntity: Cost
+            mappedBy: provider

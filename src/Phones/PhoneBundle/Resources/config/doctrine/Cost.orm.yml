@@ -29,12 +29,12 @@ Phones\PhoneBundle\Entity\Cost:
             joinColumn:
                 name: phone_id
                 referencedColumnName: phoneId
-#        provider:
-#            targetEntity: Provider
-#            inversedBy: costs
-#            joinCollumn:
-#                name: provider_id
-#                referencedCollumnName: providerId
+        provider:
+            targetEntity: Provider
+            inversedBy: costs
+            joinColumn:
+                name: provider_id
+                referencedCollumnName: id
 #    manyToOne:
 #        provider:
 #            targetEntity: Provider

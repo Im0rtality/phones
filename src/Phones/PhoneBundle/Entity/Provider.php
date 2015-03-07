@@ -12,7 +12,7 @@ class Provider
     /**
      * @var string
      */
-    private $providerId;
+    private $id;
 
     /**
      * @var string
@@ -29,28 +29,40 @@ class Provider
      */
     private $info;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $costs;
 
     /**
-     * Set providerId
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->costs = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set id
      *
-     * @param string $providerId
+     * @param string $id
      * @return Provider
      */
-    public function setProviderId($providerId)
+    public function setId($id)
     {
-        $this->providerId = $providerId;
+        $this->id = $id;
 
         return $this;
     }
 
     /**
-     * Get providerId
+     * Get id
      *
      * @return string 
      */
-    public function getProviderId()
+    public function getId()
     {
-        return $this->providerId;
+        return $this->id;
     }
 
     /**
@@ -120,5 +132,38 @@ class Provider
     public function getInfo()
     {
         return $this->info;
+    }
+
+    /**
+     * Add costs
+     *
+     * @param \Phones\PhoneBundle\Entity\Cost $costs
+     * @return Provider
+     */
+    public function addCost(\Phones\PhoneBundle\Entity\Cost $costs)
+    {
+        $this->costs[] = $costs;
+
+        return $this;
+    }
+
+    /**
+     * Remove costs
+     *
+     * @param \Phones\PhoneBundle\Entity\Cost $costs
+     */
+    public function removeCost(\Phones\PhoneBundle\Entity\Cost $costs)
+    {
+        $this->costs->removeElement($costs);
+    }
+
+    /**
+     * Get costs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCosts()
+    {
+        return $this->costs;
     }
 }

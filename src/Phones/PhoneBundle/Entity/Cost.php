@@ -44,6 +44,11 @@ class Cost
      */
     private $phone;
 
+    /**
+     * @var \Phones\PhoneBundle\Entity\Provider
+     */
+    private $provider;
+
 
     /**
      * Get id
@@ -191,5 +196,28 @@ class Cost
     public function getPhone()
     {
         return $this->phone;
+    }
+
+    /**
+     * Set provider
+     *
+     * @param \Phones\PhoneBundle\Entity\Provider $provider
+     * @return Cost
+     */
+    public function setProvider(\Phones\PhoneBundle\Entity\Provider $provider = null)
+    {
+        $this->provider = $provider;
+
+        return $this;
+    }
+
+    /**
+     * Get provider
+     *
+     * @return \Phones\PhoneBundle\Entity\Provider 
+     */
+    public function getProvider()
+    {
+        return $this->provider;
     }
 }
