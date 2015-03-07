@@ -1,0 +1,28 @@
+Phones\PhoneBundle\Entity\BatteryChargingTime:
+    type: entity
+    table: stat_battery_charging_times
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        phone_id:
+            type: string
+            nullable: true
+        provider_id:
+            type: string
+        original_phone_name:
+            type: string
+            nullable: true
+        charging_min:
+            type: integer
+            nullable: true
+    manyToOne:
+        phone:
+            targetEntity: Phone
+            inversedBy: batteryChargingTime
+            joinColumn:
+                name: phone_id
+                referencedColumnName: phoneId

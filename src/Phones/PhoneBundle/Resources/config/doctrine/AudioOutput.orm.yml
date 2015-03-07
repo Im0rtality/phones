@@ -1,0 +1,31 @@
+Phones\PhoneBundle\Entity\AudioOutput:
+    type: entity
+    table: stat_audio_output
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        phone_id:
+            type: string
+            nullable: true
+        provider_id:
+            type: string
+        original_phone_name:
+            type: string
+            nullable: true
+        headphones_power_volts:
+            type: float
+            nullable: true
+        loudspeaker_dB:
+            type: float
+            nullable: true
+    manyToOne:
+        phone:
+            targetEntity: Phone
+            inversedBy: audioOutput
+            joinColumn:
+                name: phone_id
+                referencedColumnName: phoneId

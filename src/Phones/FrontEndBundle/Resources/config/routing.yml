@@ -3,3 +3,7 @@ phones_front_end_homepage:
     defaults: { _controller: PhonesFrontEndBundle:Default:index, start: 0 }
     requirements:
           start:  \d+
+
+phones_front_end_best_phone:
+    pattern: /bestPhoneSearch
+    defaults: { _controller: PhonesFrontEndBundle:Default:bestPhoneSearch }

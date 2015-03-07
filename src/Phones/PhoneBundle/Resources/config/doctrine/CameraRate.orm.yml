@@ -1,0 +1,28 @@
+Phones\PhoneBundle\Entity\CameraRate:
+    type: entity
+    table: stat_camera_rates
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        phone_id:
+            type: string
+            nullable: true
+        provider_id:
+            type: string
+        original_phone_name:
+            type: string
+            nullable: true
+        rate_percent:
+            type: integer
+            nullable: true
+    manyToOne:
+        phone:
+            targetEntity: Phone
+            inversedBy: cameraRates
+            joinColumn:
+                name: phone_id
+                referencedColumnName: phoneId

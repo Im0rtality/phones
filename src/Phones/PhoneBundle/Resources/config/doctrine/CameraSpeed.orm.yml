@@ -1,0 +1,34 @@
+Phones\PhoneBundle\Entity\CameraSpeed:
+    type: entity
+    table: stat_camera_speed
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        phone_id:
+            type: string
+            nullable: true
+        provider_id:
+            type: string
+        original_phone_name:
+            type: string
+            nullable: true
+        taking_a_pic_in_sec:
+            type: float
+            nullable: true
+        taking_an_hdr_pic_in_sec:
+            type: float
+            nullable: true
+        camera_speed_score:
+            type: integer
+            nullable: true
+    manyToOne:
+        phone:
+            targetEntity: Phone
+            inversedBy: cameraSpeed
+            joinColumn:
+                name: phone_id
+                referencedColumnName: phoneId

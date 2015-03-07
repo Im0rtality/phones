@@ -65,3 +65,18 @@ Phones\PhoneBundle\Entity\Phone:
         costs:
             targetEntity: Cost
             mappedBy: phone
+        cameraRates:
+            targetEntity: CameraRate
+            mappedBy: phone
+        cameraSpeed:
+            targetEntity: CameraSpeed
+            mappedBy: phone
+        batteryLifes:
+            targetEntity: BatteryLife
+            mappedBy: phone
+        batteryChargingTime:
+            targetEntity: BatteryChargingTime
+            mappedBy: phone
+        audioOutput:
+            targetEntity: AudioOutput
+            mappedBy: phone

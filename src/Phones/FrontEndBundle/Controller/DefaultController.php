@@ -18,6 +18,14 @@ class DefaultController extends Controller
         return $this->render('PhonesFrontEndBundle:Default:index.html.twig', $params);
     }
 
+    public function bestPhoneSearchAction()
+    {
+        $params =[];
+        $params['products'] = $this->getPhones();
+
+        return $this->render('PhonesFrontEndBundle:Default:best.phone.search.html.twig', $params);
+    }
+
     /**
      * @return array|\Phones\PhoneBundle\Entity\Phone[]
      */
