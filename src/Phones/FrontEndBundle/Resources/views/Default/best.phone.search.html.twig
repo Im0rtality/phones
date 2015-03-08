@@ -3,20 +3,228 @@
 {% block pageheader %} {{ parent() }} {{ 'home page' | trans }}
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
 {% block slider %}
 {% endblock %}
 
 {% block content %}
-    <div class="list-group-item">
-        <p class="pull-left" style="font-style: italic">TEXTssss</p>
-        <a download="products.json" class="btn btn-primary pull-right" href="#">(COUNT)</a>
-        <p>&nbsp</p>
-    </div>
+    {#{{ form_start(form) }}#}
+    {#{{ form_errors(form) }}#}
 
+    {#<div class="col-md-5">#}
+         {#&#123;&#35;render the form and change the submission method&#35;&#125;#}
+        {#{{ form(form, {'method': 'GET'}) }}#}
+
+        {#{{ form_row(form.brand) }}#}
+        {#{{ form_row(form.cost) }}#}
+        {#{{ form_row(form.weight) }}#}
+        {#{{ form_row(form.os) }}#}
+        {#{{ form_row(form.cpu_freq) }}#}
+        {#{{ form_row(form.cpu_cores) }}#}
+        {#{{ form_row(form.ram) }}#}
+        {#{{ form_row(form.external_sd) }}#}
+        {#{{ form_row(form.display_size) }}#}
+        {#{{ form_row(form.display_resolution) }}#}
+    {#</div>#}
+
+    {#<div class="col-md-5">#}
+        {#{{ form_row(form.camera_mpx) }}#}
+        {#{{ form_row(form.video_p) }}#}
+        {#{{ form_row(form.flash) }}#}
+        {#{{ form_row(form.technology) }}#}
+        {#{{ form_row(form.gps) }}#}
+        {#{{ form_row(form.wlan) }}#}
+        {#{{ form_row(form.bluetoot_version) }}#}
+        {#{{ form_row(form.battery_stand_by) }}#}
+        {#{{ form_row(form.battery_talk_time) }}#}
+
+        {#{{ form_row(form.submit) }}#}
+    {#</div>#}
+    {#&#123;&#35;{{ form_row(form.brand, {'attr': {'class': 'form-control'}}) }}&#35;&#125;#}
+    {#&#123;&#35;{{ form_row(form.submit, { 'label': 'Submit', 'attr': {'class': 'btn btn-success'} }) }}&#35;&#125;#}
+    {#{{ form_end(form) }}#}
+
+    <form class="form-horizontal">
+        <div class="col-md-5">
+                <div class="form-group">
+                    <label for="a" class="col-sm-2 control-label">brand</label>
+                    <div class="col-sm-10">
+                        <select multiple class="form-control">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="b" class="col-sm-2 control-label">cost</label>
+                    <div class="well">
+                        <input id="slider1" type="text" class="span2" value="" data-slider-min="0" data-slider-max="3000" data-slider-step="10" data-slider-value="[250,1250]"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="b" class="col-sm-2 control-label">weight</label>
+                    <div class="well">
+                        <input id="slider2" type="text" class="span2" value="" data-slider-min="50" data-slider-max="200" data-slider-step="5" data-slider-value="[0,200]"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="b" class="col-sm-2 control-label">os</label>
+                    <div class="col-sm-10">
+                        <select multiple class="form-control">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="b" class="col-sm-2 control-label">cpu_freq</label>
+                    <div class="well">
+                        <input id="slider3" type="text" class="span2" value="" data-slider-min="500" data-slider-max="3000" data-slider-step="100" data-slider-value="[500,3000]"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="b" class="col-sm-2 control-label">cpu_cores</label>
+                    <div class="well">
+                        <input id="slider4" type="text" class="span2" value="" data-slider-min="1" data-slider-max="8" data-slider-step="1" data-slider-value="[1,8]"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="b" class="col-sm-2 control-label">ram</label>
+                    <div class="well">
+                        <input id="slider5" type="text" class="span2" value="" data-slider-min="0" data-slider-max="3072" data-slider-step="50" data-slider-value="[0,3072]"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ssss" class="col-sm-2 control-label">external_sd</label>
+                    <div class="col-sm-10">
+                        <input type="checkbox" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ssss" class="col-sm-2 control-label">display_size</label>
+                    <div class="well">
+                        <input id="slider7" type="text" class="span2" value="" data-slider-min="0" data-slider-max="15" data-slider-step="1.1" data-slider-value="[0,6]"/>
+                    </div>
+                </div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-group">
+                <label for="ssss" class="col-sm-2 control-label">camera_mpx</label>
+                <div class="well">
+                    <input id="slider9" type="text" class="span2" value="" data-slider-min="0" data-slider-max="41" data-slider-step="1" data-slider-value="[0,41]"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ssss" class="col-sm-2 control-label">video_p</label>
+                <div class="well">
+                    <input id="slider10" type="text" class="span2" value="" data-slider-min="0" data-slider-max="4320" data-slider-step="200" data-slider-value="[0,2160]"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ssss" class="col-sm-2 control-label">flash</label>
+                <div class="col-sm-10">
+                    <input type="checkbox" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ssss" class="col-sm-2 control-label">technology</label>
+                <div class="col-sm-10">
+                    <select multiple class="form-control">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ssss" class="col-sm-2 control-label">gps</label>
+                <div class="col-sm-10">
+                    <select multiple class="form-control">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ssss" class="col-sm-2 control-label">wlan</label>
+                <div class="col-sm-10">
+                    <select multiple class="form-control">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ssss" class="col-sm-2 control-label">bluetoot_version</label>
+                <div class="col-sm-10">
+                    <select multiple class="form-control">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ssss" class="col-sm-2 control-label">battery_stand_by</label>
+                <div class="well">
+                    <input id="slider12" type="text" class="span2" value="" data-slider-min="0" data-slider-max="828" data-slider-step="24" data-slider-value="[24,828]"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ssss" class="col-sm-2 control-label">battery_talk_time</label>
+                <div class="well">
+                    <input id="slider13" type="text" class="span2" value="" data-slider-min="0" data-slider-max="30" data-slider-step="1" data-slider-value="[4,20]"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="span12" style="text-align:center">
+                    <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-search"> Search</span></button>
+                </div>
+            </div>
+        </div>
+    </form>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            $("#slider1").slider({});
+            $("#slider2").slider({});
+            $("#slider3").slider({});
+            $("#slider4").slider({});
+            $("#slider5").slider({});
+            $("#slider6").slider({});
+            $("#slider7").slider({});
+            $("#slider8").slider({});
+            $("#slider9").slider({});
+            $("#slider10").slider({});
+            $("#slider11").slider({});
+            $("#slider12").slider({});
+            $("#slider13").slider({});
+        });
+    </script>
 {% endblock %}
 
 
