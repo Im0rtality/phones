@@ -1,9 +1,13 @@
-phones_front_end_homepage:
+phones_front_end.homepage:
     pattern:  /{start}
     defaults: { _controller: PhonesFrontEndBundle:Default:index, start: 0 }
     requirements:
           start:  \d+
 
-phones_front_end_best_phone:
-    pattern: /bestPhoneSearch
+phones_front_end.best_phone:
+    pattern: /search
     defaults: { _controller: PhonesFrontEndBundle:Default:bestPhoneSearch }
+
+phones_front_end.results:
+    pattern:  /results
+    defaults: { _controller: PhonesFrontEndBundle:Default:searchResults }
