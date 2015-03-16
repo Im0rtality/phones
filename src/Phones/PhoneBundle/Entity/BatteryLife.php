@@ -49,11 +49,6 @@ class BatteryLife
      */
     private $video_playback_min;
 
-    /**
-     * @var \Phones\PhoneBundle\Entity\Phone
-     */
-    private $phone;
-
 
     /**
      * Get id
@@ -224,28 +219,5 @@ class BatteryLife
     public function getVideoPlaybackMin()
     {
         return $this->video_playback_min;
-    }
-
-    /**
-     * Set phone
-     *
-     * @param \Phones\PhoneBundle\Entity\Phone $phone
-     * @return BatteryLife
-     */
-    public function setPhone(\Phones\PhoneBundle\Entity\Phone $phone = null)
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
-    /**
-     * Get phone
-     *
-     * @return \Phones\PhoneBundle\Entity\Phone 
-     */
-    public function getPhone()
-    {
-        return $this->phone;
     }
 }

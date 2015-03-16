@@ -19,10 +19,3 @@ Phones\PhoneBundle\Entity\CameraRate:
         rate_percent:
             type: integer
             nullable: true
-    manyToOne:
-        phone:
-            targetEntity: Phone
-            inversedBy: cameraRates
-            joinColumn:
-                name: phone_id
-                referencedColumnName: phoneId

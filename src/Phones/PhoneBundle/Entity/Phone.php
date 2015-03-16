@@ -112,27 +112,7 @@ class Phone
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $cameraRates;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $cameraSpeed;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $batteryLifes;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $batteryChargingTime;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $audioOutput;
+    private $stats;
 
     /**
      * Constructor
@@ -140,11 +120,7 @@ class Phone
     public function __construct()
     {
         $this->costs = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->cameraRates = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->cameraSpeed = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->batteryLifes = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->batteryChargingTime = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->audioOutput = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->stats = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -618,167 +594,35 @@ class Phone
     }
 
     /**
-     * Add cameraRates
+     * Add stats
      *
-     * @param \Phones\PhoneBundle\Entity\CameraRate $cameraRates
+     * @param \Phones\PhoneBundle\Entity\Stat $stats
      * @return Phone
      */
-    public function addCameraRate(\Phones\PhoneBundle\Entity\CameraRate $cameraRates)
+    public function addStat(\Phones\PhoneBundle\Entity\Stat $stats)
     {
-        $this->cameraRates[] = $cameraRates;
+        $this->stats[] = $stats;
 
         return $this;
     }
 
     /**
-     * Remove cameraRates
+     * Remove stats
      *
-     * @param \Phones\PhoneBundle\Entity\CameraRate $cameraRates
+     * @param \Phones\PhoneBundle\Entity\Stat $stats
      */
-    public function removeCameraRate(\Phones\PhoneBundle\Entity\CameraRate $cameraRates)
+    public function removeStat(\Phones\PhoneBundle\Entity\Stat $stats)
     {
-        $this->cameraRates->removeElement($cameraRates);
+        $this->stats->removeElement($stats);
     }
 
     /**
-     * Get cameraRates
+     * Get stats
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getCameraRates()
+    public function getStats()
     {
-        return $this->cameraRates;
-    }
-
-    /**
-     * Add cameraSpeed
-     *
-     * @param \Phones\PhoneBundle\Entity\CameraSpeed $cameraSpeed
-     * @return Phone
-     */
-    public function addCameraSpeed(\Phones\PhoneBundle\Entity\CameraSpeed $cameraSpeed)
-    {
-        $this->cameraSpeed[] = $cameraSpeed;
-
-        return $this;
-    }
-
-    /**
-     * Remove cameraSpeed
-     *
-     * @param \Phones\PhoneBundle\Entity\CameraSpeed $cameraSpeed
-     */
-    public function removeCameraSpeed(\Phones\PhoneBundle\Entity\CameraSpeed $cameraSpeed)
-    {
-        $this->cameraSpeed->removeElement($cameraSpeed);
-    }
-
-    /**
-     * Get cameraSpeed
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getCameraSpeed()
-    {
-        return $this->cameraSpeed;
-    }
-
-    /**
-     * Add batteryLifes
-     *
-     * @param \Phones\PhoneBundle\Entity\BatteryLife $batteryLifes
-     * @return Phone
-     */
-    public function addBatteryLife(\Phones\PhoneBundle\Entity\BatteryLife $batteryLifes)
-    {
-        $this->batteryLifes[] = $batteryLifes;
-
-        return $this;
-    }
-
-    /**
-     * Remove batteryLifes
-     *
-     * @param \Phones\PhoneBundle\Entity\BatteryLife $batteryLifes
-     */
-    public function removeBatteryLife(\Phones\PhoneBundle\Entity\BatteryLife $batteryLifes)
-    {
-        $this->batteryLifes->removeElement($batteryLifes);
-    }
-
-    /**
-     * Get batteryLifes
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getBatteryLifes()
-    {
-        return $this->batteryLifes;
-    }
-
-    /**
-     * Add batteryChargingTime
-     *
-     * @param \Phones\PhoneBundle\Entity\BatteryChargingTime $batteryChargingTime
-     * @return Phone
-     */
-    public function addBatteryChargingTime(\Phones\PhoneBundle\Entity\BatteryChargingTime $batteryChargingTime)
-    {
-        $this->batteryChargingTime[] = $batteryChargingTime;
-
-        return $this;
-    }
-
-    /**
-     * Remove batteryChargingTime
-     *
-     * @param \Phones\PhoneBundle\Entity\BatteryChargingTime $batteryChargingTime
-     */
-    public function removeBatteryChargingTime(\Phones\PhoneBundle\Entity\BatteryChargingTime $batteryChargingTime)
-    {
-        $this->batteryChargingTime->removeElement($batteryChargingTime);
-    }
-
-    /**
-     * Get batteryChargingTime
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getBatteryChargingTime()
-    {
-        return $this->batteryChargingTime;
-    }
-
-    /**
-     * Add audioOutput
-     *
-     * @param \Phones\PhoneBundle\Entity\AudioOutput $audioOutput
-     * @return Phone
-     */
-    public function addAudioOutput(\Phones\PhoneBundle\Entity\AudioOutput $audioOutput)
-    {
-        $this->audioOutput[] = $audioOutput;
-
-        return $this;
-    }
-
-    /**
-     * Remove audioOutput
-     *
-     * @param \Phones\PhoneBundle\Entity\AudioOutput $audioOutput
-     */
-    public function removeAudioOutput(\Phones\PhoneBundle\Entity\AudioOutput $audioOutput)
-    {
-        $this->audioOutput->removeElement($audioOutput);
-    }
-
-    /**
-     * Get audioOutput
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getAudioOutput()
-    {
-        return $this->audioOutput;
+        return $this->stats;
     }
 }

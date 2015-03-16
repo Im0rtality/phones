@@ -34,11 +34,6 @@ class BatteryChargingTime
      */
     private $charging_min;
 
-    /**
-     * @var \Phones\PhoneBundle\Entity\Phone
-     */
-    private $phone;
-
 
     /**
      * Get id
@@ -140,28 +135,5 @@ class BatteryChargingTime
     public function getChargingMin()
     {
         return $this->charging_min;
-    }
-
-    /**
-     * Set phone
-     *
-     * @param \Phones\PhoneBundle\Entity\Phone $phone
-     * @return BatteryChargingTime
-     */
-    public function setPhone(\Phones\PhoneBundle\Entity\Phone $phone = null)
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
-    /**
-     * Get phone
-     *
-     * @return \Phones\PhoneBundle\Entity\Phone 
-     */
-    public function getPhone()
-    {
-        return $this->phone;
     }
 }

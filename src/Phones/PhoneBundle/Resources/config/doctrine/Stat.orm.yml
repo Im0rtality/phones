@@ -1,6 +1,6 @@
-Phones\PhoneBundle\Entity\BatteryLife:
+Phones\PhoneBundle\Entity\Stat:
     type: entity
-    table: stat_battery_lifes
+    table: stats
     id:
         id:
             type: integer
@@ -16,15 +16,22 @@ Phones\PhoneBundle\Entity\BatteryLife:
         original_phone_name:
             type: string
             nullable: true
-        endurance_rating_min:
+        category:
+            type: string
+            nullable: true
+        meta_key:
+            type: string
+            nullable: true
+        meta_value:
+            type: float
+            nullable: true
+        grade:
             type: integer
             nullable: true
-        talk_time_min:
-            type: integer
-            nullable: true
-        web_browsing_min:
-            type: integer
-            nullable: true
-        video_playback_min:
-            type: integer
-            nullable: true
+    manyToOne:
+        phone:
+            targetEntity: Phone
+            inversedBy: stats
+            joinColumn:
+                name: phone_id
+                referencedColumnName: phoneId

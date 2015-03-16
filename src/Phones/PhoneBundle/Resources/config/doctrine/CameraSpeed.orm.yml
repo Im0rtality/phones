@@ -25,10 +25,3 @@ Phones\PhoneBundle\Entity\CameraSpeed:
         camera_speed_score:
             type: integer
             nullable: true
-    manyToOne:
-        phone:
-            targetEntity: Phone
-            inversedBy: cameraSpeed
-            joinColumn:
-                name: phone_id
-                referencedColumnName: phoneId

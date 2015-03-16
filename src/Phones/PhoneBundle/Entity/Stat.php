@@ -5,9 +5,9 @@ namespace Phones\PhoneBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * CameraSpeed
+ * Stat
  */
-class CameraSpeed
+class Stat
 {
     /**
      * @var integer
@@ -30,19 +30,29 @@ class CameraSpeed
     private $original_phone_name;
 
     /**
-     * @var float
+     * @var string
      */
-    private $taking_a_pic_in_sec;
+    private $category;
+
+    /**
+     * @var string
+     */
+    private $meta_key;
 
     /**
      * @var float
      */
-    private $taking_an_hdr_pic_in_sec;
+    private $meta_value;
 
     /**
      * @var integer
      */
-    private $camera_speed_score;
+    private $grade;
+
+    /**
+     * @var \Phones\PhoneBundle\Entity\Phone
+     */
+    private $phone;
 
 
     /**
@@ -59,7 +69,7 @@ class CameraSpeed
      * Set phone_id
      *
      * @param string $phoneId
-     * @return CameraSpeed
+     * @return Stat
      */
     public function setPhoneId($phoneId)
     {
@@ -82,7 +92,7 @@ class CameraSpeed
      * Set provider_id
      *
      * @param string $providerId
-     * @return CameraSpeed
+     * @return Stat
      */
     public function setProviderId($providerId)
     {
@@ -105,7 +115,7 @@ class CameraSpeed
      * Set original_phone_name
      *
      * @param string $originalPhoneName
-     * @return CameraSpeed
+     * @return Stat
      */
     public function setOriginalPhoneName($originalPhoneName)
     {
@@ -125,71 +135,117 @@ class CameraSpeed
     }
 
     /**
-     * Set taking_a_pic_in_sec
+     * Set category
      *
-     * @param float $takingAPicInSec
-     * @return CameraSpeed
+     * @param string $category
+     * @return Stat
      */
-    public function setTakingAPicInSec($takingAPicInSec)
+    public function setCategory($category)
     {
-        $this->taking_a_pic_in_sec = $takingAPicInSec;
+        $this->category = $category;
 
         return $this;
     }
 
     /**
-     * Get taking_a_pic_in_sec
+     * Get category
+     *
+     * @return string 
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * Set meta_key
+     *
+     * @param string $metaKey
+     * @return Stat
+     */
+    public function setMetaKey($metaKey)
+    {
+        $this->meta_key = $metaKey;
+
+        return $this;
+    }
+
+    /**
+     * Get meta_key
+     *
+     * @return string 
+     */
+    public function getMetaKey()
+    {
+        return $this->meta_key;
+    }
+
+    /**
+     * Set meta_value
+     *
+     * @param float $metaValue
+     * @return Stat
+     */
+    public function setMetaValue($metaValue)
+    {
+        $this->meta_value = $metaValue;
+
+        return $this;
+    }
+
+    /**
+     * Get meta_value
      *
      * @return float 
      */
-    public function getTakingAPicInSec()
+    public function getMetaValue()
     {
-        return $this->taking_a_pic_in_sec;
+        return $this->meta_value;
     }
 
     /**
-     * Set taking_an_hdr_pic_in_sec
+     * Set grade
      *
-     * @param float $takingAnHdrPicInSec
-     * @return CameraSpeed
+     * @param integer $grade
+     * @return Stat
      */
-    public function setTakingAnHdrPicInSec($takingAnHdrPicInSec)
+    public function setGrade($grade)
     {
-        $this->taking_an_hdr_pic_in_sec = $takingAnHdrPicInSec;
+        $this->grade = $grade;
 
         return $this;
     }
 
     /**
-     * Get taking_an_hdr_pic_in_sec
-     *
-     * @return float 
-     */
-    public function getTakingAnHdrPicInSec()
-    {
-        return $this->taking_an_hdr_pic_in_sec;
-    }
-
-    /**
-     * Set camera_speed_score
-     *
-     * @param integer $cameraSpeedScore
-     * @return CameraSpeed
-     */
-    public function setCameraSpeedScore($cameraSpeedScore)
-    {
-        $this->camera_speed_score = $cameraSpeedScore;
-
-        return $this;
-    }
-
-    /**
-     * Get camera_speed_score
+     * Get grade
      *
      * @return integer 
      */
-    public function getCameraSpeedScore()
+    public function getGrade()
     {
-        return $this->camera_speed_score;
+        return $this->grade;
+    }
+
+    /**
+     * Set phone
+     *
+     * @param \Phones\PhoneBundle\Entity\Phone $phone
+     * @return Stat
+     */
+    public function setPhone(\Phones\PhoneBundle\Entity\Phone $phone = null)
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * Get phone
+     *
+     * @return \Phones\PhoneBundle\Entity\Phone 
+     */
+    public function getPhone()
+    {
+        return $this->phone;
     }
 }

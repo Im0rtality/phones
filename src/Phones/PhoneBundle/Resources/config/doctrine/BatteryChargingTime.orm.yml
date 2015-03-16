@@ -19,10 +19,3 @@ Phones\PhoneBundle\Entity\BatteryChargingTime:
         charging_min:
             type: integer
             nullable: true
-    manyToOne:
-        phone:
-            targetEntity: Phone
-            inversedBy: batteryChargingTime
-            joinColumn:
-                name: phone_id
-                referencedColumnName: phoneId

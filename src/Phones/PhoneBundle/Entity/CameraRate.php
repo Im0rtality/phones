@@ -34,11 +34,6 @@ class CameraRate
      */
     private $rate_percent;
 
-    /**
-     * @var \Phones\PhoneBundle\Entity\Phone
-     */
-    private $phone;
-
 
     /**
      * Get id
@@ -140,28 +135,5 @@ class CameraRate
     public function getRatePercent()
     {
         return $this->rate_percent;
-    }
-
-    /**
-     * Set phone
-     *
-     * @param \Phones\PhoneBundle\Entity\Phone $phone
-     * @return CameraRate
-     */
-    public function setPhone(\Phones\PhoneBundle\Entity\Phone $phone = null)
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
-    /**
-     * Get phone
-     *
-     * @return \Phones\PhoneBundle\Entity\Phone 
-     */
-    public function getPhone()
-    {
-        return $this->phone;
     }
 }
