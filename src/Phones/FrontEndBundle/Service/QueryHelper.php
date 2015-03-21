@@ -6,11 +6,10 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\Expr;
 use Phones\PhoneBundle\Entity\Phone;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class QueryHelper extends Controller
+class QueryHelper
 {
     /** @var EntityManager */
     private $entityManager;
@@ -217,6 +216,9 @@ class QueryHelper extends Controller
         return $products;
     }
 
+    /**
+     * @return array
+     */
     public function getExistingOs()
     {
         /** @var EntityManager $em */
@@ -233,6 +235,9 @@ class QueryHelper extends Controller
         return $distinctOs;
     }
 
+    /**
+     * @return array
+     */
     public function getExistingBrands()
     {
         $qb = $this->entityManager->getRepository('PhonesPhoneBundle:Phone')->createQueryBuilder('a')->groupBy('a.brand');
