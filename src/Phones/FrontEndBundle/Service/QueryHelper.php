@@ -5,9 +5,7 @@ namespace Phones\FrontEndBundle\Service;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\Expr;
 use Phones\PhoneBundle\Entity\Phone;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class QueryHelper
 {
