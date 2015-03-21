@@ -1,3 +1,39 @@
 parameters:
+    phones_front_end.query_helper.class: Phones\FrontEndBundle\Service\QueryHelper
+
+    #possible filters
+    phones_front_end.query_helper.passible_range_names:
+        cost:               'costs'
+        weight:             'phones'
+        cpu_freq:           'phones'
+        cpu_cores:          'phones'
+        ram_mb:             'phones'
+        display_size:       'phones'
+        camera_mpx:         'phones'
+        video_p:            'phones'
+        battery_stand_by_h: 'phones'
+        battery_talk_time:  'phones'
+
+    phones_front_end.query_helper.possible_select_names:
+        brand:             'phones'
+        os:                'phones'
+        bluetooth_version: 'phones'
+
+    phones_front_end.query_helper.possible_like_select_names:
+        technology: 'phones'
+        gps:        'phones'
+        wlan:       'phones'
+
+    phones_front_end.query_helper.possible_checkbox_names:
+        external_sd: 'phones'
+        flash:       'phones'
 
 services:
+    phones_front_end.query_helper:
+        class: %phones_front_end.query_helper.class%
+        calls:
+            - [setPossibleRangeNames, [%phones_front_end.query_helper.passible_range_names%]]
+            - [setPossibleSelectNames, [%phones_front_end.query_helper.possible_select_names%]]
+            - [setPossibleLikeSelectNames, [%phones_front_end.query_helper.possible_like_select_names%]]
+            - [setPossibleCheckBoxNames, [%phones_front_end.query_helper.possible_checkbox_names%]]
+            - [setEntityManager, [@doctrine.orm.entity_manager]]
