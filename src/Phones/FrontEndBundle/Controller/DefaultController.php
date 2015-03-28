@@ -51,8 +51,18 @@ class DefaultController extends Controller
      */
     public function searchResultsAction(Request $request){
         $phones = $this->getQueryHelper()->getBestPhones($request);
-        var_dump($phones);
-        $params = [];
+
+        $foundPhones = [];
+        $points      = [];
+        foreach ($phones as $phone) {
+            if (isset($phone['phoneId'])) {
+                $foundPhones[] = $this->getQueryHelper()->getPhone($phone['phoneId']);
+                $points[] = isset($phone['points']) ? $phone['points'] : null;
+            }
+        }
+
+        $params['products'] = $foundPhones;
+        $params['points'] = $points;
 
         return $this->render('PhonesFrontEndBundle:Default:results.html.twig', $params);
     }

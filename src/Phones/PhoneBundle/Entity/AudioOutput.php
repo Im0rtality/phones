@@ -10,14 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
 class AudioOutput
 {
     /**
-     * @var integer
-     */
-    private $id;
-
-    /**
      * @var string
      */
-    private $phone_id;
+    private $phoneId;
 
     /**
      * @var string
@@ -39,38 +34,38 @@ class AudioOutput
      */
     private $loudspeaker_dB;
 
-
     /**
-     * Get id
-     *
-     * @return integer 
+     * @var integer
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    private $grade;
 
     /**
-     * Set phone_id
+     * @var \Phones\PhoneBundle\Entity\Phone
+     */
+    private $phone;
+
+
+    /**
+     * Set phoneId
      *
      * @param string $phoneId
      * @return AudioOutput
      */
     public function setPhoneId($phoneId)
     {
-        $this->phone_id = $phoneId;
+        $this->phoneId = $phoneId;
 
         return $this;
     }
 
     /**
-     * Get phone_id
+     * Get phoneId
      *
      * @return string 
      */
     public function getPhoneId()
     {
-        return $this->phone_id;
+        return $this->phoneId;
     }
 
     /**
@@ -163,5 +158,51 @@ class AudioOutput
     public function getLoudspeakerDB()
     {
         return $this->loudspeaker_dB;
+    }
+
+    /**
+     * Set grade
+     *
+     * @param integer $grade
+     * @return AudioOutput
+     */
+    public function setGrade($grade)
+    {
+        $this->grade = $grade;
+
+        return $this;
+    }
+
+    /**
+     * Get grade
+     *
+     * @return integer 
+     */
+    public function getGrade()
+    {
+        return $this->grade;
+    }
+
+    /**
+     * Set phone
+     *
+     * @param \Phones\PhoneBundle\Entity\Phone $phone
+     * @return AudioOutput
+     */
+    public function setPhone(\Phones\PhoneBundle\Entity\Phone $phone = null)
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * Get phone
+     *
+     * @return \Phones\PhoneBundle\Entity\Phone 
+     */
+    public function getPhone()
+    {
+        return $this->phone;
     }
 }

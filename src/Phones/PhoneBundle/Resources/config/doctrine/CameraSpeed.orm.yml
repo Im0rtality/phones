@@ -2,15 +2,11 @@ Phones\PhoneBundle\Entity\CameraSpeed:
     type: entity
     table: stat_camera_speed
     id:
-        id:
-            type: integer
-            id: true
-            generator:
-                strategy: AUTO
-    fields:
-        phone_id:
+        phoneId:
             type: string
-            nullable: true
+            generator:
+                strategy: NONE
+    fields:
         provider_id:
             type: string
         original_phone_name:
@@ -25,3 +21,13 @@ Phones\PhoneBundle\Entity\CameraSpeed:
         camera_speed_score:
             type: integer
             nullable: true
+        grade:
+            type: integer
+            nullable: true
+    oneToOne:
+        phone:
+            targetEntity: Phone
+            inversedBy: cameraSpeed
+            joinColumn:
+                name: phoneId
+                referencedColumnName: phoneId

@@ -2,15 +2,11 @@ Phones\PhoneBundle\Entity\BatteryLife:
     type: entity
     table: stat_battery_lifes
     id:
-        id:
-            type: integer
-            id: true
-            generator:
-                strategy: AUTO
-    fields:
-        phone_id:
+        phoneId:
             type: string
-            nullable: true
+            generator:
+                strategy: NONE
+    fields:
         provider_id:
             type: string
         original_phone_name:
@@ -28,3 +24,13 @@ Phones\PhoneBundle\Entity\BatteryLife:
         video_playback_min:
             type: integer
             nullable: true
+        grade:
+            type: integer
+            nullable: true
+    oneToOne:
+        phone:
+            targetEntity: Phone
+            inversedBy: batteryLife
+            joinColumn:
+                name: phoneId
+                referencedColumnName: phoneId

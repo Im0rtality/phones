@@ -2,15 +2,11 @@ Phones\PhoneBundle\Entity\AudioOutput:
     type: entity
     table: stat_audio_output
     id:
-        id:
-            type: integer
-            id: true
-            generator:
-                strategy: AUTO
-    fields:
-        phone_id:
+        phoneId:
             type: string
-            nullable: true
+            generator:
+                strategy: NONE
+    fields:
         provider_id:
             type: string
         original_phone_name:
@@ -22,3 +18,13 @@ Phones\PhoneBundle\Entity\AudioOutput:
         loudspeaker_dB:
             type: float
             nullable: true
+        grade:
+            type: integer
+            nullable: true
+    oneToOne:
+        phone:
+            targetEntity: Phone
+            inversedBy: audioOutput
+            joinColumn:
+                name: phoneId
+                referencedColumnName: phoneId

@@ -28,6 +28,14 @@ parameters:
         external_sd: 'phones'
         flash:       'phones'
 
+    phones_front_end.query_helper.joinable_form_tables:
+        audio_output: 'PhonesPhoneBundle:AudioOutput'
+        battery_charging_times: 'PhonesPhoneBundle:BatteryChargingTime'
+        battery_lifes: 'PhonesPhoneBundle:BatteryLife'
+        camera_rates: 'PhonesPhoneBundle:CameraRate'
+        camera_speeds: 'PhonesPhoneBundle:CameraSpeed'
+
+
 services:
     phones_front_end.query_helper:
         class: %phones_front_end.query_helper.class%
@@ -37,3 +45,4 @@ services:
             - [setPossibleLikeSelectNames, [%phones_front_end.query_helper.possible_like_select_names%]]
             - [setPossibleCheckBoxNames, [%phones_front_end.query_helper.possible_checkbox_names%]]
             - [setEntityManager, [@doctrine.orm.entity_manager]]
+            - [setJoinableFormTables, [%phones_front_end.query_helper.joinable_form_tables%]]

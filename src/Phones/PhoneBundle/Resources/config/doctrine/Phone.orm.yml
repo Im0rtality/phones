@@ -68,3 +68,19 @@ Phones\PhoneBundle\Entity\Phone:
         stats:
             targetEntity: Stat
             mappedBy: phone
+    oneToOne:
+        cameraRate:
+            targetEntity: CameraRate
+            mappedBy: phone
+        cameraSpeed:
+            targetEntity: CameraSpeed
+            mappedBy: phone
+        batteryLife:
+            targetEntity: BatteryLife
+            mappedBy: phone
+        batteryChargingTime:
+            targetEntity: BatteryChargingTime
+            mappedBy: phone
+        audioOutput:
+            targetEntity: AudioOutput
+            mappedBy: phone

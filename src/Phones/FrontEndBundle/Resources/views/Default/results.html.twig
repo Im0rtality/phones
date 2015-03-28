@@ -13,7 +13,45 @@
 
 
 {% block content %}
+    <div class="row">
+        {% for key, phone in products %}
+            <div class="col-sm-4 col-lg-4 col-md-4" style="padding-top: 20px; cursor:pointer;" onclick="location.href='#';">
+                <div class="thumbnail">
+                    <div style="width:260px;height:160px;overflow:hidden"> <!-- height=122 -->
+                        <img src="{{ phone.getImage() }}" alt="">
+                    </div>
+                    <div class="caption">
+                        <h4 class="pull-right">€</h4>
+                        <h5><p style="color:red">{{ key+1 }}.&nbsp</p><a href="#">{{ phone.getPhoneId() }}</a></h5>
+                        <p style="color:red">Points: {{ attribute(points, key) }}</p>
+                    </div>
+                    <div class="ratings">
+                        {#<p class="pull-right">text</p>#}
+                        {% set lowestCost = null %}
+                        {% if (phone.costs) %}
+                            <p>
+                                {% for cost in phone.costs %}
+                                    {% if (lowestCost == null or (lowestCost != null and cost.cost < lowestCost.cost)) %}
+                                        {% set lowestCost = cost %}
+                                    {% endif %}
+                                {% endfor %}
+                                <a style="color:red" href="{{ lowestCost.deeplink }}">{{ lowestCost.cost }}</a>&nbsp&nbsp
 
+                                {% for cost in phone.costs if lowestCost != cost %}
+                                    <a href="{{ cost.deeplink }}">{{ cost.cost }}</a>&nbsp&nbsp
+                                {% endfor %}
+                            </p>
+                        {% endif %}
+                        <p>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
 
 

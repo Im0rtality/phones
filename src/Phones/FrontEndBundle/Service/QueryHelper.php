@@ -4,6 +4,7 @@ namespace Phones\FrontEndBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\QueryBuilder;
 use Phones\PhoneBundle\Entity\Phone;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,6 +24,9 @@ class QueryHelper
 
     /** @var array  */
     private $possibleCheckBoxNames = [];
+
+    /** @var array  */
+    private $joinableFormTables = [];
 
     /**
      * @param EntityManager $entityManager
@@ -64,27 +68,88 @@ class QueryHelper
         $this->possibleSelectNames = $possibleSelectNames;
     }
 
+    /**
+     * @param array $joinableFormTables
+     */
+    public function setJoinableFormTables($joinableFormTables)
+    {
+        $this->joinableFormTables = $joinableFormTables;
+    }
+
     public function getBestPhones(Request $request){
+        $qBuilder = $this->getMainQuery();
+
+        $this->setFormValues($request, $qBuilder);
+
+        $query = $qBuilder->getQuery();
+        $result = $query->getResult();
+
+//        var_export($query->getDQL());
+//        var_dump($query->getResult());
+
+        return $result;
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    private function getMainQuery()
+    {
         $qBuilder = $this->getQueryBuilder();
+
+//        $qBuilder2 = clone $qBuilder;
+//        $qBuilder2
+//            ->addSelect('costs_original.phone_id')
+//            ->addSelect('costs_original.provider_id')
+//            ->addSelect('costs_original.cost')
+//            ->addSelect('costs_original.deep_link')
+//            ->from('PhonesPhoneBundle:Cost', 'costs_original')
+//            ->addGroupBy('phones.phone_id')
+//            ->addOrderBy('costs_original.cost', 'ASC');
 
         $qBuilder->addSelect('phones.phoneId');
         $qBuilder->addSelect('costs.cost');
-        $qBuilder->addSelect('SUM(stats.grade) AS points');
 
         $qBuilder->from('PhonesPhoneBundle:Phone','phones');
 
         $qBuilder->leftJoin('PhonesPhoneBundle:Cost', 'costs', 'WITH', 'costs.phone_id=phones.phoneId');
-        $qBuilder->leftJoin('PhonesPhoneBundle:Stat', 'stats', 'WITH', 'stats.phone_id=phones.phoneId');
+//        $qBuilder->add( $qBuilder2->getDQL() . ' WITH costs.phone_id=phones.phoneId', 'join');
+//        $qBuilder->leftJoin($qBuilder2->getDQL(), 'costs', 'WITH', 'costs.phone_id=phones.phoneId');
 
         $qBuilder->addGroupBy('phones.phoneId');
-//        $qBuilder->addGroupBy('points');
-//        $qBuilder->set('stats.grade', $qBuilder->expr()->sum('stats.grade', '2'));
-//        $qBuilder->set('stats.grade', $qBuilder->expr()->countDistinct('stats.grade'));
 
-        $qBuilder->addOrderBy('points', 'DESC');
-        $qBuilder->addOrderBy('costs.cost', 'ASC');
+        return $qBuilder;
+    }
 
+    /**
+     * @param QueryBuilder $qBuilder
+     * @param string $table
+     * @param string $newTableName
+     */
+    private function joinStats($qBuilder, $table, $newTableName)
+    {
+        $qBuilder->leftJoin(
+            $table,
+            $newTableName,
+            'WITH',
+            $newTableName . '.phoneId=phones.phoneId'
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @param QueryBuilder $qBuilder
+     */
+    private function setFormValues($request, $qBuilder)
+    {
         $queryParams = $request->query->getIterator();
+
+//        $this->joinStats($qBuilder, $this->joinableFormTables['audio_output'], 'audio_output');
+//        $this->joinStats($qBuilder, $this->joinableFormTables['battery_charging_times'], 'battery_charging_times');
+//        $qBuilder->addSelect('(COALESCE(SUM(battery_charging_times.grade),0)+COALESCE(SUM(audio_output.grade), 0)) AS points');
+//        $qBuilder->addSelect('SUM(audio_output.grade) AS points');
+
+        $sumElements = [];
         foreach ($queryParams as $paramName => $paramValue) {
             if (isset($this->possibleRangeNames[$paramName])) {
                 $params = explode(',', $paramValue);
@@ -139,19 +204,27 @@ class QueryHelper
                         [1]
                     );
                 }
+            } elseif (isset($this->joinableFormTables[$paramName])) {
+                $this->joinStats($qBuilder, $this->joinableFormTables[$paramName], $paramName);
+                $sumElements[] = $paramName;
             }
         }
 
-        $query = $qBuilder->getQuery();
-        $result = $query->getResult();
-        //var_export($query->getDQL());
-        //var_dump($query->getResult());
+        $sumQuery = '';
+        foreach ($sumElements as $element) {
+            $sumQuery .= !empty($sumQuery) ? '+' : '';
+            $sumQuery .= 'COALESCE(SUM(' . $element . '.grade),0)';
+        }
 
-        return $result;
+        if (!empty($sumQuery)) {
+            $qBuilder->addSelect('('. $sumQuery . ') AS points');
+            $qBuilder->addOrderBy('points', 'DESC');
+        }
+        $qBuilder->addOrderBy('costs.cost', 'ASC');
     }
 
     /**
-     * @param \Doctrine\ORM\QueryBuilder $qBuilder
+     * @param QueryBuilder $qBuilder
      * @param Expr $expr
      * @param string $pattern
      * @param string $fieldName
@@ -210,6 +283,19 @@ class QueryHelper
         $products = $this->entityManager
             ->getRepository('PhonesPhoneBundle:Phone')
             ->findAll();
+
+        return $products;
+    }
+
+    /**
+     * @param $phoneId
+     * @return Phone
+     */
+    public function getPhone($phoneId)
+    {
+        $products = $this->entityManager
+            ->getRepository('PhonesPhoneBundle:Phone')
+            ->find($phoneId);
 
         return $products;
     }

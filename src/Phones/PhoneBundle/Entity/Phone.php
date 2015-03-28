@@ -105,6 +105,31 @@ class Phone
     private $battery_talk_time;
 
     /**
+     * @var \Phones\PhoneBundle\Entity\CameraRate
+     */
+    private $cameraRate;
+
+    /**
+     * @var \Phones\PhoneBundle\Entity\CameraSpeed
+     */
+    private $cameraSpeed;
+
+    /**
+     * @var \Phones\PhoneBundle\Entity\BatteryLife
+     */
+    private $batteryLife;
+
+    /**
+     * @var \Phones\PhoneBundle\Entity\BatteryChargingTime
+     */
+    private $batteryChargingTime;
+
+    /**
+     * @var \Phones\PhoneBundle\Entity\AudioOutput
+     */
+    private $audioOutput;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $costs;
@@ -558,6 +583,121 @@ class Phone
     public function getBatteryTalkTime()
     {
         return $this->battery_talk_time;
+    }
+
+    /**
+     * Set cameraRate
+     *
+     * @param \Phones\PhoneBundle\Entity\CameraRate $cameraRate
+     * @return Phone
+     */
+    public function setCameraRate(\Phones\PhoneBundle\Entity\CameraRate $cameraRate = null)
+    {
+        $this->cameraRate = $cameraRate;
+
+        return $this;
+    }
+
+    /**
+     * Get cameraRate
+     *
+     * @return \Phones\PhoneBundle\Entity\CameraRate 
+     */
+    public function getCameraRate()
+    {
+        return $this->cameraRate;
+    }
+
+    /**
+     * Set cameraSpeed
+     *
+     * @param \Phones\PhoneBundle\Entity\CameraSpeed $cameraSpeed
+     * @return Phone
+     */
+    public function setCameraSpeed(\Phones\PhoneBundle\Entity\CameraSpeed $cameraSpeed = null)
+    {
+        $this->cameraSpeed = $cameraSpeed;
+
+        return $this;
+    }
+
+    /**
+     * Get cameraSpeed
+     *
+     * @return \Phones\PhoneBundle\Entity\CameraSpeed 
+     */
+    public function getCameraSpeed()
+    {
+        return $this->cameraSpeed;
+    }
+
+    /**
+     * Set batteryLife
+     *
+     * @param \Phones\PhoneBundle\Entity\BatteryLife $batteryLife
+     * @return Phone
+     */
+    public function setBatteryLife(\Phones\PhoneBundle\Entity\BatteryLife $batteryLife = null)
+    {
+        $this->batteryLife = $batteryLife;
+
+        return $this;
+    }
+
+    /**
+     * Get batteryLife
+     *
+     * @return \Phones\PhoneBundle\Entity\BatteryLife 
+     */
+    public function getBatteryLife()
+    {
+        return $this->batteryLife;
+    }
+
+    /**
+     * Set batteryChargingTime
+     *
+     * @param \Phones\PhoneBundle\Entity\BatteryChargingTime $batteryChargingTime
+     * @return Phone
+     */
+    public function setBatteryChargingTime(\Phones\PhoneBundle\Entity\BatteryChargingTime $batteryChargingTime = null)
+    {
+        $this->batteryChargingTime = $batteryChargingTime;
+
+        return $this;
+    }
+
+    /**
+     * Get batteryChargingTime
+     *
+     * @return \Phones\PhoneBundle\Entity\BatteryChargingTime 
+     */
+    public function getBatteryChargingTime()
+    {
+        return $this->batteryChargingTime;
+    }
+
+    /**
+     * Set audioOutput
+     *
+     * @param \Phones\PhoneBundle\Entity\AudioOutput $audioOutput
+     * @return Phone
+     */
+    public function setAudioOutput(\Phones\PhoneBundle\Entity\AudioOutput $audioOutput = null)
+    {
+        $this->audioOutput = $audioOutput;
+
+        return $this;
+    }
+
+    /**
+     * Get audioOutput
+     *
+     * @return \Phones\PhoneBundle\Entity\AudioOutput 
+     */
+    public function getAudioOutput()
+    {
+        return $this->audioOutput;
     }
 
     /**
