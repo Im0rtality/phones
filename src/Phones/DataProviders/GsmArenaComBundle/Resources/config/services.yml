@@ -15,6 +15,15 @@ parameters:
 #        Nokia:   http://www.gsmarena.com/nokia-phones-1.php
 #        Sony:    http://www.gsmarena.com/sony-phones-7.php
 
+    phones_data_providers_gsm_arena_com.brand_downloader.available_operation_systems:
+        - Android
+        - iOS
+        - Windows Phone
+        - Symbian
+        - RIM
+        - Bada
+        - Firefox
+
 services:
     phones_data_providers_gsm_arena_com.guzzle_http_client:
         class: %phones_data_providers_gsm_arena_com.downloader.guzzle_http_clien.class%
@@ -31,6 +40,7 @@ services:
             - [setTidyService, [@phones_phone.tidy_service]]
             - [setProvider, [%phones_data_providers_gsm_arena_com.providerName%]]
             - [setDomain, [%phones_data_providers_gsm_arena_com.domain%]]
+            - [setAvailableOs, [%phones_data_providers_gsm_arena_com.brand_downloader.available_operation_systems%]]
 
     phones_data_providers_gsm_arena_com.main_downloader:
         class: %phones_data_providers_gsm_arena_com.main_downloader.class%

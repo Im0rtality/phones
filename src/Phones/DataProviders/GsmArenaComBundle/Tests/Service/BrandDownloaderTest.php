@@ -16,7 +16,10 @@ class BrandDownloaderTest extends \PHPUnit_Framework_TestCase
 
         // case #0
         $phone = new Phone();
-        $phone->setTechnology('ss');
+        $phone->setTechnology('GSM / HSPA');
+        $phone->setBrand('Microsoft');
+        $phone->setWeight(127.9);
+        $phone->setOs('Windows Phone');
 
         $out[] = [
             'phone_specs.json',
@@ -35,6 +38,15 @@ class BrandDownloaderTest extends \PHPUnit_Framework_TestCase
     public function testParsePhone($fixture, $expected)
     {
         $service = new BrandDownloader();
+        $service->setBrand('Microsoft');
+        $service->setAvailableOs(
+            [
+                'Android',
+                'Windows Phone',
+                'Symbian'
+            ]
+        );
+
 
         $phoneSpecs = json_decode(file_get_contents($this->getFixture($fixture)), true);
         $actual = $service->parsePhone($phoneSpecs);

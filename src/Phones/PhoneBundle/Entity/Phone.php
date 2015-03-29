@@ -35,7 +35,7 @@ class Phone
     private $os;
 
     /**
-     * @var integer
+     * @var float
      */
     private $cpu_freq;
 
@@ -266,7 +266,7 @@ class Phone
     /**
      * Set cpu_freq
      *
-     * @param integer $cpuFreq
+     * @param float $cpuFreq
      * @return Phone
      */
     public function setCpuFreq($cpuFreq)
@@ -279,7 +279,7 @@ class Phone
     /**
      * Get cpu_freq
      *
-     * @return integer 
+     * @return float 
      */
     public function getCpuFreq()
     {

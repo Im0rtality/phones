@@ -20,7 +20,7 @@ Phones\PhoneBundle\Entity\Phone:
             type: string
             nullable: true
         cpu_freq:
-            type: integer
+            type: float
             nullable: true
         cpu_cores:
             type: integer

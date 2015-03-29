@@ -14,11 +14,17 @@ class BrandDownloader
     /** @var  string */
     private $domain;
 
+    /** @var  array */
+    private $availableOs;
+
     /** @var  TidyService */
     protected $tidyService;
 
     /** @var  Downloader */
     protected $downloader;
+
+    /** @var  string */
+    private $brand;
 
     /**
      * @param TidyService $tidyService
@@ -37,6 +43,14 @@ class BrandDownloader
     }
 
     /**
+     * @param array $availableOs
+     */
+    public function setAvailableOs($availableOs)
+    {
+        $this->availableOs = $availableOs;
+    }
+
+    /**
      * @param Downloader $downloader
      */
     public function setDownloader($downloader)
@@ -52,8 +66,18 @@ class BrandDownloader
         $this->provider = $provider;
     }
 
+    /**
+     * @param string $brand
+     */
+    public function setBrand($brand)
+    {
+        $this->brand = $brand;
+    }
+
     public function curlPhones($brand, $firsBrandPageLink)
     {
+        $this->brand = $brand;
+
         $pages = $this->getAllPageLinks($firsBrandPageLink);
         $linksToPhones = $this->getLinksToPhones($pages);
 
@@ -61,8 +85,9 @@ class BrandDownloader
         foreach ($linksToPhones as $phoneLink) {
             $dom = $this->getClearDom($phoneLink);
             $phoneSpecs = $this->getPhoneSpecs($dom);
-            $phone = $this->parsePhone($phoneSpecs);
 //            var_dump(file_put_contents('../testtttts.json', json_encode($phoneSpecs)));
+
+            $phone = $this->parsePhone($phoneSpecs);
 
             if (!empty($phone)) {
                 $phones[] = $phone;
@@ -79,7 +104,49 @@ class BrandDownloader
     {
         $phone = null;
 
-        $phone = new Phone();
+        if (!empty($phoneSpecs)) {
+            $phone = new Phone();
+
+            $phone->setTechnology($this->getArrayValue($phoneSpecs, 'network/technology'));
+
+            $phone->setBrand($this->brand);
+
+            //phoneId
+            //image
+
+            $feedWeights = $this->getArrayValue($phoneSpecs, 'body/weight');
+            if (preg_match_all('/\b\d+(?:\.\d{0,}|)/', $feedWeights, $matches)) {
+                $phone->setWeight(max($matches[0]));
+            }
+
+            $feedOs = (string)$this->getArrayValue($phoneSpecs, 'platform/os');
+            $os = 'other';
+            foreach ($this->availableOs as $availOs) {
+                if (strpos($feedOs, $availOs)) {
+                    $os = $availOs;
+                    break;
+                }
+            }
+            $phone->setOs($os);
+
+
+            //to fix
+            $feedCpuData = (string)$this->getArrayValue($phoneSpecs, 'platform/cpu');
+            if (preg_match('/(?<freq>\d\.\d) G*Hz/', $feedCpuData, $matches)) {
+                if (isset($matches['freq'])) {
+                    $phone->setCpuFreq($matches['freq']);
+                }
+            }
+            $cpuCoresMap = [
+                'Dual-core',
+                'Quad-core',
+            ];
+            if (preg_match('/[^-\s].+-core/', $feedCpuData, $matches)) {
+                var_dump($matches);
+//                $phone->setCpuCores(isset($cpuCoresMap[$matches[0]]) ? $cpuCoresMap[$matches[0]] : null);
+            }
+
+        }
 
         return $phone;
     }
@@ -202,6 +269,7 @@ class BrandDownloader
                         switch ($classValue) {
                             case "ttl":
                                 $feedTitle = strtolower(trim((string)$td->{'a'}));
+                                $feedTitle = preg_replace('/\s+/', ' ', trim($feedTitle));
                                 $subArray['title'] = $feedTitle;
                                 break;
                             case "nfo":
@@ -209,6 +277,8 @@ class BrandDownloader
                                 if (empty($titleValue)) {
                                     $titleValue = trim((string)$td->{'a'});
                                 }
+
+                                $titleValue = preg_replace('/\s+/', ' ', trim($titleValue));
                                 $subArray['info'] = $titleValue;
                                 break;
                         }
@@ -295,7 +365,7 @@ class BrandDownloader
         $path = explode('/', $path);
         foreach ($path as $name) {
             if (isset($value[$name])) {
-                $value = $array[$name];
+                $value = $value[$name];
             } else {
                 return null;
             }
