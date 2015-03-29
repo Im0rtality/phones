@@ -1,0 +1,3 @@
+phones_data_providers_gsm_arena_com.get_pages:
+    pattern:  /get_phones
+    defaults: { _controller: PhonesDataProvidersGsmArenaComBundle:Default:testResults }

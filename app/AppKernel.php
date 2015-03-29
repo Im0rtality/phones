@@ -18,7 +18,8 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 
             new Phones\FrontEndBundle\PhonesFrontEndBundle(),
-            new Phones\PhoneBundle\PhonesPhoneBundle()
+            new Phones\PhoneBundle\PhonesPhoneBundle(),
+            new Phones\DataProviders\GsmArenaComBundle\PhonesDataProvidersGsmArenaComBundle(),
         ];
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

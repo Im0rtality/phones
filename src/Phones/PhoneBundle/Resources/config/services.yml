@@ -1,3 +1,19 @@
 parameters:
+    phones_phone.downloader.class: Phones\PhoneBundle\Services\Downloader
+    phones_phone.downloader.guzzle_http_client.class: Guzzle\Http\Client
+    phones_phone.downloader.tidy_service.class: Phones\PhoneBundle\Services\TidyService
+
+    phones_phone.provider_list:
+        - gsmarenaCom
 
 services:
+    phones_phone.guzzle_http_client:
+        class: %phones_phone.downloader.guzzle_http_client.class%
+
+    phones_phone.downloader:
+        class: %phones_phone.downloader.class%
+        calls:
+            - [setClient, [@phones_phone.guzzle_http_client]]
+
+    phones_phone.tidy_service:
+        class: %phones_phone.downloader.tidy_service.class%

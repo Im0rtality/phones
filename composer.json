@@ -38,9 +38,11 @@
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
         "guzzle/guzzle": "~3.7",
+        "guzzlehttp/guzzle": "4.*",
         "braincrafted/bootstrap-bundle": "dev-master",
         "leafo/lessphp": "*",
-        "twitter/bootstrap": "*"
+        "twitter/bootstrap": "*",
+        "symfony/finder": "~2.6"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

@@ -1,0 +1,61 @@
+{
+    "network": {
+        "technology": "GSM \/ HSPA",
+        "2g bands": "GSM 850 \/ 900 \/ 1800 \/ 1900 - SIM 1 & SIM\r\n                      2",
+        "3g bands": "HSDPA 900 \/ 2100",
+        "speed": "HSPA 42.2\/5.76 Mbps",
+        "gprs": "Yes",
+        "edge": "Yes"
+    },
+    "launch": {"announced": "2015, March", "status": "Coming soon"},
+    "body": {
+        "dimensions": "120.5 x 63.2 x 10.6 mm (4.74 x 2.49 x 0.42\r\n                      in)",
+        "weight": "127.9 g (4.52 oz)",
+        "sim": "Dual SIM (Micro-SIM, dual stand-by)"
+    },
+    "display": {
+        "type": "Capacitive touchscreen, 16M colors",
+        "size": "4.0 inches (~58.8% screen-to-body ratio)",
+        "resolution": "480 x 800 pixels (~235 ppi pixel density)",
+        "multitouch": "Yes"
+    },
+    "platform": {
+        "os": "Microsoft Windows Phone 8.1, planned upgrade\r\n                      to Windows 10",
+        "chipset": "Qualcomm MSM8210 Snapdragon 200",
+        "cpu": "Dual-core 1.2 GHz Cortex-A7",
+        "gpu": "Adreno 302"
+    },
+    "memory": {"card\r\n                      slot": "microSD, up to 128 GB", "internal": "8 GB, 1 GB RAM"},
+    "camera": {
+        "primary": "2 MP, 1600 x 1200 pixels",
+        "features": "1\/5'' sensor size",
+        "video": "480p@30fps",
+        "secondary": "VGA, 480p"
+    },
+    "sound": {
+        "alert\r\n                      types": "Vibration; MP3, WAV ringtones",
+        "loudspeaker": "Yes",
+        "3.5mm\r\n                      jack": "Yes"
+    },
+    "comms": {
+        "wlan": "Wi-Fi 802.11 b\/g\/n, hotspot",
+        "bluetooth": "v4.0, A2DP",
+        "gps": "A-GPS, GLONASS",
+        "radio": "FM radio",
+        "usb": "microUSB v2.0"
+    },
+    "features": {
+        "sensors": "Accelerometer, proximity",
+        "messaging": "SMS (threaded view), MMS, Email, Push Email,\r\n                      IM",
+        "browser": "HTML5",
+        "java": "No",
+        "": "- MP3\/WAV\/AAC player\r\n                      - MP4\/H.264 player\r\n                      - OneDrive (30 GB cloud storage)\r\n                      - Document viewer\r\n                      - Video\/photo editor"
+    },
+    "battery": {
+        "": "Li-Ion 1500 mAh battery",
+        "stand-by": "Up to 720 h (2G) \/ Up to 720 h (3G)",
+        "talk\r\n                      time": "Up to 13 h (2G) \/ Up to 8 h 30 min (3G)",
+        "music\r\n                      play": "Up to 47 h"
+    },
+    "misc": {"colors": "Black, Orange", "price group": ""}
+}

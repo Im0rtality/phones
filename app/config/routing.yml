@@ -5,3 +5,7 @@ phones_front_end:
 phones_phone:
     resource: "@PhonesPhoneBundle/Resources/config/routing.yml"
     prefix:   /
+
+phones_data_providers_gsm_arena_com:
+    resource: "@PhonesDataProvidersGsmArenaComBundle/Resources/config/routing.yml"
+    prefix:   /

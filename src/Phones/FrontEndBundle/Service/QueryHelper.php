@@ -84,7 +84,7 @@ class QueryHelper
         $query = $qBuilder->getQuery();
         $result = $query->getResult();
 
-//        var_export($query->getDQL());
+        var_export($query->getDQL());
 //        var_dump($query->getResult());
 
         return $result;
