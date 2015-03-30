@@ -97,10 +97,10 @@ class BrandDownloader
                     $phones[] = $phone;
                 }
 
-                var_dump($phone);
+//                var_dump($phone);
             }
 
-            break;
+//            break;
         }
     }
 

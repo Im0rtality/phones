@@ -39,6 +39,7 @@ services:
             - [setProvider, [%phones_data_providers_gsm_arena_com.providerName%]]
             - [setDomain, [%phones_data_providers_gsm_arena_com.domain%]]
             - [setAvailableOs, [%phones_data_providers_gsm_arena_com.phone_converter.available_operation_systems%]]
+            - [setEntityManager, [@doctrine.orm.entity_manager]]
 
     phones_data_providers_gsm_arena_com.brand_downloader:
         class: %phones_data_providers_gsm_arena_com.brand_downloader.class%

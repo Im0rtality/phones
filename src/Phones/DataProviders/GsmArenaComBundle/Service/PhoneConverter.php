@@ -2,6 +2,7 @@
 
 namespace Phones\DataProviders\GsmArenaComBundle\Service;
 
+use Doctrine\ORM\EntityManager;
 use Phones\PhoneBundle\Entity\Phone;
 
 class PhoneConverter
@@ -14,6 +15,9 @@ class PhoneConverter
 
     /** @var  array */
     private $availableOs;
+
+    /** @var EntityManager */
+    private $entityManager;
 
     /** @var array  */
     private $cpuCoresMap = [
@@ -52,6 +56,14 @@ class PhoneConverter
     }
 
     /**
+     * @param EntityManager $entityManager
+     */
+    public function setEntityManager($entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+    /**
      * @param $phoneSpecs
      * @return null|Phone
      */
@@ -67,6 +79,15 @@ class PhoneConverter
             $this->loadCamera($phone, $phoneSpecs);
             $this->loadCommon($phone, $phoneSpecs);
             $this->loadBattery($phone, $phoneSpecs);
+
+            if ($this->entityManager) {
+                try {
+                    $this->entityManager->persist($phone);
+                    $this->entityManager->flush();
+                } catch (\Exception $e ) {
+                    //do sth
+                }
+            }
         }
 
         return $phone;
