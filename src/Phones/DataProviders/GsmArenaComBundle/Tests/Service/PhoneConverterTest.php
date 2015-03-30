@@ -2,15 +2,15 @@
 
 namespace Phones\DataProviders\GsmArenaComBundle\Tests\Service;
 
-use Phones\DataProviders\GsmArenaComBundle\Service\BrandDownloader;
+use Phones\DataProviders\GsmArenaComBundle\Service\PhoneConverter;
 use Phones\PhoneBundle\Entity\Phone;
 
-class BrandDownloaderTest extends \PHPUnit_Framework_TestCase
+class PhoneConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @return array
      */
-    public function getTestParsePhoneData()
+    public function getTestConvertData()
     {
         $out = [];
 
@@ -20,6 +20,18 @@ class BrandDownloaderTest extends \PHPUnit_Framework_TestCase
         $phone->setBrand('Microsoft');
         $phone->setWeight(127.9);
         $phone->setOs('Windows Phone');
+        $phone->setCpuFreq('1.2/1.5/2/');
+        $phone->setCpuCores(2 + 4 + 4);
+        $phone->setRamMb(1228.8);
+        $phone->setExternalSd(1);
+        $phone->setDisplaySize(4.0);
+        $phone->setCameraMpx(2.0);
+        $phone->setFlash(1);
+        $phone->setGps('A-GPS, GLONASS');
+        $phone->setWlan('Wi-Fi 802.11 b/g/n, hotspot');
+        $phone->setBluetoothVersion(4.0);
+        $phone->setBatteryStandByH(730);
+        $phone->setBatteryTalkTime(13);
 
         $out[] = [
             'phone_specs.json',
@@ -30,15 +42,17 @@ class BrandDownloaderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider getTestParsePhoneData
+     * @dataProvider getTestConvertData
      *
      * @param $fixture
      * @param $expected
      */
-    public function testParsePhone($fixture, $expected)
+    public function testConvert($fixture, $expected)
     {
-        $service = new BrandDownloader();
-        $service->setBrand('Microsoft');
+        $phoneSpecs = json_decode(file_get_contents($this->getFixture($fixture)), true);
+        $phoneSpecs['brand'] = 'Microsoft';
+
+        $service = new PhoneConverter();
         $service->setAvailableOs(
             [
                 'Android',
@@ -47,9 +61,7 @@ class BrandDownloaderTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-
-        $phoneSpecs = json_decode(file_get_contents($this->getFixture($fixture)), true);
-        $actual = $service->parsePhone($phoneSpecs);
+        $actual = $service->convert($phoneSpecs);
 
         $this->assertEquals($expected, $actual);
     }

@@ -2,7 +2,6 @@
 
 namespace Phones\DataProviders\GsmArenaComBundle\Service;
 
-use Phones\PhoneBundle\Entity\Phone;
 use Phones\PhoneBundle\Services\Downloader;
 use Phones\PhoneBundle\Services\TidyService;
 
@@ -14,14 +13,14 @@ class BrandDownloader
     /** @var  string */
     private $domain;
 
-    /** @var  array */
-    private $availableOs;
-
     /** @var  TidyService */
     protected $tidyService;
 
     /** @var  Downloader */
     protected $downloader;
+
+    /** @var  PhoneConverter */
+    private $phoneConverter;
 
     /** @var  string */
     private $brand;
@@ -59,6 +58,14 @@ class BrandDownloader
     }
 
     /**
+     * @param PhoneConverter $phoneConverter
+     */
+    public function setPhoneConverter($phoneConverter)
+    {
+        $this->phoneConverter = $phoneConverter;
+    }
+
+    /**
      * @param string $provider
      */
     public function setProvider($provider)
@@ -67,13 +74,9 @@ class BrandDownloader
     }
 
     /**
-     * @param string $brand
+     * @param $brand
+     * @param $firsBrandPageLink
      */
-    public function setBrand($brand)
-    {
-        $this->brand = $brand;
-    }
-
     public function curlPhones($brand, $firsBrandPageLink)
     {
         $this->brand = $brand;
@@ -87,68 +90,14 @@ class BrandDownloader
             $phoneSpecs = $this->getPhoneSpecs($dom);
 //            var_dump(file_put_contents('../testtttts.json', json_encode($phoneSpecs)));
 
-            $phone = $this->parsePhone($phoneSpecs);
+            $phone = $this->phoneConverter->convert($phoneSpecs);
 
             if (!empty($phone)) {
                 $phones[] = $phone;
             }
+            var_dump($phone);
             break;
         }
-    }
-
-    /**
-     * @param $phoneSpecs
-     * @return null|Phone
-     */
-    public function parsePhone($phoneSpecs)
-    {
-        $phone = null;
-
-        if (!empty($phoneSpecs)) {
-            $phone = new Phone();
-
-            $phone->setTechnology($this->getArrayValue($phoneSpecs, 'network/technology'));
-
-            $phone->setBrand($this->brand);
-
-            //phoneId
-            //image
-
-            $feedWeights = $this->getArrayValue($phoneSpecs, 'body/weight');
-            if (preg_match_all('/\b\d+(?:\.\d{0,}|)/', $feedWeights, $matches)) {
-                $phone->setWeight(max($matches[0]));
-            }
-
-            $feedOs = (string)$this->getArrayValue($phoneSpecs, 'platform/os');
-            $os = 'other';
-            foreach ($this->availableOs as $availOs) {
-                if (strpos($feedOs, $availOs)) {
-                    $os = $availOs;
-                    break;
-                }
-            }
-            $phone->setOs($os);
-
-
-            //to fix
-            $feedCpuData = (string)$this->getArrayValue($phoneSpecs, 'platform/cpu');
-            if (preg_match('/(?<freq>\d\.\d) G*Hz/', $feedCpuData, $matches)) {
-                if (isset($matches['freq'])) {
-                    $phone->setCpuFreq($matches['freq']);
-                }
-            }
-            $cpuCoresMap = [
-                'Dual-core',
-                'Quad-core',
-            ];
-            if (preg_match('/[^-\s].+-core/', $feedCpuData, $matches)) {
-                var_dump($matches);
-//                $phone->setCpuCores(isset($cpuCoresMap[$matches[0]]) ? $cpuCoresMap[$matches[0]] : null);
-            }
-
-        }
-
-        return $phone;
     }
 
     /**
@@ -332,45 +281,5 @@ class BrandDownloader
         }
 
         return $doc;
-    }
-
-    /**
-     * @param \SimpleXmlElement $element
-     * @param string            $path
-     *
-     * @return \SimpleXmlElement
-     */
-    private function getElement(\SimpleXmlElement $element, $path)
-    {
-        $path = explode('/', $path);
-        foreach ($path as $name) {
-            $element = $element->{$name};
-            if (!$element) {
-                // does not exist, returns empty \SimpleXMLElement object
-                return $element;
-            }
-        }
-        return $element;
-    }
-
-    /**
-     * @param array $array
-     * @param string $path
-     *
-     * @return mixed|null
-     */
-    private function getArrayValue($array, $path)
-    {
-        $value = $array;
-        $path = explode('/', $path);
-        foreach ($path as $name) {
-            if (isset($value[$name])) {
-                $value = $value[$name];
-            } else {
-                return null;
-            }
-        }
-
-        return $value;
     }
 }

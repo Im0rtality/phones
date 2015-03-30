@@ -27,10 +27,10 @@
     },
     "memory": {
         "card slot": "microSD, up to 128 GB",
-        "internal": "8 GB, 1 GB RAM"
+        "internal": "8 GB, 1.2 GB RAM"
     },
     "camera": {
-        "primary": "2 MP, 1600 x 1200 pixels",
+        "primary": "2 MP, 1600 x 1200 pixels, LED flash",
         "features": "1\/5'' sensor size",
         "video": "480p@30fps",
         "secondary": "VGA, 480p"
@@ -56,7 +56,7 @@
     },
     "battery": {
         "": "Li-Ion 1500 mAh battery",
-        "stand-by": "Up to 720 h (2G) \/ Up to 720 h (3G)",
+        "stand-by": "Up to 720 h (2G) \/ Up to 730 h (3G)",
         "talk time": "Up to 13 h (2G) \/ Up to 8 h 30 min (3G)",
         "music play": "Up to 47 h"
     },

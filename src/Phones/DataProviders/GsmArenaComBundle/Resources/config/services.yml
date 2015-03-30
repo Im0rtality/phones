@@ -6,7 +6,7 @@ parameters:
     phones_data_providers_gsm_arena_com.downloader.class: Phones\PhoneBundle\Services\Downloader
 
     phones_data_providers_gsm_arena_com.brand_downloader.class: Phones\DataProviders\GsmArenaComBundle\Service\BrandDownloader
-
+    phones_data_providers_gsm_arena_com.phone_converter.class: Phones\DataProviders\GsmArenaComBundle\Service\PhoneConverter
     phones_data_providers_gsm_arena_com.main_downloader.class: Phones\DataProviders\GsmArenaComBundle\Service\MainDownloader
 
     phones_data_providers_gsm_arena_com.main_downloader.phone_brand_link_map:
@@ -15,7 +15,7 @@ parameters:
 #        Nokia:   http://www.gsmarena.com/nokia-phones-1.php
 #        Sony:    http://www.gsmarena.com/sony-phones-7.php
 
-    phones_data_providers_gsm_arena_com.brand_downloader.available_operation_systems:
+    phones_data_providers_gsm_arena_com.phone_converter.available_operation_systems:
         - Android
         - iOS
         - Windows Phone
@@ -33,14 +33,21 @@ services:
         calls:
             - [setClient, [@phones_data_providers_gsm_arena_com.guzzle_http_client]]
 
+    phones_data_providers_gsm_arena_com.phone_converter:
+        class: %phones_data_providers_gsm_arena_com.phone_converter.class%
+        calls:
+            - [setProvider, [%phones_data_providers_gsm_arena_com.providerName%]]
+            - [setDomain, [%phones_data_providers_gsm_arena_com.domain%]]
+            - [setAvailableOs, [%phones_data_providers_gsm_arena_com.phone_converter.available_operation_systems%]]
+
     phones_data_providers_gsm_arena_com.brand_downloader:
         class: %phones_data_providers_gsm_arena_com.brand_downloader.class%
         calls:
             - [setDownloader, [@phones_data_providers_gsm_arena_com.downloader]]
             - [setTidyService, [@phones_phone.tidy_service]]
+            - [setPhoneConverter, [@phones_data_providers_gsm_arena_com.phone_converter]]
             - [setProvider, [%phones_data_providers_gsm_arena_com.providerName%]]
             - [setDomain, [%phones_data_providers_gsm_arena_com.domain%]]
-            - [setAvailableOs, [%phones_data_providers_gsm_arena_com.brand_downloader.available_operation_systems%]]
 
     phones_data_providers_gsm_arena_com.main_downloader:
         class: %phones_data_providers_gsm_arena_com.main_downloader.class%
