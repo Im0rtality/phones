@@ -1,4 +1,7 @@
 {
+    "brand": "Microsoft",
+    "phone_name": "Lumia 640 XL LTE",
+    "image_link": "www.domain.dom/link/test",
     "network": {
         "technology": "GSM \/ HSPA",
         "2g bands": "GSM 850 \/ 900 \/ 1800 \/ 1900 - SIM 1 & SIM 2",

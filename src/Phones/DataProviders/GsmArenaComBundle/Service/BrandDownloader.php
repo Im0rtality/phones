@@ -14,16 +14,13 @@ class BrandDownloader
     private $domain;
 
     /** @var  TidyService */
-    protected $tidyService;
+    private $tidyService;
 
     /** @var  Downloader */
-    protected $downloader;
+    private $downloader;
 
     /** @var  PhoneConverter */
     private $phoneConverter;
-
-    /** @var  string */
-    private $brand;
 
     /**
      * @param TidyService $tidyService
@@ -79,25 +76,52 @@ class BrandDownloader
      */
     public function curlPhones($brand, $firsBrandPageLink)
     {
-        $this->brand = $brand;
-
         $pages = $this->getAllPageLinks($firsBrandPageLink);
         $linksToPhones = $this->getLinksToPhones($pages);
 
         $phones = [];
-        foreach ($linksToPhones as $phoneLink) {
-            $dom = $this->getClearDom($phoneLink);
-            $phoneSpecs = $this->getPhoneSpecs($dom);
-//            var_dump(file_put_contents('../testtttts.json', json_encode($phoneSpecs)));
+        foreach ($linksToPhones as $phone) {
+            if (isset($phone['link']) && isset($phone['name'])){
+                $dom       = $this->getClearDom($phone['link']);
 
-            $phone = $this->phoneConverter->convert($phoneSpecs);
+                $phoneSpecs = $this->getPhoneSpecs($dom);
+                $phoneSpecs['image_link'] = $this->getImageLink($dom);
+                $phoneSpecs['brand']      = $brand;
+                $phoneSpecs['phone_name'] = $phone['name'];
 
-            if (!empty($phone)) {
-                $phones[] = $phone;
+    //            var_dump(file_put_contents('../testtttts.json', json_encode($phoneSpecs)));
+
+                $phone = $this->phoneConverter->convert($phoneSpecs);
+                $phoneId = !empty($phone) ? $phone->getPhoneId() : null;
+                if (!empty($phoneId)) {
+                    $phones[] = $phone;
+                }
+
+                var_dump($phone);
             }
-            var_dump($phone);
+
             break;
         }
+    }
+
+
+    /**
+     * @param \DomDocument $dom
+     * @return string|null
+     */
+    private function getImageLink($dom)
+    {
+        $imageLink = null;
+
+        $nodes     = $this->getDomByQuery($dom, "//*[contains(@id, 'specs-cp-pic')]");
+        $aElements = $nodes->getElementsByTagName('img');
+
+        /** @var \DomElement $element */
+        foreach ($aElements as $element) {
+            $imageLink = $element->getAttribute('src');
+        }
+
+        return $imageLink;
     }
 
     /**
@@ -111,8 +135,7 @@ class BrandDownloader
         $doc = $this->getClearDom($firsBrandPageLink);
         if ($doc != null) {
             //find pages
-            $className = 'nav-pages';
-            $query = "//div[@class='" . $className . "']";
+            $query = "//div[@class='nav-pages']";
             $innerHTML = $this->tidyService->getInnerHtmlByQuery($doc, $query);
 
             //find total pages count
@@ -144,15 +167,9 @@ class BrandDownloader
             $doc = $this->getClearDom($pageLink);
             if ($doc != null) {
                 //find links to phones
-                $query = "//div[@id='main']";
-                $phonesBlock = $this->tidyService->getInnerHtmlByQuery($doc, $query);
+                $doc   = $this->getDomByQuery($doc, "//div[@id='main']");
+                $nodes = $this->getNodesByQuery($doc, "//*[contains(@class, 'makers')]");
 
-                //create dom doc from content
-                $doc = new \DOMDocument();
-                $doc->loadHTML($phonesBlock);
-
-                $finder = new \DomXPath($doc);
-                $nodes = $finder->query("//*[contains(@class, 'makers')]");
                 /** @var \DOMElement $node */
                 foreach ($nodes as $node) {
                     $aElements = $node->getElementsByTagName('a');
@@ -160,7 +177,10 @@ class BrandDownloader
                     foreach ($aElements as $aElement) {
                         $link = $aElement->getAttribute('href');
                         if (!empty($link)) {
-                            $linksToPhones[] = $this->domain . $aElement->getAttribute('href');
+                            $linksToPhones[] = [
+                                'link' => $this->domain . $aElement->getAttribute('href'),
+                                'name' => preg_replace('/\s+/', ' ', trim($aElement->nodeValue))
+                            ];
                         }
                     }
                 }
@@ -179,13 +199,7 @@ class BrandDownloader
         $phoneSpecs = [];
 
         if ($dom != null) {
-            $finder = new \DomXPath($dom);
-            $query = "//div[@id='specs-list']";
-            $nodes = $finder->query($query);
-            $tmpDom = new \DOMDocument();
-            foreach ($nodes as $node) {
-                $tmpDom->appendChild($tmpDom->importNode($node, true));
-            }
+            $tmpDom = $this->getDomByQuery($dom, "//div[@id='specs-list']");
 
             $simpleXml = simplexml_import_dom($tmpDom);
             /** @var \SimpleXmlElement $table */
@@ -240,6 +254,38 @@ class BrandDownloader
         }
 
         return $array;
+    }
+
+    /**
+     * @param \DOMDocument $domDoc
+     * @param string       $query
+     *
+     * @return \DOMDocument
+     */
+    private function getDomByQuery($domDoc, $query)
+    {
+        $nodes = $this->getNodesByQuery($domDoc, $query);
+
+        $tmpDom = new \DOMDocument();
+        foreach ($nodes as $node) {
+            $tmpDom->appendChild($tmpDom->importNode($node, true));
+        }
+
+        return $tmpDom;
+    }
+
+    /**
+     * @param \DOMDocument $domDoc
+     * @param string       $query
+     *
+     * @return \DOMDocument
+     */
+    private function getNodesByQuery($domDoc, $query)
+    {
+        $finder = new \DomXPath($domDoc);
+        $nodes = $finder->query($query);
+
+        return $nodes;
     }
 
     /**

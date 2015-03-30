@@ -16,16 +16,20 @@ class PhoneConverterTest extends \PHPUnit_Framework_TestCase
 
         // case #0
         $phone = new Phone();
-        $phone->setTechnology('GSM / HSPA');
+        $phone->setPhoneId('Microsoft Lumia 640 XL LTE');
         $phone->setBrand('Microsoft');
+        $phone->setImage('www.domain.dom/link/test');
+
+        $phone->setTechnology('GSM / HSPA');
         $phone->setWeight(127.9);
         $phone->setOs('Windows Phone');
-        $phone->setCpuFreq('1.2/1.5/2/');
+        $phone->setCpuFreq(2.0);
         $phone->setCpuCores(2 + 4 + 4);
         $phone->setRamMb(1228.8);
         $phone->setExternalSd(1);
         $phone->setDisplaySize(4.0);
         $phone->setCameraMpx(2.0);
+        $phone->setVideoP(480);
         $phone->setFlash(1);
         $phone->setGps('A-GPS, GLONASS');
         $phone->setWlan('Wi-Fi 802.11 b/g/n, hotspot');
@@ -50,7 +54,6 @@ class PhoneConverterTest extends \PHPUnit_Framework_TestCase
     public function testConvert($fixture, $expected)
     {
         $phoneSpecs = json_decode(file_get_contents($this->getFixture($fixture)), true);
-        $phoneSpecs['brand'] = 'Microsoft';
 
         $service = new PhoneConverter();
         $service->setAvailableOs(
