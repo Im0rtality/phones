@@ -22,6 +22,12 @@ class BrandDownloader
     /** @var  PhoneConverter */
     private $phoneConverter;
 
+    /** @var  string */
+    private $brand;
+
+    /** @var  array */
+    private $phoneMapping;
+
     /**
      * @param TidyService $tidyService
      */
@@ -73,37 +79,44 @@ class BrandDownloader
     /**
      * @param $brand
      * @param $firsBrandPageLink
+     *
+     * @return array
      */
     public function curlPhones($brand, $firsBrandPageLink)
     {
+        $this->brand = $brand;
+
         $pages = $this->getAllPageLinks($firsBrandPageLink);
         $linksToPhones = $this->getLinksToPhones($pages);
+        $phones = $this->getConvertedPhones($linksToPhones);
 
+        return $phones;
+    }
+
+    /**
+     * @param array $linksToPhones
+     *
+     * @return array
+     */
+    private function getConvertedPhones($linksToPhones)
+    {
         $phones = [];
         foreach ($linksToPhones as $phone) {
             if (isset($phone['link']) && isset($phone['name'])){
-                $dom       = $this->getClearDom($phone['link']);
-
-                $phoneSpecs = $this->getPhoneSpecs($dom);
-                $phoneSpecs['image_link'] = $this->getImageLink($dom);
-                $phoneSpecs['brand']      = $brand;
-                $phoneSpecs['phone_name'] = $phone['name'];
-
-    //            var_dump(file_put_contents('../testtttts.json', json_encode($phoneSpecs)));
-
+                $dom        = $this->getClearDom($phone['link']);
+                $phoneSpecs = $this->getPhoneSpecs($dom, $this->brand, $phone['name']);
+//            var_dump(file_put_contents('../testtttts.json', json_encode($phoneSpecs)));
                 $phone = $this->phoneConverter->convert($phoneSpecs);
                 $phoneId = !empty($phone) ? $phone->getPhoneId() : null;
                 if (!empty($phoneId)) {
                     $phones[] = $phone;
                 }
-
-//                var_dump($phone);
             }
-
 //            break;
         }
-    }
 
+        return $phones;
+    }
 
     /**
      * @param \DomDocument $dom
@@ -128,7 +141,7 @@ class BrandDownloader
      * @param $firsBrandPageLink
      * @return array
      */
-    public function getAllPageLinks($firsBrandPageLink)
+    private function getAllPageLinks($firsBrandPageLink)
     {
         $links = [];
 
@@ -159,7 +172,7 @@ class BrandDownloader
      *
      * @return array
      */
-    public function getLinksToPhones($pages)
+    private function getLinksToPhones($pages)
     {
         $linksToPhones = [];
 
@@ -192,9 +205,12 @@ class BrandDownloader
 
     /**
      * @param \DOMDocument $dom
+     * @param string       $brand
+     * @param string       $phoneName
+     *
      * @return array
      */
-    private function getPhoneSpecs($dom)
+    private function getPhoneSpecs($dom, $brand, $phoneName)
     {
         $phoneSpecs = [];
 
@@ -210,6 +226,10 @@ class BrandDownloader
                     $phoneSpecs[$title] = $values;
                 }
             }
+
+            $phoneSpecs['image_link'] = $this->getImageLink($dom);
+            $phoneSpecs['brand']      = $brand;
+            $phoneSpecs['phone_name'] = $phoneName;
         }
 
         return $phoneSpecs;

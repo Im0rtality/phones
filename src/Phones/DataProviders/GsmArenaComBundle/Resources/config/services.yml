@@ -11,7 +11,7 @@ parameters:
 
     phones_data_providers_gsm_arena_com.main_downloader.phone_brand_link_map:
 #        Samsung: http://www.gsmarena.com/samsung-phones-9.php
-        Microsoft: http://www.gsmarena.com/microsoft-phones-64.php
+#        Microsoft: http://www.gsmarena.com/microsoft-phones-64.php
 #        Nokia:   http://www.gsmarena.com/nokia-phones-1.php
 #        Sony:    http://www.gsmarena.com/sony-phones-7.php
 
@@ -39,7 +39,6 @@ services:
             - [setProvider, [%phones_data_providers_gsm_arena_com.providerName%]]
             - [setDomain, [%phones_data_providers_gsm_arena_com.domain%]]
             - [setAvailableOs, [%phones_data_providers_gsm_arena_com.phone_converter.available_operation_systems%]]
-            - [setEntityManager, [@doctrine.orm.entity_manager]]
 
     phones_data_providers_gsm_arena_com.brand_downloader:
         class: %phones_data_providers_gsm_arena_com.brand_downloader.class%
@@ -55,3 +54,4 @@ services:
         calls:
             - [setBrandDownloader, [@phones_data_providers_gsm_arena_com.brand_downloader]]
             - [setPhoneBrandLinkMap, [%phones_data_providers_gsm_arena_com.main_downloader.phone_brand_link_map%]]
+            - [setEntityManager, [@doctrine.orm.entity_manager]]

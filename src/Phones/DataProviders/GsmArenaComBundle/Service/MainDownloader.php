@@ -2,6 +2,9 @@
 
 namespace Phones\DataProviders\GsmArenaComBundle\Service;
 
+use Doctrine\ORM\EntityManager;
+use Phones\PhoneBundle\Entity\Phone;
+
 class MainDownloader
 {
     /** @var  array */
@@ -9,6 +12,9 @@ class MainDownloader
 
     /** @var  BrandDownloader */
     private $brandDownloader;
+
+    /** @var  EntityManager */
+    private $entityManager;
 
     /**
      * @param BrandDownloader $brandDownloader
@@ -27,12 +33,35 @@ class MainDownloader
     }
 
     /**
+     * @param EntityManager $entityManager
+     */
+    public function setEntityManager($entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+    /**
      * @return array
      */
     public function download()
     {
-        foreach ($this->phoneBrandLinkMap as $brand => $brandFirstLink) {
-            $this->brandDownloader->curlPhones($brand, $brandFirstLink);
+        if (!empty($this->phoneBrandLinkMap)) {
+            foreach ($this->phoneBrandLinkMap as $brand => $brandFirstLink) {
+                $brandPhones = $this->brandDownloader->curlPhones($brand, $brandFirstLink);
+                $this->saveBrandPhones($brandPhones);
+            }
+        }
+    }
+
+    /**
+     * @param Phone[] $brandPhones
+     */
+    private function saveBrandPhones($brandPhones)
+    {
+        foreach ($brandPhones as $phone) {
+            $this->entityManager
+                ->getRepository('PhonesPhoneBundle:Phone')
+                ->save($phone);
         }
     }
 }
