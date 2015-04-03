@@ -3,6 +3,7 @@
 namespace Phones\DataProviders\GsmArenaComBundle\Service;
 
 use Phones\PhoneBundle\Services\Downloader;
+use Phones\PhoneBundle\Services\MappingHelper;
 use Phones\PhoneBundle\Services\TidyService;
 
 class BrandDownloader
@@ -12,6 +13,9 @@ class BrandDownloader
 
     /** @var  string */
     private $domain;
+
+    /** @var  array */
+    private $availableOs;
 
     /** @var  TidyService */
     private $tidyService;
@@ -25,8 +29,8 @@ class BrandDownloader
     /** @var  string */
     private $brand;
 
-    /** @var  array */
-    private $phoneMapping;
+    /** @var  MappingHelper */
+    private $mappingHelper;
 
     /**
      * @param TidyService $tidyService
@@ -69,6 +73,14 @@ class BrandDownloader
     }
 
     /**
+     * @param MappingHelper $mappingHelper
+     */
+    public function setMappingHelper($mappingHelper)
+    {
+        $this->mappingHelper = $mappingHelper;
+    }
+
+    /**
      * @param string $provider
      */
     public function setProvider($provider)
@@ -103,16 +115,19 @@ class BrandDownloader
         $phones = [];
         foreach ($linksToPhones as $phone) {
             if (isset($phone['link']) && isset($phone['name'])){
-                $dom        = $this->getClearDom($phone['link']);
-                $phoneSpecs = $this->getPhoneSpecs($dom, $this->brand, $phone['name']);
-//            var_dump(file_put_contents('../testtttts.json', json_encode($phoneSpecs)));
-                $phone = $this->phoneConverter->convert($phoneSpecs);
-                $phoneId = !empty($phone) ? $phone->getPhoneId() : null;
-                if (!empty($phoneId)) {
-                    $phones[] = $phone;
+                $phoneId = $this->brand . ' ' . $phone['name'];
+                if (!$this->mappingHelper->isIdImported($phoneId)) {
+                    $dom        = $this->getClearDom($phone['link']);
+                    $phoneSpecs = $this->getPhoneSpecs($dom, $this->brand, $phone['name']);
+                    $phone = $this->phoneConverter->convert($phoneSpecs);
+                    $phoneId = !empty($phone) ? $phone->getPhoneId() : null;
+                    if (!empty($phoneId)) {
+                        $phones[] = $phone;
+                        $this->mappingHelper->updateDataMapping($phoneId);
+                    }
+                } else {
                 }
             }
-//            break;
         }
 
         return $phones;

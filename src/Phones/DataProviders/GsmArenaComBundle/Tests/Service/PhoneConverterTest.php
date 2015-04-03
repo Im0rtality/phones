@@ -23,7 +23,7 @@ class PhoneConverterTest extends \PHPUnit_Framework_TestCase
         $phone->setTechnology('GSM / HSPA');
         $phone->setWeight(127.9);
         $phone->setOs('Windows Phone');
-        $phone->setCpuFreq(2.0);
+        $phone->setCpuFreq(2000);
         $phone->setCpuCores(2 + 4 + 4);
         $phone->setRamMb(1228.8);
         $phone->setExternalSd(1);
@@ -58,9 +58,13 @@ class PhoneConverterTest extends \PHPUnit_Framework_TestCase
         $service = new PhoneConverter();
         $service->setAvailableOs(
             [
-                'Android',
-                'Windows Phone',
-                'Symbian'
+                'android'       => 'Android',
+                'ios'           => 'iOS',
+                'windows phone' => 'Windows Phone',
+                'symbian'       => 'Symbian',
+                'rim'           => 'RIM',
+                'bada'          => 'Bada',
+                'firefox'       => 'FireFox',
             ]
         );
 

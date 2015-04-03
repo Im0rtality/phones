@@ -25,13 +25,21 @@ class PhoneRepository extends EntityRepository
         if (!$entityRez) {
             $em->persist($phone);
             $em->flush($phone);
+        } else {
+            $this->removePhone($entityRez);
+            $em->persist($phone);
+            $em->flush($phone);
         }
-//        try {
-//        } catch (\Exception $e) {
-//        catch (\Doctrine\DBAL\DBALException  $e) {
-//        if (is_int(strpos($e->getPrevious()->getMessage(), 'Duplicate entry'))) {
-//        }
-
     }
 
+    /**
+     * @param $phone
+     */
+    public function removePhone($phone)
+    {
+        $em = $this->getEntityManager();
+
+        $em->remove($phone);
+        $em->flush();
+    }
 }

@@ -4,6 +4,7 @@ namespace Phones\DataProviders\GsmArenaComBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Phones\PhoneBundle\Entity\Phone;
+use Phones\PhoneBundle\Services\MappingHelper;
 
 class MainDownloader
 {
@@ -15,6 +16,9 @@ class MainDownloader
 
     /** @var  EntityManager */
     private $entityManager;
+
+    /** @var  MappingHelper */
+    private $mappingHelper;
 
     /**
      * @param BrandDownloader $brandDownloader
@@ -41,16 +45,28 @@ class MainDownloader
     }
 
     /**
+     * @param MappingHelper $mappingHelper
+     */
+    public function setMappingHelper($mappingHelper)
+    {
+        $this->mappingHelper = $mappingHelper;
+    }
+
+    /**
      * @return array
      */
     public function download()
     {
+        $this->brandDownloader->setMappingHelper($this->mappingHelper);
+
         if (!empty($this->phoneBrandLinkMap)) {
             foreach ($this->phoneBrandLinkMap as $brand => $brandFirstLink) {
                 $brandPhones = $this->brandDownloader->curlPhones($brand, $brandFirstLink);
                 $this->saveBrandPhones($brandPhones);
             }
         }
+
+        $this->mappingHelper->saveDataMapping();
     }
 
     /**

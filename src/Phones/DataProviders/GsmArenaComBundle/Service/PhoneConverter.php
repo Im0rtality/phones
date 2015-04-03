@@ -27,6 +27,12 @@ class PhoneConverter
         'MB' => 1,
     ];
 
+    /** @var array  */
+    private $freqMapping = [
+        'MHZ' => 1,
+        "GHZ" => 1000
+    ];
+
     /**
      * @param string $provider
      */
@@ -115,18 +121,34 @@ class PhoneConverter
         /* OS */
         $feedOs = (string)$this->getArrayValue($phoneSpecs, 'platform/os');
         $os = 'other';
+        $osPattern = '';
         foreach ($this->availableOs as $availOs) {
-            if (strpos(strtolower($feedOs), strtolower($availOs))) {
-                $os = $availOs;
-                break;
+            $osPattern .= !empty($osPattern) ? '|' : '';
+            $osPattern .= $availOs;
+        }
+        if (preg_match('/'.$osPattern.'/i', $feedOs, $matches)) {
+            if (isset($this->availableOs[strtolower($matches[0])])) {
+                $os = ($this->availableOs[strtolower($matches[0])]);
             }
         }
         $phone->setOs($os);
 
         /* CPU freq */
         $feedCpuData = (string)$this->getArrayValue($phoneSpecs, 'platform/cpu');
-        if (preg_match_all('/(?<freq>[\d.]+)\s*(?<unit>G?Hz)/i', $feedCpuData, $matches)) {
-            $phone->setCpuFreq((float)max($matches['freq']));
+        if (preg_match_all('/(?<freqUnit>[\d.]+\s*[G|M]Hz)/i', $feedCpuData, $matches)) {
+            $frequencies = [];
+            foreach ($matches['freqUnit'] as $freqAndUnit) {
+                if (preg_match('/(?<value>[\d.]+)\s*(?<unit>[G|M]Hz)/i', $freqAndUnit, $childMatches)) {
+                    $value = $childMatches['value'];
+                    $unit  = $childMatches['unit'];
+                    if (isset($this->freqMapping[strtoupper($unit)])) {
+                        $frequencies[] = $this->freqMapping[strtoupper($unit)] * $value;
+                    }
+                }
+            }
+            if (!empty($frequencies)) {
+                $phone->setCpuFreq((float)max($frequencies));
+            }
         }
 
         /* CPU cores */
@@ -139,6 +161,12 @@ class PhoneConverter
                 }
             }
             $phone->setCpuCores($cores);
+        }
+
+        $cpuCores = $phone->getCpuCores();
+        $cpuFreq  = $phone->getCpuFreq();
+        if (empty($cpuCores) && !empty($cpuFreq)) {
+            $phone->setCpuCores(1);
         }
     }
 
@@ -162,6 +190,8 @@ class PhoneConverter
         $feedCardSlot = (string)$this->getArrayValue($phoneSpecs, 'memory/card slot');
         if (preg_match('/microSD|up to|G?M?B|Yes/i', $feedCardSlot)) {
             $phone->setExternalSd(1);
+        } else {
+            $phone->setExternalSd(0);
         }
     }
 
