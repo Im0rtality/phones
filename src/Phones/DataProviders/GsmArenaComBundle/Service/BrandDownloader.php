@@ -2,6 +2,7 @@
 
 namespace Phones\DataProviders\GsmArenaComBundle\Service;
 
+use Doctrine\ORM\EntityManager;
 use Phones\PhoneBundle\Services\Downloader;
 use Phones\PhoneBundle\Services\MappingHelper;
 use Phones\PhoneBundle\Services\TidyService;
@@ -31,6 +32,9 @@ class BrandDownloader
 
     /** @var  MappingHelper */
     private $mappingHelper;
+
+    /** @var  EntityManager */
+    private $entityManager;
 
     /**
      * @param TidyService $tidyService
@@ -89,6 +93,14 @@ class BrandDownloader
     }
 
     /**
+     * @param EntityManager $entityManager
+     */
+    public function setEntityManager($entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+    /**
      * @param $brand
      * @param $firsBrandPageLink
      *
@@ -122,12 +134,18 @@ class BrandDownloader
                     $phone = $this->phoneConverter->convert($phoneSpecs);
                     $phoneId = !empty($phone) ? $phone->getPhoneId() : null;
                     if (!empty($phoneId)) {
-                        $phones[] = $phone;
+                        var_dump($phoneId);
+//                        $phones[] = $phone;
+                        $this->entityManager
+                            ->getRepository('PhonesPhoneBundle:Phone')
+                            ->save($phone);
                         $this->mappingHelper->updateDataMapping($phoneId);
                     }
                 } else {
                 }
             }
+            //sleep 0.5 of sec
+            usleep(500000);
         }
 
         return $phones;
@@ -213,6 +231,7 @@ class BrandDownloader
                     }
                 }
             }
+            sleep(1);
         }
 
         return $linksToPhones;

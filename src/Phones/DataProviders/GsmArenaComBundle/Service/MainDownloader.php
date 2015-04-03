@@ -58,11 +58,12 @@ class MainDownloader
     public function download()
     {
         $this->brandDownloader->setMappingHelper($this->mappingHelper);
+        $this->brandDownloader->setEntityManager($this->entityManager);
 
         if (!empty($this->phoneBrandLinkMap)) {
             foreach ($this->phoneBrandLinkMap as $brand => $brandFirstLink) {
                 $brandPhones = $this->brandDownloader->curlPhones($brand, $brandFirstLink);
-                $this->saveBrandPhones($brandPhones);
+//                $this->saveBrandPhones($brandPhones);
             }
         }
 

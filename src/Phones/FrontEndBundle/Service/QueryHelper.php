@@ -97,15 +97,19 @@ class QueryHelper
     {
         $qBuilder = $this->getQueryBuilder();
 
-//        $qBuilder2 = clone $qBuilder;
-//        $qBuilder2
-//            ->addSelect('costs_original.phone_id')
-//            ->addSelect('costs_original.provider_id')
-//            ->addSelect('costs_original.cost')
-//            ->addSelect('costs_original.deep_link')
-//            ->from('PhonesPhoneBundle:Cost', 'costs_original')
-//            ->addGroupBy('phones.phone_id')
-//            ->addOrderBy('costs_original.cost', 'ASC');
+        $qBuilder2 = $this->getQueryBuilder();
+        $qBuilder2
+            ->addSelect('MIN(costs_original.cost) AS minPrice')
+            ->addSelect('costs_original.phone_id')
+            ->from('PhonesPhoneBundle:Cost', 'costs_original')
+            ->addGroupBy('costs_original.phone_id');
+        var_dump($qBuilder2->getDQL());
+//        SELECT
+//            MIN(PhonePrices.price) AS minPrice,
+//            PhonePrices.phoneId
+//        FROM PhonePrices
+//        GROUP BY phoneId
+//        ) AS MinPIces ON MinPIces.phoneId = Phones.phoneId
 
         $qBuilder->addSelect('phones.phoneId');
         $qBuilder->addSelect('costs.cost');
@@ -113,7 +117,8 @@ class QueryHelper
         $qBuilder->from('PhonesPhoneBundle:Phone','phones');
 
         $qBuilder->leftJoin('PhonesPhoneBundle:Cost', 'costs', 'WITH', 'costs.phone_id=phones.phoneId');
-//        $qBuilder->add( $qBuilder2->getDQL() . ' WITH costs.phone_id=phones.phoneId', 'join');
+//        $qBuilder->expr()->any('LEFT JOIN ('.$qBuilder2->getDQL(). ') AS costs WITH costs.phone_id=phones.phoneId');
+//        $qBuilder->leftJoin( $qBuilder2->getDQL(). ' WITH costs.phone_id=phones.phoneId', 'costs');
 //        $qBuilder->leftJoin($qBuilder2->getDQL(), 'costs', 'WITH', 'costs.phone_id=phones.phoneId');
 
         $qBuilder->addGroupBy('phones.phoneId');

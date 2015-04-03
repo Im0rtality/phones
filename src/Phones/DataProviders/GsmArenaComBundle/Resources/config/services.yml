@@ -13,10 +13,13 @@ parameters:
 
     phones_data_providers_gsm_arena_com.main_downloader.phone_brand_link_map:
 #        Samsung: http://www.gsmarena.com/samsung-phones-9.php
-        Microsoft: http://www.gsmarena.com/microsoft-phones-64.php
+#        Microsoft: http://www.gsmarena.com/microsoft-phones-64.php
         Apple: http://www.gsmarena.com/apple-phones-48.php
+#        Huawei : http://www.gsmarena.com/huawei-phones-58.php
 #        Nokia:   http://www.gsmarena.com/nokia-phones-1.php
 #        Sony:    http://www.gsmarena.com/sony-phones-7.php
+#        LG:      http://www.gsmarena.com/lg-phones-20.php
+#        HTC:     http://www.gsmarena.com/htc-phones-45.php
 
     phones_data_providers_gsm_arena_com.phone_converter.available_operation_systems:
         android: Android
