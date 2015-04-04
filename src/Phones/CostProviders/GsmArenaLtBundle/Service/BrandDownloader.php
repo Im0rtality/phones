@@ -101,6 +101,9 @@ class BrandDownloader
     private function getAllPageLinks($firsBrandPageLink)
     {
         $links = [];
+        //there are no phones limit in first page, so there are no pages
+        //don't know how long
+        $links[] = $firsBrandPageLink;
 
         return $links;
     }
@@ -128,6 +131,72 @@ class BrandDownloader
     private function parseCosts($page)
     {
         $costs = [];
+
+        $doc = $this->getClearDom($page);
+        if ($doc != null) {
+            //find pages
+            $query = "//*[contains(@class, 'web-cnt-g-block')]";
+            $nodesDom = $this->getDomByQuery($doc, $query);
+
+            $query = "//div[@class='web-phone']";
+            $phonesNodes = $this->getNodesByQuery($nodesDom, $query);
+
+            /** @var \DomElement $phoneData */
+            foreach ($phonesNodes as $phoneData) {
+                $phoneName = null;
+                $deepLink  = null;
+                $costValue = null;
+
+                //name
+                $spanElements = $phoneData->getElementsByTagName('span');
+                /** @var \DomElement $spanElement */
+                foreach ($spanElements as $spanElement) {
+                    if ($spanElement->getAttribute('class') == 'web-phone-name') {
+                        $phoneName = preg_replace('/\s+/', ' ', trim($spanElement->nodeValue));
+                        if (preg_match('/'.$this->brand.'/i', $phoneName, $matches)) {
+                            $phoneName = trim(str_replace($matches[0], '', $phoneName));
+                        }
+                    }
+                }
+                //link
+                $spanElements = $phoneData->getElementsByTagName('a');
+                /** @var \DomElement $spanElement */
+                foreach ($spanElements as $spanElement) {
+                    $deepLink = $spanElement->getAttribute('href');
+                    if (!empty($deepLink)) {
+                        $deepLink = rtrim($this->domain, '/') . '/' . ltrim($deepLink, '/');
+                        break;
+                    }
+                }
+                //cost
+                $spanElements = $phoneData->getElementsByTagName('div');
+                /** @var \DomElement $spanElement */
+                foreach ($spanElements as $spanElement) {
+                    if ($spanElement->getAttribute('class') == 'web-phone-prc') {
+                        $costData = preg_replace('/\s+/', ' ', trim($spanElement->nodeValue));
+                        $costData = utf8_decode($costData);
+
+                        if (preg_match('/(?<cost>[\d.]+)\*?\s[\?|€]/i', $costData, $matches)) {
+                            $costValue = $matches['cost'];
+                        }
+                    }
+                }
+                if (!empty($costValue) && !empty($phoneName) && !empty($deepLink)) {
+                    $feedPhoneId = $this->brand . ' ' . $phoneName;
+                    $cost = new Cost();
+                    $cost->setProviderId($this->provider);
+                    $cost->setOriginalPhoneName($feedPhoneId);
+                    $cost->setCost((float)$costValue);
+                    $cost->setDeepLink($deepLink);
+
+                    $mappedId = $this->mappingHelper->isProviderIdMapped($feedPhoneId);
+                    if ($mappedId != null) {
+                        $cost->setPhoneId($mappedId);
+                        $costs[] = $cost;
+                    }
+                }
+            }
+        }
 
         return $costs;
     }
