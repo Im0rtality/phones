@@ -2,9 +2,6 @@ parameters:
     phones_cost_providers_tele_arena_lt.providerName: teleArenaLt
     phones_cost_providers_tele_arena_lt.domain: http://www.telearena.lt/
 
-    phones_cost_providers_tele_arena_lt.downloader.guzzle_http_clien.class: Guzzle\Http\Client
-    phones_cost_providers_tele_arena_lt.downloader.class: Phones\PhoneBundle\Services\Downloader
-
     phones_cost_providers_tele_arena_lt.mapping_helper.class: Phones\PhoneBundle\Services\MappingHelper
 
     phones_cost_providers_tele_arena_lt.brand_downloader.class: Phones\CostProviders\TeleArenaLtBundle\Service\BrandDownloader
@@ -15,33 +12,25 @@ parameters:
 #        Samsung:    http://www.telearena.lt/telefonai/samsung
 #        Sony:       http://www.telearena.lt/telefonai/sonyericsson
 #        LG:         http://www.telearena.lt/telefonai/lg
-        Apple:      http://www.telearena.lt/telefonai/apple
+#        Apple:      http://www.telearena.lt/telefonai/apple
 #        HTC:        http://www.telearena.lt/telefonai/htc
-#        BlackBerry: http://www.telearena.lt/telefonai/blackberry
-        Huawei:     http://www.telearena.lt/telefonai/huawei
+        BlackBerry: http://www.telearena.lt/telefonai/blackberry
+#        Huawei:     http://www.telearena.lt/telefonai/huawei
 
 services:
-    phones_cost_providers_tele_arena_lt.guzzle_http_client:
-        class: %phones_cost_providers_tele_arena_lt.downloader.guzzle_http_clien.class%
-
-    phones_cost_providers_tele_arena_lt.downloader:
-        class: %phones_cost_providers_tele_arena_lt.downloader.class%
-        calls:
-            - [setClient, [@phones_cost_providers_tele_arena_lt.guzzle_http_client]]
-
-    phones_cost_providers_tele_arena_lt.brand_downloader:
-        class: %phones_cost_providers_tele_arena_lt.brand_downloader.class%
-        calls:
-            - [setDownloader, [@phones_cost_providers_tele_arena_lt.downloader]]
-            - [setTidyService, [@phones_phone.tidy_service]]
-            - [setProvider, [%phones_cost_providers_tele_arena_lt.providerName%]]
-            - [setDomain, [%phones_cost_providers_tele_arena_lt.domain%]]
-
     phones_cost_providers_tele_arena_lt.mapping_helper:
         class: %phones_cost_providers_tele_arena_lt.mapping_helper.class%
         arguments:
             - %phones_cost_providers_tele_arena_lt.providerName%
             - @doctrine.orm.entity_manager
+
+    phones_cost_providers_tele_arena_lt.brand_downloader:
+        class: %phones_cost_providers_tele_arena_lt.brand_downloader.class%
+        calls:
+            - [setDownloader, [@phones_phone.downloader]]
+            - [setTidyService, [@phones_phone.tidy_service]]
+            - [setProvider, [%phones_cost_providers_tele_arena_lt.providerName%]]
+            - [setDomain, [%phones_cost_providers_tele_arena_lt.domain%]]
 
     phones_cost_providers_tele_arena_lt.main_downloader:
         class: %phones_cost_providers_tele_arena_lt.main_downloader.class%

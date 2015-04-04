@@ -2,9 +2,6 @@ parameters:
     phones_data_providers_gsm_arena_com.providerName: gsmArenaCom
     phones_data_providers_gsm_arena_com.domain: www.gsmarena.com/
 
-    phones_data_providers_gsm_arena_com.downloader.guzzle_http_clien.class: Guzzle\Http\Client
-    phones_data_providers_gsm_arena_com.downloader.class: Phones\PhoneBundle\Services\Downloader
-
     phones_data_providers_gsm_arena_com.mapping_helper.class: Phones\PhoneBundle\Services\MappingHelper
 
     phones_data_providers_gsm_arena_com.brand_downloader.class: Phones\DataProviders\GsmArenaComBundle\Service\BrandDownloader
@@ -14,7 +11,7 @@ parameters:
     phones_data_providers_gsm_arena_com.main_downloader.phone_brand_link_map:
 #        Samsung: http://www.gsmarena.com/samsung-phones-9.php
 #        Microsoft: http://www.gsmarena.com/microsoft-phones-64.php
-        Apple: http://www.gsmarena.com/apple-phones-48.php
+#        Apple: http://www.gsmarena.com/apple-phones-48.php
 #        BlackBerry: http://www.gsmarena.com/blackberry-phones-36.php
 #        Huawei : http://www.gsmarena.com/huawei-phones-58.php
 #        Nokia:   http://www.gsmarena.com/nokia-phones-1.php
@@ -32,13 +29,11 @@ parameters:
         firefox: Firefox
 
 services:
-    phones_data_providers_gsm_arena_com.guzzle_http_client:
-        class: %phones_data_providers_gsm_arena_com.downloader.guzzle_http_clien.class%
-
-    phones_data_providers_gsm_arena_com.downloader:
-        class: %phones_data_providers_gsm_arena_com.downloader.class%
-        calls:
-            - [setClient, [@phones_data_providers_gsm_arena_com.guzzle_http_client]]
+    phones_data_providers_gsm_arena_com.mapping_helper:
+        class: %phones_data_providers_gsm_arena_com.mapping_helper.class%
+        arguments:
+            - ''
+            - @doctrine.orm.entity_manager
 
     phones_data_providers_gsm_arena_com.phone_converter:
         class: %phones_data_providers_gsm_arena_com.phone_converter.class%
@@ -50,17 +45,11 @@ services:
     phones_data_providers_gsm_arena_com.brand_downloader:
         class: %phones_data_providers_gsm_arena_com.brand_downloader.class%
         calls:
-            - [setDownloader, [@phones_data_providers_gsm_arena_com.downloader]]
+            - [setDownloader, [@phones_phone.downloader]]
             - [setTidyService, [@phones_phone.tidy_service]]
             - [setPhoneConverter, [@phones_data_providers_gsm_arena_com.phone_converter]]
             - [setProvider, [%phones_data_providers_gsm_arena_com.providerName%]]
             - [setDomain, [%phones_data_providers_gsm_arena_com.domain%]]
-
-    phones_data_providers_gsm_arena_com.mapping_helper:
-        class: %phones_data_providers_gsm_arena_com.mapping_helper.class%
-        arguments:
-            - ''
-            - @doctrine.orm.entity_manager
 
     phones_data_providers_gsm_arena_com.main_downloader:
         class: %phones_data_providers_gsm_arena_com.main_downloader.class%
