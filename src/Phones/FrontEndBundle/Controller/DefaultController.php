@@ -89,4 +89,15 @@ class DefaultController extends Controller
         return $this->render('PhonesFrontEndBundle:Default:test.html.twig', []);
     }
 
+    /**
+    * @return Response
+    */
+    public function gsmArenaLtAction()
+    {
+        $mainDownloader = $this->get('phones_cost_providers_gsm_arena_lt.main_downloader');
+        $mainDownloader->download();
+
+        return $this->render('PhonesFrontEndBundle:Default:test.html.twig', []);
+    }
+
 }

@@ -13,3 +13,7 @@ phones_data_providers_gsm_arena_com:
 phones_cost_providers_tele_arena_lt:
     resource: "@PhonesCostProvidersTeleArenaLtBundle/Resources/config/routing.yml"
     prefix:   /
+
+phones_cost_providers_gsm_arena_lt:
+    resource: "@PhonesCostProvidersGsmArenaLtBundle/Resources/config/routing.yml"
+    prefix:   /

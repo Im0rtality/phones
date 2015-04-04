@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new Phones\PhoneBundle\PhonesPhoneBundle(),
             new Phones\DataProviders\GsmArenaComBundle\PhonesDataProvidersGsmArenaComBundle(),
             new Phones\CostProviders\TeleArenaLtBundle\PhonesCostProvidersTeleArenaLtBundle(),
+            new Phones\CostProviders\GsmArenaLtBundle\PhonesCostProvidersGsmArenaLtBundle(),
         ];
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

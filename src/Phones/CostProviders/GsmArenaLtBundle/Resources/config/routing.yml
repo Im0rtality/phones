@@ -1,0 +1,3 @@
+phones_cost_providers_gsm_arena_lt.get_pages:
+    pattern: /get_gsm_arena_lt_costs
+    defaults: { _controller: PhonesFrontEndBundle:Default:gsmArenaLt }
