@@ -15,6 +15,7 @@ parameters:
 #        Samsung: http://www.gsmarena.com/samsung-phones-9.php
 #        Microsoft: http://www.gsmarena.com/microsoft-phones-64.php
         Apple: http://www.gsmarena.com/apple-phones-48.php
+#        BlackBerry: http://www.gsmarena.com/blackberry-phones-36.php
 #        Huawei : http://www.gsmarena.com/huawei-phones-58.php
 #        Nokia:   http://www.gsmarena.com/nokia-phones-1.php
 #        Sony:    http://www.gsmarena.com/sony-phones-7.php
@@ -57,7 +58,9 @@ services:
 
     phones_data_providers_gsm_arena_com.mapping_helper:
         class: %phones_data_providers_gsm_arena_com.mapping_helper.class%
-        arguments: ['']
+        arguments:
+            - ''
+            - @doctrine.orm.entity_manager
 
     phones_data_providers_gsm_arena_com.main_downloader:
         class: %phones_data_providers_gsm_arena_com.main_downloader.class%

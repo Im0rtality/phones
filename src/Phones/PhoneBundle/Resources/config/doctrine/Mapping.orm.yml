@@ -1,0 +1,19 @@
+Phones\PhoneBundle\Entity\Mapping:
+    type: entity
+    repositoryClass: Phones\PhoneBundle\Entity\MappingRepository
+    table: mappings
+    id:
+        uniqId:
+            type: string
+            generator:
+                strategy: NONE
+    fields:
+        original_provider_phone_name:
+            type: string
+            nullable: true
+        phoneId:
+            type: string
+            nullable: true
+        providerId:
+            type: string
+            nullable: true

@@ -1,0 +1,3 @@
+phones_cost_providers_tele_arena_lt.get_pages:
+    pattern: /get_tele_arena_lt_costs
+    defaults: { _controller: PhonesFrontEndBundle:Default:teleArenaLt }

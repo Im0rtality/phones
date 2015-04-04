@@ -66,4 +66,27 @@ class DefaultController extends Controller
 
         return $this->render('PhonesFrontEndBundle:Default:results.html.twig', $params);
     }
+
+
+    /**
+     * @return Response
+     */
+    public function gsmArenaComAction(){
+        $mainDownloader = $this->get('phones_data_providers_gsm_arena_com.main_downloader');
+        $mainDownloader->download();
+
+        return $this->render('PhonesFrontEndBundle:Default:test.html.twig', []);
+    }
+
+    /**
+    * @return Response
+    */
+    public function teleArenaLtAction()
+    {
+        $mainDownloader = $this->get('phones_cost_providers_tele_arena_lt.main_downloader');
+        $mainDownloader->download();
+
+        return $this->render('PhonesFrontEndBundle:Default:test.html.twig', []);
+    }
+
 }
