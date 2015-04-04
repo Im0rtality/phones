@@ -36,12 +36,8 @@ class MappingHelper
         if (file_exists($fileName)) {
             $this->dataMapping = json_decode(file_get_contents($fileName), true);
 
-            //export mapping
             if (empty($provider)) {
-                $results = $this->entityManager
-                    ->getRepository('PhonesPhoneBundle:Phone')
-                    ->dumpForMapping();
-                file_put_contents($fileName, json_encode($results));
+                $this->exportDataMapping();
             }
 
             if (!is_array($this->dataMapping)) {
@@ -53,11 +49,7 @@ class MappingHelper
         if (!empty($this->provider)) {
             $fileName = $this->getMappingPath($this->provider);
 
-            //export mapping
-            $results = $this->entityManager
-                ->getRepository('PhonesPhoneBundle:Mapping')
-                ->dumpForMapping($this->provider);
-            file_put_contents($fileName, json_encode($results));
+            $this->exportProviderMapping();
 
             if (file_exists($fileName)) {
                 $this->providerMapping = json_decode(file_get_contents($fileName), true);
@@ -79,6 +71,28 @@ class MappingHelper
         return isset($this->dataMapping[$id]);
     }
 
+    public function exportDataMapping()
+    {
+        $fileName = $this->getMappingPath($this->dataProvider);
+
+        $results = $this->entityManager
+            ->getRepository('PhonesPhoneBundle:Phone')
+            ->dumpForMapping();
+
+        file_put_contents($fileName, json_encode($results));
+    }
+
+    private function exportProviderMapping()
+    {
+        $fileName = $this->getMappingPath($this->provider);
+
+        //export mapping
+        $results = $this->entityManager
+            ->getRepository('PhonesPhoneBundle:Mapping')
+            ->dumpForMapping($this->provider);
+        file_put_contents($fileName, json_encode($results));
+    }
+
     /**
      * @param string $id
      *
@@ -87,7 +101,7 @@ class MappingHelper
     public function isProviderIdMapped($id)
     {
         $dataPhoneId = null;
-        if (isset($this->providerMapping[$id]) && isset($this->dataMapping[$this->providerMapping[$id]])) {
+        if (!empty($this->providerMapping[$id]) && isset($this->dataMapping[$this->providerMapping[$id]])) {
             $dataPhoneId = $this->providerMapping[$id];
         } elseif (isset($this->dataMapping[$id])) {
             //try to map dynamically

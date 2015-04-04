@@ -8,7 +8,6 @@ parameters:
     phones_cost_providers_tele_arena_lt.mapping_helper.class: Phones\PhoneBundle\Services\MappingHelper
 
     phones_cost_providers_tele_arena_lt.brand_downloader.class: Phones\CostProviders\TeleArenaLtBundle\Service\BrandDownloader
-    phones_cost_providers_tele_arena_lt.phone_cost_converter.class: Phones\CostProviders\TeleArenaLtBundle\Service\PhoneConverter
     phones_cost_providers_tele_arena_lt.main_downloader.class: Phones\CostProviders\TeleArenaLtBundle\Service\MainDownloader
 
     phones_cost_providers_tele_arena_lt.main_downloader.phone_brand_link_map:
@@ -19,7 +18,7 @@ parameters:
         Apple:      http://www.telearena.lt/telefonai/apple
 #        HTC:        http://www.telearena.lt/telefonai/htc
 #        BlackBerry: http://www.telearena.lt/telefonai/blackberry
-#        Huawei:     http://www.telearena.lt/telefonai/huawei
+        Huawei:     http://www.telearena.lt/telefonai/huawei
 
 services:
     phones_cost_providers_tele_arena_lt.guzzle_http_client:

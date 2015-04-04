@@ -66,6 +66,8 @@ class MainDownloader
 //                $this->saveBrandPhones($brandPhones);
             }
         }
+
+        $this->mappingHelper->exportDataMapping();
     }
 
     /**
