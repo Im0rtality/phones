@@ -25,4 +25,22 @@ class MappingRepository extends EntityRepository
             $em->flush($mapping);
         }
     }
+
+    /**
+     * @param string $providerId
+     *
+     * @return array
+     */
+    public function dumpForMapping($providerId)
+    {
+        $mappings = $this->findBy(['providerId' => $providerId]);
+
+        $dumped = [];
+        /** @var Mapping $mapping */
+        foreach ($mappings as $mapping) {
+            $dumped[$mapping->getOriginalProviderPhoneName()] = $mapping->getPhoneId();
+        }
+
+        return $dumped;
+    }
 }

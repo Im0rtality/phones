@@ -42,4 +42,30 @@ class PhoneRepository extends EntityRepository
         $em->remove($phone);
         $em->flush();
     }
+
+    /**
+     * @return array
+     */
+    public function dumpForMapping()
+    {
+        $phones = [];
+        $em = $this->getEntityManager();
+
+        $queryBuilder = $em->createQueryBuilder();
+        $queryBuilder
+            ->addSelect('phones.phoneId')
+            ->from('PhonesPhoneBundle:Phone', 'phones');
+
+        $query = $queryBuilder->getQuery();
+        $results = $query->getResult();
+        if ($results) {
+            foreach($results as $result) {
+                if (isset($result['phoneId'])) {
+                    $phones[$result['phoneId']] = 1;
+                }
+            }
+        }
+
+        return $phones;
+    }
 }

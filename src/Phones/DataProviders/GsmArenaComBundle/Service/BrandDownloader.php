@@ -134,12 +134,10 @@ class BrandDownloader
                     $phone = $this->phoneConverter->convert($phoneSpecs);
                     $phoneId = !empty($phone) ? $phone->getPhoneId() : null;
                     if (!empty($phoneId)) {
-                        var_dump($phoneId);
 //                        $phones[] = $phone;
                         $this->entityManager
                             ->getRepository('PhonesPhoneBundle:Phone')
                             ->save($phone);
-                        $this->mappingHelper->updateDataMapping($phoneId);
                     }
                 } else {
                 }
