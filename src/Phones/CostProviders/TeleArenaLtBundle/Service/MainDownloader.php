@@ -74,9 +74,9 @@ class MainDownloader
     private function saveBrandPhoneCosts($brandPhones)
     {
         foreach ($brandPhones as $cost) {
-//            $this->entityManager
-//                ->getRepository('PhonesPhoneBundle:Cost')
-//                ->save($cost);
+            $this->entityManager
+                ->getRepository('PhonesPhoneBundle:Cost')
+                ->save($cost);
         }
     }
 }

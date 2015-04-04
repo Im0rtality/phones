@@ -87,7 +87,7 @@ class MappingHelper
     public function isProviderIdMapped($id)
     {
         $dataPhoneId = null;
-        if (isset($this->providerMapping[$id])) {
+        if (isset($this->providerMapping[$id]) && isset($this->dataMapping[$this->providerMapping[$id]])) {
             $dataPhoneId = $this->providerMapping[$id];
         } elseif (isset($this->dataMapping[$id])) {
             //try to map dynamically

@@ -92,7 +92,6 @@ class BrandDownloader
         $pages = $this->getAllPageLinks($firsBrandPageLink);
         $costs = $this->getCosts($pages);
 
-        var_dump($costs);
         return $costs;
     }
     /**
@@ -102,7 +101,6 @@ class BrandDownloader
     private function getAllPageLinks($firsBrandPageLink)
     {
         $links = [];
-//        $firsBrandPageLink = 'http://www.telearena.lt/telefonai/lg/visi/';
         $doc = $this->getClearDom($firsBrandPageLink);
         if ($doc != null) {
             //find pages
