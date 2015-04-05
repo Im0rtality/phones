@@ -163,6 +163,9 @@ class BrandDownloader
                 $nameData = $phoneData->xpath('div[@class="modelis"]');
                 if (!empty($nameData[0]->{'span'})) {
                     $phoneName = preg_replace('/\s+/', ' ', trim((string)$nameData[0]->{'span'}));
+                    if (preg_match('/'.$this->brand.'/i', $phoneName, $matches)) {
+                        $phoneName = trim(str_replace($matches[0], '', $phoneName));
+                    }
                 }
 
                 //cost
