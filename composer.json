@@ -42,7 +42,8 @@
         "braincrafted/bootstrap-bundle": "dev-master",
         "leafo/lessphp": "*",
         "twitter/bootstrap": "*",
-        "symfony/finder": "~2.6"
+        "symfony/finder": "~2.6",
+        "symfony/dom-crawler": "~2.6"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

@@ -131,11 +131,89 @@ class BrandDownloader
     {
         $costs = [];
 
-//        $doc = $this->getClearDom($page);
-//        if ($doc != null) {
-//        }
+        $doc = $this->getClearDom($page);
+        if ($doc != null) {
+            $query = "//td[@class='telefonu_sarasas']";
+            $nodesDom = $this->getDomByQuery($doc, $query);
+
+            $query = "//div[@class='ts_item']";
+            $dom = $this->getDomByQuery($nodesDom, $query);
+
+            $text = $dom->saveHTML();
+            $domForSimple = new \DOMDocument();
+            @$domForSimple->loadHTML($text);
+
+            $simple = simplexml_import_dom($domForSimple);
+            $phonesInfo = $this->getElement($simple, 'body');
+
+            /** @var \SimpleXmlElement $phoneData */
+            foreach ($phonesInfo->children() as $phoneData) {
+                $phoneName = null;
+                $deepLink  = null;
+                $costValue = null;
+
+                //link
+                /** @var \SimpleXmlElement $a */
+                $a = $phoneData->{'a'};
+                $aAttr = $a->attributes();
+                if (isset($aAttr['href'])) {
+                    $deepLink = (string)$aAttr['href'];
+                }
+                //name
+                $nameData = $phoneData->xpath('div[@class="modelis"]');
+                if (!empty($nameData[0]->{'span'})) {
+                    $phoneName = preg_replace('/\s+/', ' ', trim((string)$nameData[0]->{'span'}));
+                }
+
+                //cost
+                $costData = $phoneData->xpath('div[@class="kaina"]');
+                if (!empty($costData[0])) {
+                    $costStr = utf8_decode((string)$costData[0]);
+                    $costStr = preg_replace('/\s+/', ' ', trim($costStr));
+
+                    if (preg_match('/(?<cost>[\d,|.]+)\*?\s[\?|€]/i', $costStr, $matches)) {
+                        $costValue = str_replace(',', '.', $matches['cost']);
+                        $costValue = (float)$costValue;
+                    }
+                }
+
+                if (!empty($costValue) && !empty($phoneName) && !empty($deepLink)) {
+                    $feedPhoneId = $this->brand . ' ' . $phoneName;
+                    $cost = new Cost();
+                    $cost->setProviderId($this->provider);
+                    $cost->setOriginalPhoneName($feedPhoneId);
+                    $cost->setCost((float)$costValue);
+                    $cost->setDeepLink($deepLink);
+
+                    $mappedId = $this->mappingHelper->isProviderIdMapped($feedPhoneId);
+                    if ($mappedId != null) {
+                        $cost->setPhoneId($mappedId);
+                        $costs[] = $cost;
+                    }
+                }
+            }
+        }
 
         return $costs;
+    }
+
+    /**
+     * @param \SimpleXmlElement $element
+     * @param string            $path
+     *
+     * @return \SimpleXmlElement
+     */
+    private function getElement(\SimpleXmlElement $element, $path)
+    {
+        $path = explode('/', $path);
+        foreach ($path as $name) {
+            $element = $element->{$name};
+            if (!$element) {
+                // does not exist, returns empty \SimpleXMLElement object
+                return $element;
+            }
+        }
+        return $element;
     }
 
     /**

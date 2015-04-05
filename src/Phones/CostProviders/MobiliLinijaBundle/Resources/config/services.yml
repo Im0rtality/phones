@@ -8,15 +8,19 @@ parameters:
     phones_cost_providers_mobili_linija.main_downloader.class: Phones\CostProviders\MobiliLinijaBundle\Service\MainDownloader
 
     phones_cost_providers_mobili_linija.main_downloader.phone_brand_link_map:
-#        Nokia:      http://www.gsmarena.lt/telefonai/nokia
-#        Sony:       http://www.gsmarena.lt/telefonai/sony-ericsson
-#        Samsung:    http://www.gsmarena.lt/telefonai/samsung
-#        LG:         http://www.gsmarena.lt/telefonai/lg
-#        Apple:      http://www.gsmarena.lt/telefonai/apple
-#        BlackBerry: http://www.gsmarena.lt/telefonai/blackberry
-#        HTC:        http://www.gsmarena.lt/telefonai/htc
-#        Matorola:   http://www.gsmarena.lt/telefonai/motorola
-        Huawei:     http://www.gsmarena.lt/telefonai/huawei
+#        Nokia:      http://www.mobili.lt/lt/telefonai/nokia.html
+#        Samsung:    http://www.mobili.lt/lt/telefonai/samsung.html
+#        Sony:       http://www.mobili.lt/lt/telefonai/sony_mobile.html
+#        Prestigio:  http://www.mobili.lt/lt/telefonai/prestigio.html
+#        LG:         http://www.mobili.lt/lt/telefonai/lg.html
+#        HTC:        http://www.mobili.lt/lt/telefonai/htc.html
+        Apple:      http://www.mobili.lt/lt/telefonai/apple.html
+#        Gsmart:     http://www.mobili.lt/lt/telefonai/gigabyte.html
+#        myPhone:    http://www.mobili.lt/lt/telefonai/myphone.html
+#        Huawei:     http://www.mobili.lt/lt/telefonai/huawei.html
+#        ASUS:       http://www.mobili.lt/lt/telefonai/asus.html
+#        BlackBerry: http://www.mobili.lt/lt/telefonai/blackberry.html
+#        Matorola:   http://www.mobili.lt/lt/telefonai/motorola.html
 
 services:
     phones_cost_providers_mobili_linija.mapping_helper:
