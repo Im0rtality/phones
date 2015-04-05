@@ -45,4 +45,5 @@ services:
             - [setPossibleLikeSelectNames, [%phones_front_end.query_helper.possible_like_select_names%]]
             - [setPossibleCheckBoxNames, [%phones_front_end.query_helper.possible_checkbox_names%]]
             - [setEntityManager, [@doctrine.orm.entity_manager]]
+            - [setDbConnection, [@doctrine.dbal.default_connection]]
             - [setJoinableFormTables, [%phones_front_end.query_helper.joinable_form_tables%]]
