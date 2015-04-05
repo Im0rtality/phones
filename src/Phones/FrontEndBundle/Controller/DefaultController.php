@@ -100,4 +100,15 @@ class DefaultController extends Controller
         return $this->render('PhonesFrontEndBundle:Default:test.html.twig', []);
     }
 
+    /**
+     * @return Response
+     */
+    public function mobiliLinijaAction()
+    {
+        $mainDownloader = $this->get('phones_cost_providers_mobili_linija.main_downloader');
+        $mainDownloader->download();
+
+        return $this->render('PhonesFrontEndBundle:Default:test.html.twig', []);
+    }
+
 }

@@ -1,0 +1,3 @@
+phones_cost_providers_mobili_linija.get_pages:
+    pattern: /get_mobili_linija_costs
+    defaults: { _controller: PhonesFrontEndBundle:Default:mobiliLinija }
