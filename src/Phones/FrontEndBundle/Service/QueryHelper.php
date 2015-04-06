@@ -274,7 +274,7 @@ class QueryHelper
         foreach ($values as $key => $value) {
             //need protection from SLQ injection
             $condition .= !empty($condition) ? ' OR ' : '';
-            $condition .= sprintf($pattern, $value);
+            $condition .= sprintf($pattern, is_numeric($value) ? $value : '"'.$value.'"');
         }
         if ($condition) {
             $this->whereValues[] = sprintf("(%s)", $condition);
@@ -292,7 +292,7 @@ class QueryHelper
         if ($fromVal != null && $toVal != null) {
             $condition = sprintf($pattern, $fromVal, $toVal);
             $condition = str_replace('COSTS_TABLE.cost', 'minPrice', $condition);
-            $this->whereValues[] = $condition;
+            $this->whereValues[] = sprintf("(%s)", $condition);
         }
     }
 
