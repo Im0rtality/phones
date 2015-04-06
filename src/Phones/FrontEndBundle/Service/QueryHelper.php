@@ -5,8 +5,6 @@ namespace Phones\FrontEndBundle\Service;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\Expr;
-use Doctrine\ORM\Query\Parameter;
-use Doctrine\ORM\QueryBuilder;
 use Phones\PhoneBundle\Entity\Phone;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -32,6 +30,26 @@ class QueryHelper
 
     /** @var array  */
     private $joinableFormTables = [];
+
+    /** @var array  */
+    private $dbTableNamings = [];
+
+    /** @var array  */
+    private $leftJoins = [];
+    /** @var array  */
+    private $whereValues = [];
+    /** @var string */
+    private $selectVal;
+    /** @var string */
+    private $orderByPointValue;
+
+    /**
+     * @param array $dbTableNamings
+     */
+    public function setDbTableNamings($dbTableNamings)
+    {
+        $this->dbTableNamings = $dbTableNamings;
+    }
 
     /**
      * @param EntityManager $entityManager
@@ -89,143 +107,122 @@ class QueryHelper
         $this->joinableFormTables = $joinableFormTables;
     }
 
+    /**
+     * @param Request $request
+     * @return array
+     *
+     * @throws \Doctrine\DBAL\DBALException
+     */
     public function getBestPhones(Request $request){
-        $qBuilder = $this->getMainQuery();
 
-        $this->setFormValues($request, $qBuilder);
+        $this->setFormValues($request);
+        $query = $this->getBestPhonesQuery();
+        var_export($query);
+        $statement = $this->dbConnection->executeQuery($query);
+        $result = $statement->fetchAll();
 
-        $query = $qBuilder->getQuery();
-        //#1
-//        $result = $query->getResult();
-
-        var_export($query->getDQL());
-
-        /** @var Parameter $parameterData */
-        $paramArray = [];
-        foreach ($query->getParameters() as $parameterData) {
-            $paramArray[$parameterData->getName()] = $parameterData->getValue();
-        }
-
-        //#2 convert queryBuilder to createQuery
-//        $em = $this->entityManager;
-//        $query = $em->createQuery($query->getDQL());
-//        $query->setParameters($paramArray);
-//        $result = $query->getResult();
-
-        //#3 execute with dbConnection
-        $queryStr = $query->getDQL();
-        var_dump('bandom');
-        var_export($queryStr);
-        $queryStr = str_replace('phones', 'phone', $queryStr);
-        $queryStr = str_replace('costs', 'cost', $queryStr);
-        $queryStr = str_replace('audio_output', 'stat_audio_output', $queryStr);
-        $queryStr = str_replace('battery_charging_times', 'stat_battery_charging_times', $queryStr);
-//        $queryStr = str_replace('cost_original', 'cost', $queryStr);
-        $queryStr = str_replace('WITH', 'ON', $queryStr);
-        $pregResult = preg_replace('/[a-z]+:[a-z]+/i', '', $queryStr);
-        if ($pregResult) {
-            $queryStr = $pregResult;
-        }
-        foreach ($paramArray as $name => $value) {
-            $queryStr = str_replace(':'.$name, $value, $queryStr);
-        }
-
-        var_dump('po');
-        var_export($queryStr);
-        $regeneratedQuery = '';
-//        $stmt = $this->dbConnection->executeQuery($queryStr);
-        $stmt = $this->dbConnection->executeQuery('SELECT phone.phoneId, minPrice, (COALESCE(SUM(stat_audio_output.grade),0)+COALESCE(SUM(stat_battery_charging_times.grade),0)) AS points FROM phone LEFT JOIN (SELECT MIN(cost.cost) AS minPrice, cost.phone_id FROM cost GROUP BY cost.phone_id) AS costs ON costs.phone_id=phone.phoneId LEFT JOIN stat_audio_output ON stat_audio_output.phoneId=phone.phoneId LEFT JOIN stat_battery_charging_times ON stat_battery_charging_times.phoneId=phone.phoneId WHERE (minPrice >= 250 AND minPrice <= 1250) AND (phone.weight >= 0 AND phone.weight <= 200) AND (phone.cpu_freq >= 500 AND phone.cpu_freq <= 3000) AND (phone.cpu_cores >= 1 AND phone.cpu_cores <= 8) AND (phone.ram_mb >= 0 AND phone.ram_mb <= 3072) AND (phone.display_size >= 0 AND phone.display_size <= 6) AND (phone.camera_mpx >= 0 AND phone.camera_mpx <= 41) AND (phone.video_p >= 0 AND phone.video_p <= 2160) AND (phone.battery_talk_time >= 4 AND phone.battery_talk_time <= 20) GROUP BY phone.phoneId ORDER BY points DESC, minPrice ASC');
-        $rez = $stmt->fetchAll();
-        var_dump($rez);
-//        die;
-//        return $result;
+        return $result;
     }
 
     /**
-     * @return QueryBuilder
+     * @return string
      */
-    private function getMainQuery()
+    public function getBestPhonesQuery()
     {
-        $qBuilder = $this->getQueryBuilder();
+        //main query values
+        $selectValues = [
+            'PHONES_TABLE.phoneId',
+            'minPrice',
+        ];
 
-        $qBuilder2 = $this->getQueryBuilder();
-        $qBuilder2
-            ->addSelect('MIN(costs_original.cost) AS minPrice')
-            ->addSelect('costs_original.phone_id')
-            ->from('PhonesPhoneBundle:Cost', 'costs_original')
-            ->addGroupBy('costs_original.phone_id');
-        var_dump($qBuilder2->getDQL());
-//        SELECT
-//            MIN(PhonePrices.price) AS minPrice,
-//            PhonePrices.phoneId
-//        FROM PhonePrices
-//        GROUP BY phoneId
-//        ) AS MinPIces ON MinPIces.phoneId = Phones.phoneId
+        $fromValues = [
+            'PHONES_TABLE'
+        ];
 
-        $qBuilder->addSelect('phones.phoneId');
-        $qBuilder->addSelect('costs.cost');
+        $costsSubSelect = '(SELECT MIN(COSTS_TABLE.cost) AS minPrice, COSTS_TABLE.phone_id '.
+            'FROM COSTS_TABLE '.
+            'GROUP BY COSTS_TABLE.phone_id) ';
+        $leftJoins = [
+            sprintf('LEFT JOIN %s AS costs ON costs.phone_id=PHONES_TABLE.phoneId', $costsSubSelect)
+        ];
 
-//        $qBuilder->from('PhonesPhoneBundle:Phone','phones');
-//        $qBuilder->leftJoin('PhonesPhoneBundle:Cost', 'costs', 'WITH', 'costs.phone_id=phones.phoneId');
-        $qBuilder->from('PhonesPhoneBundle:Phone','phones'. ' LEFT JOIN ('.$qBuilder2->getDQL().') AS costs WITH costs.phone_id=phones.phoneId');
+        $whereValues = [];
 
-        $qBuilder->addGroupBy('phones.phoneId');
+        $groupByValues = [
+            'PHONES_TABLE.phoneId'
+        ];
 
-        return $qBuilder;
+        $orderByValues = [
+            'minPrice ASC',
+        ];
+
+        //generate query parts
+        if ($this->selectVal) {
+            $selectValues[] = $this->selectVal;
+        }
+        $select        = $this->generateSelectorQuery($selectValues, ', ');
+        $from          = $this->generateSelectorQuery($fromValues, ', ');
+        $leftJoinQuery = $this->generateSelectorQuery(array_merge($leftJoins, $this->leftJoins), ' ');
+        $whereQuery    = $this->generateSelectorQuery(array_merge($whereValues, $this->whereValues), ' AND ');
+        $groupByQuery  = $this->generateSelectorQuery($groupByValues, ', ');
+        if ($this->orderByPointValue) {
+            array_unshift($orderByValues, $this->orderByPointValue);
+        }
+        $orderByQuery = $this->generateSelectorQuery($orderByValues, ', ');
+
+        //construct query
+        $query  = 'SELECT ' . $select . ' ';
+        $query .= 'FROM ' . $from . ' ';
+        $query .= !empty($leftJoinQuery) ? $leftJoinQuery. ' ' : '';
+        $query .= !empty($whereQuery)   ? 'WHERE ' . $whereQuery. ' ' : '';
+        $query .= !empty($groupByQuery) ? 'GROUP BY ' . $groupByQuery. ' ' : '';
+        $query .= !empty($orderByQuery) ? 'ORDER BY ' . $orderByQuery : '';
+
+        //rename db tables to real table names
+        foreach ($this->dbTableNamings as $tableName => $realTableName) {
+            $query = str_replace($tableName, $realTableName, $query);
+        }
+
+        return $query;
     }
 
     /**
-     * @param QueryBuilder $qBuilder
-     * @param string $table
-     * @param string $newTableName
+     * @param array  $selectors
+     * @param string $separation
+     *
+     * @return string
      */
-    private function joinStats($qBuilder, $table, $newTableName)
+    private function generateSelectorQuery($selectors, $separation)
     {
-        $qBuilder->leftJoin(
-            $table,
-            $newTableName,
-            'WITH',
-            $newTableName . '.phoneId=phones.phoneId'
-        );
+        $query = '';
+        foreach ($selectors as $value) {
+            $query .= !empty($query) ? $separation : '';
+            $query .= $value;
+        }
+
+        return $query;
     }
 
     /**
      * @param Request $request
-     * @param QueryBuilder $qBuilder
      */
-    private function setFormValues($request, $qBuilder)
+    private function setFormValues($request)
     {
         $queryParams = $request->query->getIterator();
-
-//        $this->joinStats($qBuilder, $this->joinableFormTables['audio_output'], 'audio_output');
-//        $this->joinStats($qBuilder, $this->joinableFormTables['battery_charging_times'], 'battery_charging_times');
-//        $qBuilder->addSelect('(COALESCE(SUM(battery_charging_times.grade),0)+COALESCE(SUM(audio_output.grade), 0)) AS points');
-//        $qBuilder->addSelect('SUM(audio_output.grade) AS points');
 
         $sumElements = [];
         foreach ($queryParams as $paramName => $paramValue) {
             if (isset($this->possibleRangeNames[$paramName])) {
                 $params = explode(',', $paramValue);
                 $column = sprintf('%s.%s', $this->possibleRangeNames[$paramName], $paramName);
-                $this->generateRangeConditions(
-                    $qBuilder,
-                    $column . ' >= :%s AND '. $column . ' <= :%s',
-                    $paramName,
-                    $params
-                );
+                $this->generateRangeConditions($column . ' >= %s AND '. $column . ' <= %s', $params);
             } elseif (isset($this->possibleSelectNames[$paramName])) {
                 if (is_array($paramValue)) {
                     if (in_array('any', $paramValue)) {
                         unset($paramValue[array_search('any', $paramValue)]);
                     }
                     $column = sprintf('%s.%s', $this->possibleSelectNames[$paramName], $paramName);
-                    $this->generateMultipleConditions(
-                        $qBuilder,
-                        $qBuilder->expr()->orX(),
-                        $column . ' = :%s',
-                        $paramName,
-                        $paramValue
-                    );
+                    $this->generateMultipleConditions($column . ' = %s', $paramValue);
                 }
             } elseif (isset($this->possibleLikeSelectNames[$paramName]))  {
                 if (is_array($paramValue)) {
@@ -238,94 +235,65 @@ class QueryHelper
                         //need protection
                         $paramValue[$key] = '%' . $valueStr . '%';
                     }
-                    $this->generateMultipleConditions(
-                        $qBuilder,
-                        $qBuilder->expr()->orX(),
-                        $column . ' LIKE :%s',
-                        $paramName,
-                        $paramValue
-                    );
+                    $this->generateMultipleConditions($column . ' LIKE %s', $paramValue);
                 }
             } elseif (isset($this->possibleCheckBoxNames[$paramName])) {
                 $column = $this->possibleCheckBoxNames[$paramName] . '.' . $paramName;
                 if (!empty($paramValue)) {
-                    $this->generateMultipleConditions(
-                        $qBuilder,
-                        $qBuilder->expr()->orX(),
-                        $column . ' = :%s',
-                        $paramName,
-                        [1]
-                    );
+                    $this->generateMultipleConditions($column . ' = %s', [1]);
                 }
             } elseif (isset($this->joinableFormTables[$paramName])) {
-                $this->joinStats($qBuilder, $this->joinableFormTables[$paramName], $paramName);
-                $sumElements[] = $paramName;
+                $sumElements[] = $this->joinableFormTables[$paramName];
+                $this->leftJoins[] = sprintf(
+                    'LEFT JOIN %s ON %s.phoneId=PHONES_TABLE.phoneId',
+                    $this->joinableFormTables[$paramName],
+                    $this->joinableFormTables[$paramName]
+                );
             }
         }
 
         $sumQuery = '';
         foreach ($sumElements as $element) {
             $sumQuery .= !empty($sumQuery) ? '+' : '';
-            $sumQuery .= 'COALESCE(SUM(' . $element . '.grade),0)';
+            $sumQuery .= sprintf('COALESCE(SUM(%s.grade),0)', $element);
         }
 
         if (!empty($sumQuery)) {
-            $qBuilder->addSelect('('. $sumQuery . ') AS points');
-            $qBuilder->addOrderBy('points', 'DESC');
+            $this->selectVal = sprintf('(%s) AS points', $sumQuery);
+            $this->orderByPointValue = 'points DESC';
         }
-        $qBuilder->addOrderBy('costs.cost', 'ASC');
     }
 
     /**
-     * @param QueryBuilder $qBuilder
-     * @param Expr $expr
      * @param string $pattern
-     * @param string $fieldName
-     * @param array $values
+     * @param array $values or
      */
-    private function generateMultipleConditions($qBuilder, $expr, $pattern, $fieldName, $values)
+    private function generateMultipleConditions($pattern, $values)
     {
+        $condition = '';
         foreach ($values as $key => $value) {
             //need protection from SLQ injection
-            $paramName = $fieldName . $key;
-            $condition = sprintf($pattern, $paramName);
-            $expr->add($condition);
-            $qBuilder->setParameter($paramName, $value);
+            $condition .= !empty($condition) ? ' OR ' : '';
+            $condition .= sprintf($pattern, $value);
         }
-
-        $qBuilder->andWhere($expr);
+        if ($condition) {
+            $this->whereValues[] = sprintf("(%s)", $condition);
+        }
     }
 
     /**
-     * @param \Doctrine\ORM\QueryBuilder $qBuilder
      * @param string $pattern
-     * @param string $fieldName
      * @param array  $values
      */
-    private function generateRangeConditions($qBuilder, $pattern, $fieldName, $values)
+    private function generateRangeConditions($pattern, $values)
     {
         $fromVal = isset($values[0]) && is_numeric($values[0]) ? $values[0] : null;
         $toVal   = isset($values[1]) && is_numeric($values[1]) ? $values[1] : null;
         if ($fromVal != null && $toVal != null) {
-            $paramFromName = $fieldName. 0;
-            $paramToName   = $fieldName. 1;
-            $qBuilder->setParameter($paramFromName, $fromVal);
-            $qBuilder->setParameter($paramToName, $toVal);
-
-            $condition = sprintf($pattern, $paramFromName, $paramToName);
-            $qBuilder->andWhere($condition);
+            $condition = sprintf($pattern, $fromVal, $toVal);
+            $condition = str_replace('COSTS_TABLE.cost', 'minPrice', $condition);
+            $this->whereValues[] = $condition;
         }
-    }
-
-    /**
-     * @return \Doctrine\ORM\QueryBuilder
-     */
-    private function getQueryBuilder()
-    {
-        $em = $this->entityManager;
-        $qb = $em->createQueryBuilder();
-
-        return $qb;
     }
 
     /**
@@ -333,9 +301,7 @@ class QueryHelper
      */
     public function getPhones()
     {
-        $products = $this->entityManager
-            ->getRepository('PhonesPhoneBundle:Phone')
-            ->findAll();
+        $products = $this->entityManager->getRepository('PhonesPhoneBundle:Phone')->findAll();
 
         return $products;
     }
@@ -346,9 +312,7 @@ class QueryHelper
      */
     public function getPhone($phoneId)
     {
-        $products = $this->entityManager
-            ->getRepository('PhonesPhoneBundle:Phone')
-            ->find($phoneId);
+        $products = $this->entityManager->getRepository('PhonesPhoneBundle:Phone')->find($phoneId);
 
         return $products;
     }
@@ -377,7 +341,11 @@ class QueryHelper
      */
     public function getExistingBrands()
     {
-        $qb = $this->entityManager->getRepository('PhonesPhoneBundle:Phone')->createQueryBuilder('a')->groupBy('a.brand');
+        $qb = $this->entityManager
+            ->getRepository('PhonesPhoneBundle:Phone')
+            ->createQueryBuilder('a')
+            ->groupBy('a.brand');
+
         $result = $qb->getQuery()->getResult();
 
         $distinct = [];

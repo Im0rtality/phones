@@ -3,38 +3,41 @@ parameters:
 
     #possible filters
     phones_front_end.query_helper.passible_range_names:
-        cost:               'costs'
-        weight:             'phones'
-        cpu_freq:           'phones'
-        cpu_cores:          'phones'
-        ram_mb:             'phones'
-        display_size:       'phones'
-        camera_mpx:         'phones'
-        video_p:            'phones'
-        battery_stand_by_h: 'phones'
-        battery_talk_time:  'phones'
+        cost:               'COSTS_TABLE'
+        weight:             'PHONES_TABLE'
+        cpu_freq:           'PHONES_TABLE'
+        cpu_cores:          'PHONES_TABLE'
+        ram_mb:             'PHONES_TABLE'
+        display_size:       'PHONES_TABLE'
+        camera_mpx:         'PHONES_TABLE'
+        video_p:            'PHONES_TABLE'
+        battery_stand_by_h: 'PHONES_TABLE'
+        battery_talk_time:  'PHONES_TABLE'
 
     phones_front_end.query_helper.possible_select_names:
-        brand:             'phones'
-        os:                'phones'
-        bluetooth_version: 'phones'
+        brand:             'PHONES_TABLE'
+        os:                'PHONES_TABLE'
+        bluetooth_version: 'PHONES_TABLE'
 
     phones_front_end.query_helper.possible_like_select_names:
-        technology: 'phones'
-        gps:        'phones'
-        wlan:       'phones'
+        technology: 'PHONES_TABLE'
+        gps:        'PHONES_TABLE'
+        wlan:       'PHONES_TABLE'
 
     phones_front_end.query_helper.possible_checkbox_names:
-        external_sd: 'phones'
-        flash:       'phones'
+        external_sd: 'PHONES_TABLE'
+        flash:       'PHONES_TABLE'
 
     phones_front_end.query_helper.joinable_form_tables:
-        audio_output: 'PhonesPhoneBundle:AudioOutput'
-        battery_charging_times: 'PhonesPhoneBundle:BatteryChargingTime'
-        battery_lifes: 'PhonesPhoneBundle:BatteryLife'
-        camera_rates: 'PhonesPhoneBundle:CameraRate'
-        camera_speeds: 'PhonesPhoneBundle:CameraSpeed'
+        audio_output: stat_audio_output
+        battery_charging_times: stat_battery_charging_times
+        battery_lifes: stat_battery_lifes
+        camera_rates: stat_camera_rates
+        camera_speeds: stat_camera_speed
 
+    phones_front_end.query_helper.db_table_namings:
+        PHONES_TABLE: phone
+        COSTS_TABLE: cost
 
 services:
     phones_front_end.query_helper:
@@ -47,3 +50,4 @@ services:
             - [setEntityManager, [@doctrine.orm.entity_manager]]
             - [setDbConnection, [@doctrine.dbal.default_connection]]
             - [setJoinableFormTables, [%phones_front_end.query_helper.joinable_form_tables%]]
+            - [setDbTableNamings, [%phones_front_end.query_helper.db_table_namings%]]
