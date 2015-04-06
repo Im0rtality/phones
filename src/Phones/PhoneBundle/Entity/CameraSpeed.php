@@ -40,7 +40,7 @@ class CameraSpeed
     private $camera_speed_score;
 
     /**
-     * @var integer
+     * @var float
      */
     private $grade;
 
@@ -191,7 +191,7 @@ class CameraSpeed
     /**
      * Set grade
      *
-     * @param integer $grade
+     * @param float $grade
      * @return CameraSpeed
      */
     public function setGrade($grade)
@@ -204,7 +204,7 @@ class CameraSpeed
     /**
      * Get grade
      *
-     * @return integer 
+     * @return float 
      */
     public function getGrade()
     {

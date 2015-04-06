@@ -30,7 +30,7 @@ class BatteryChargingTime
     private $charging_min;
 
     /**
-     * @var integer
+     * @var float
      */
     private $grade;
 
@@ -135,7 +135,7 @@ class BatteryChargingTime
     /**
      * Set grade
      *
-     * @param integer $grade
+     * @param float $grade
      * @return BatteryChargingTime
      */
     public function setGrade($grade)
@@ -148,7 +148,7 @@ class BatteryChargingTime
     /**
      * Get grade
      *
-     * @return integer 
+     * @return float 
      */
     public function getGrade()
     {

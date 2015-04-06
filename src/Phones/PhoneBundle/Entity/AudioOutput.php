@@ -35,7 +35,7 @@ class AudioOutput
     private $loudspeaker_dB;
 
     /**
-     * @var integer
+     * @var float
      */
     private $grade;
 
@@ -163,7 +163,7 @@ class AudioOutput
     /**
      * Set grade
      *
-     * @param integer $grade
+     * @param float $grade
      * @return AudioOutput
      */
     public function setGrade($grade)
@@ -176,7 +176,7 @@ class AudioOutput
     /**
      * Get grade
      *
-     * @return integer 
+     * @return float 
      */
     public function getGrade()
     {

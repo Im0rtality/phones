@@ -45,7 +45,7 @@ class BatteryLife
     private $video_playback_min;
 
     /**
-     * @var integer
+     * @var float
      */
     private $grade;
 
@@ -219,7 +219,7 @@ class BatteryLife
     /**
      * Set grade
      *
-     * @param integer $grade
+     * @param float $grade
      * @return BatteryLife
      */
     public function setGrade($grade)
@@ -232,7 +232,7 @@ class BatteryLife
     /**
      * Get grade
      *
-     * @return integer 
+     * @return float 
      */
     public function getGrade()
     {

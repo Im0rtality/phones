@@ -19,7 +19,7 @@ Phones\PhoneBundle\Entity\AudioOutput:
             type: float
             nullable: true
         grade:
-            type: integer
+            type: float
             nullable: true
     oneToOne:
         phone:

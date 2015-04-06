@@ -25,7 +25,7 @@ Phones\PhoneBundle\Entity\BatteryLife:
             type: integer
             nullable: true
         grade:
-            type: integer
+            type: float
             nullable: true
     oneToOne:
         phone:

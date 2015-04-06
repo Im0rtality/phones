@@ -30,7 +30,7 @@ class CameraRate
     private $rate_percent;
 
     /**
-     * @var integer
+     * @var float
      */
     private $grade;
 
@@ -135,7 +135,7 @@ class CameraRate
     /**
      * Set grade
      *
-     * @param integer $grade
+     * @param float $grade
      * @return CameraRate
      */
     public function setGrade($grade)
@@ -148,7 +148,7 @@ class CameraRate
     /**
      * Get grade
      *
-     * @return integer 
+     * @return float 
      */
     public function getGrade()
     {

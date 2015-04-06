@@ -22,7 +22,7 @@ Phones\PhoneBundle\Entity\CameraSpeed:
             type: integer
             nullable: true
         grade:
-            type: integer
+            type: float
             nullable: true
     oneToOne:
         phone:
