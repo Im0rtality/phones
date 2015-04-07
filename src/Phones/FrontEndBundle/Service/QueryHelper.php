@@ -258,8 +258,14 @@ class QueryHelper
             $sumQuery .= sprintf('COALESCE(SUM(%s.grade),0)', $element);
         }
 
+        $countQuery = '';
+        foreach ($sumElements as $element) {
+            $countQuery .= !empty($countQuery) ? '+' : '';
+            $countQuery .= sprintf('COUNT(%s.grade)', $element);
+        }
+
         if (!empty($sumQuery)) {
-            $this->selectVal = sprintf('(%s) AS points', $sumQuery);
+            $this->selectVal = sprintf('(%s)/(%s) AS points', $sumQuery, $countQuery);
             $this->orderByPointValue = 'points DESC';
         }
     }
