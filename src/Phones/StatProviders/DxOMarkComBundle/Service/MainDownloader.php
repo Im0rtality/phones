@@ -10,6 +10,9 @@ use Phones\PhoneBundle\Services\TidyService;
 
 class MainDownloader
 {
+    /** @var  string */
+    private $provider;
+
     /** @var  array */
     private $statsLinks;
 
@@ -24,6 +27,14 @@ class MainDownloader
 
     /** @var  TidyService */
     private $tidyService;
+
+    /**
+     * @param string $provider
+     */
+    public function setProvider($provider)
+    {
+        $this->provider = $provider;
+    }
 
     /**
      * @param array $statsLinks
@@ -90,8 +101,37 @@ class MainDownloader
             $query = "//li[@class='block-type-11']";
             $nodes = $this->getNodesByQuery($nodesDom, $query);
 
+            /** @var \DomElement $node */
             foreach ($nodes as $node) {
-                var_dump($node);
+                $phoneName = null;
+                $rating    = null;
+
+                $aTags = $node->getElementsByTagName('a');
+                foreach ($aTags as $aTag) {
+                    $phoneName = preg_replace('/\s+/', ' ', trim($aTag->nodeValue));
+                }
+
+                $spanElements = $node->getElementsByTagName('span');
+                /** @var \DomElement $span */
+                foreach ($spanElements as $span) {
+                    if ($span->getAttribute('class') == 'txt-process-bar') {
+                        $rating = preg_replace('/\s+/', ' ', trim($span->nodeValue));
+                    }
+                }
+
+                if (!empty($phoneName) && !empty($rating)) {
+                    $stat = new CameraRate();
+                    $stat->setProviderId($this->provider);
+                    $stat->setOriginalPhoneName($phoneName);
+                    $stat->setRatePercent((int)$rating);
+                    $stat->setGrade((float)$rating);
+
+                    $mappedId = $this->mappingHelper->isProviderIdMapped($phoneName);
+                    if ($mappedId != null) {
+                        $stat->setPhoneId($mappedId);
+                        $stats[] = $stat;
+                    }
+                }
             }
         }
 
@@ -103,11 +143,11 @@ class MainDownloader
      */
     private function saveStats($phoneStats)
     {
-//        foreach ($phoneStats as $stat) {
-//            $this->entityManager
-//                ->getRepository('PhonesPhoneBundle:CameraRate')
-//                ->save($stat);
-//        }
+        foreach ($phoneStats as $stat) {
+            $this->entityManager
+                ->getRepository('PhonesPhoneBundle:CameraRate')
+                ->save($stat);
+        }
     }
 
     /**

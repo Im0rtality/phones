@@ -18,6 +18,7 @@ services:
     phones_stat_providers_dx_o_mark_com.main_downloader:
         class: %phones_stat_providers_dx_o_mark_com.main_downloader.class%
         calls:
+            - [setProvider, [%phones_stat_providers_dx_o_mark_com.providerName%]]
             - [setDownloader, [@phones_phone.downloader]]
             - [setTidyService, [@phones_phone.tidy_service]]
             - [setEntityManager, [@doctrine.orm.entity_manager]]

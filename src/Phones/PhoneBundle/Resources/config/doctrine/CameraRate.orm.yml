@@ -1,5 +1,6 @@
 Phones\PhoneBundle\Entity\CameraRate:
     type: entity
+    repositoryClass: Phones\PhoneBundle\Entity\CameraRateRepository
     table: stat_camera_rates
     id:
         phoneId:
