@@ -17,12 +17,20 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 
+            /* Other bundles */
             new Phones\FrontEndBundle\PhonesFrontEndBundle(),
             new Phones\PhoneBundle\PhonesPhoneBundle(),
+
+            /* Data providers */
             new Phones\DataProviders\GsmArenaComBundle\PhonesDataProvidersGsmArenaComBundle(),
+
+            /* Cost providers */
             new Phones\CostProviders\TeleArenaLtBundle\PhonesCostProvidersTeleArenaLtBundle(),
             new Phones\CostProviders\GsmArenaLtBundle\PhonesCostProvidersGsmArenaLtBundle(),
             new Phones\CostProviders\MobiliLinijaBundle\PhonesCostProvidersMobiliLinijaBundle(),
+
+            /* Stat providers */
+            new Phones\StatProviders\DxOMarkComBundle\PhonesStatProvidersDxOMarkComBundle(),
         ];
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

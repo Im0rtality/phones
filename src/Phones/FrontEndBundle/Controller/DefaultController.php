@@ -111,4 +111,15 @@ class DefaultController extends Controller
         return $this->render('PhonesFrontEndBundle:Default:test.html.twig', []);
     }
 
+    /**
+     * @return Response
+     */
+    public function dxOMarkComAction()
+    {
+        $mainDownloader = $this->get('phones_stat_providers_dx_o_mark_com.main_downloader');
+        $mainDownloader->download();
+
+        return $this->render('PhonesFrontEndBundle:Default:test.html.twig', []);
+    }
+
 }

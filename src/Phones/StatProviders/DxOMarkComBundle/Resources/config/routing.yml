@@ -1,0 +1,3 @@
+phones_stat_providers_dx_o_mark_com.get_pages:
+    pattern: /get_dx_o_mark_rates
+    defaults: { _controller: PhonesFrontEndBundle:Default:dxOMarkCom }

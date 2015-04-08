@@ -1,0 +1,25 @@
+parameters:
+    phones_stat_providers_dx_o_mark_com.providerName: dxOMarkCom
+
+    phones_stat_providers_dx_o_mark_com.mapping_helper.class: Phones\PhoneBundle\Services\MappingHelper
+
+    phones_stat_providers_dx_o_mark_com.main_downloader.class: Phones\StatProviders\DxOMarkComBundle\Service\MainDownloader
+
+    phones_stat_providers_dx_o_mark_com.main_downloader.stat_links:
+        - http://www.dxomark.com/Phones/
+
+services:
+    phones_stat_providers_dx_o_mark_com.mapping_helper:
+        class: %phones_stat_providers_dx_o_mark_com.mapping_helper.class%
+        arguments:
+            - %phones_stat_providers_dx_o_mark_com.providerName%
+            - @doctrine.orm.entity_manager
+
+    phones_stat_providers_dx_o_mark_com.main_downloader:
+        class: %phones_stat_providers_dx_o_mark_com.main_downloader.class%
+        calls:
+            - [setDownloader, [@phones_phone.downloader]]
+            - [setTidyService, [@phones_phone.tidy_service]]
+            - [setEntityManager, [@doctrine.orm.entity_manager]]
+            - [setMappingHelper, [@phones_stat_providers_dx_o_mark_com.mapping_helper]]
+            - [setStatsLinks, [%phones_stat_providers_dx_o_mark_com.main_downloader.stat_links%]]
