@@ -1,6 +1,6 @@
 Phones\PhoneBundle\Entity\Cost:
     type: entity
-#    table: costs
+    table: cost
     repositoryClass: Phones\PhoneBundle\Entity\CostRepository
     id:
         id:

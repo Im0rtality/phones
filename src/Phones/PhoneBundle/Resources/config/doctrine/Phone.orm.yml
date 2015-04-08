@@ -1,7 +1,7 @@
 Phones\PhoneBundle\Entity\Phone:
     type: entity
     repositoryClass: Phones\PhoneBundle\Entity\PhoneRepository
-#    table: phones
+    table: phone
     id:
         phoneId:
             type: string
