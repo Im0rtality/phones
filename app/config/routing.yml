@@ -27,3 +27,7 @@ phones_cost_providers_mobili_linija:
 phones_stat_providers_dx_o_mark_com:
     resource: "@PhonesStatProvidersDxOMarkComBundle/Resources/config/routing.yml"
     prefix:   /
+
+phones_stat_providers_gsm_arena_com_battery_life:
+    resource: "@PhonesStatProvidersGsmArenaComBatteryLifeBundle/Resources/config/routing.yml"
+    prefix:   /

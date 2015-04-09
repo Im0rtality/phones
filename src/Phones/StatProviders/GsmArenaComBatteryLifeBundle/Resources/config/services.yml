@@ -1,0 +1,26 @@
+parameters:
+    phones_stat_providers_gsm_arena_com_battery_life.providerName: gsmArenaComBatterylife
+
+    phones_stat_providers_gsm_arena_com_battery_life.mapping_helper.class: Phones\PhoneBundle\Services\MappingHelper
+
+    phones_stat_providers_gsm_arena_com_battery_life.main_downloader.class: Phones\StatProviders\GsmArenaComBatteryLifeBundle\Service\MainDownloader
+
+    phones_stat_providers_gsm_arena_com_battery_life.main_downloader.stat_links:
+        - http://www.gsmarena.com/battery-test.php3
+
+services:
+    phones_stat_providers_gsm_arena_com_battery_life.mapping_helper:
+        class: %phones_stat_providers_gsm_arena_com_battery_life.mapping_helper.class%
+        arguments:
+            - %phones_stat_providers_gsm_arena_com_battery_life.providerName%
+            - @doctrine.orm.entity_manager
+
+    phones_stat_providers_gsm_arena_com_battery_life.main_downloader:
+        class: %phones_stat_providers_gsm_arena_com_battery_life.main_downloader.class%
+        calls:
+            - [setProvider, [%phones_stat_providers_gsm_arena_com_battery_life.providerName%]]
+            - [setDownloader, [@phones_phone.downloader]]
+            - [setTidyService, [@phones_phone.tidy_service]]
+            - [setEntityManager, [@doctrine.orm.entity_manager]]
+            - [setMappingHelper, [@phones_stat_providers_gsm_arena_com_battery_life.mapping_helper]]
+            - [setStatsLinks, [%phones_stat_providers_gsm_arena_com_battery_life.main_downloader.stat_links%]]

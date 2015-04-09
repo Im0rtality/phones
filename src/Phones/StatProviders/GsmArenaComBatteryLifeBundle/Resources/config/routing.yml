@@ -1,0 +1,3 @@
+phones_stat_providers_gsm_arena_com_battery_life.get_pages:
+    pattern: /get_battery_life_stats
+    defaults: { _controller: PhonesFrontEndBundle:Default:gsmArenaComBatteryLife }

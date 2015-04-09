@@ -31,6 +31,7 @@ class AppKernel extends Kernel
 
             /* Stat providers */
             new Phones\StatProviders\DxOMarkComBundle\PhonesStatProvidersDxOMarkComBundle(),
+            new Phones\StatProviders\GsmArenaComBatteryLifeBundle\PhonesStatProvidersGsmArenaComBatteryLifeBundle(),
         ];
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

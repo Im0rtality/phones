@@ -122,4 +122,15 @@ class DefaultController extends Controller
         return $this->render('PhonesFrontEndBundle:Default:test.html.twig', []);
     }
 
+    /**
+     * @return Response
+     */
+    public function gsmArenaComBatteryLifeAction()
+    {
+        $mainDownloader = $this->get('phones_stat_providers_gsm_arena_com_battery_life.main_downloader');
+        $mainDownloader->download();
+
+        return $this->render('PhonesFrontEndBundle:Default:test.html.twig', []);
+    }
+
 }
