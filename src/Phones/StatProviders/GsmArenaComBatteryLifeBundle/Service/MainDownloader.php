@@ -96,8 +96,61 @@ class MainDownloader
 
         if ($doc != null) {
             $query = "//table[@class='keywords persist-area']";
-            $nodesDom = $this->getDomByQuery($doc, $query);
-//            var_export($nodesDom->saveXML());
+            $ratesDom = $this->getDomByQuery($doc, $query);
+
+            $trElements = $ratesDom->getElementsByTagName('tr');
+            /** @var \DomElement $phoneData */
+            foreach ($trElements as $phoneData) {
+                $phoneName       = null;
+                $enduranceRating = null;
+                $talkTime        = null;
+                $webBrowsing     = null;
+                $videoPlayback   = null;
+
+                $tdElements = $phoneData->getElementsByTagName('td');
+                $i = 0;
+                $values = [];
+                /** @var \DomElement $tdElement */
+                foreach ($tdElements as $tdElement) {
+                    if ($tdElement->getAttribute('class') == 'lalign') {
+                        $phoneName = preg_replace('/\s+/', ' ', trim($tdElement->nodeValue));
+                    } else {
+                        $value = preg_replace('/\s+/', ' ', trim($tdElement->nodeValue));
+                        $values[$i] = $value;
+                    }
+                    $i++;
+                }
+
+                foreach ($values as $key => $value) {
+                    if (preg_match('/(?<value>[\d:]+)h/i', $value, $matches)) {
+                        $time        = explode(':', $matches['value']);
+                        $hoursToMins = isset($time[0]) ? $time[0] * 60: 0;
+                        $minutes     = isset($time[1]) ? $time[1]: 0;
+                        $values[$key] = $hoursToMins + $minutes;
+                    }
+                }
+
+                $enduranceRating = !empty($values[1]) ? (int)$values[1] : null;
+                $talkTime        = !empty($values[2]) ? (int)$values[2] : null;
+                $webBrowsing     = !empty($values[3]) ? (int)$values[3] : null;
+                $videoPlayback   = !empty($values[4]) ? (int)$values[4] : null;
+
+                if (!empty($phoneName) && !empty($enduranceRating)) {
+                    $stat = new BatteryLife();
+                    $stat->setProviderId($this->provider);
+                    $stat->setOriginalPhoneName($phoneName);
+                    $stat->setEnduranceRatingMin($enduranceRating);
+                    $stat->setTalkTimeMin($talkTime);
+                    $stat->setWebBrowsingMin($webBrowsing);
+                    $stat->setVideoPlaybackMin($videoPlayback);
+
+                    $mappedId = $this->mappingHelper->isProviderIdMapped($phoneName);
+                    if ($mappedId != null) {
+                        $stat->setPhoneId($mappedId);
+                        $stats[] = $stat;
+                    }
+                }
+            }
         }
 
         return $stats;

@@ -18,34 +18,17 @@ class BatteryLifeRepository extends EntityRepository
             $stat->setPhone($phone);
 
             $criteria = [
-                'phoneId'            => $stat->getPhoneId(),
-                'provider_id'         => $stat->getProviderId(),
-                'original_phone_name' => $stat->getOriginalPhoneName(),
+                'phoneId'     => $stat->getPhoneId(),
+                'provider_id' => $stat->getProviderId(),
             ];
 
             $entityRez = $this->findBy($criteria);
-            if ($entityRez) {
-                /** @var Cost $element */
-                foreach ($entityRez as $element) {
-                    $this->removeStat($element);
-                }
-                $em->persist($stat);
-                $em->flush($stat);
-            } else {
+
+            if (empty($entityRez)) {
                 $em->persist($stat);
                 $em->flush($stat);
             }
         }
     }
 
-    /**
-     * @param $stat
-     */
-    public function removeStat($stat)
-    {
-        $em = $this->getEntityManager();
-
-        $em->remove($stat);
-        $em->flush();
-    }
 }
