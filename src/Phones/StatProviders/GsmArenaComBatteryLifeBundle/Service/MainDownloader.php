@@ -3,6 +3,7 @@
 namespace Phones\StatProviders\GsmArenaComBatteryLifeBundle\Service;
 
 use Doctrine\ORM\EntityManager;
+use Phones\FrontEndBundle\Service\QueryHelper;
 use Phones\PhoneBundle\Entity\BatteryLife;
 use Phones\PhoneBundle\Services\Downloader;
 use Phones\PhoneBundle\Services\MappingHelper;
@@ -27,6 +28,9 @@ class MainDownloader
 
     /** @var  TidyService */
     private $tidyService;
+
+    /** @var  QueryHelper */
+    private $queryHelper;
 
     /**
      * @param string $provider
@@ -77,6 +81,14 @@ class MainDownloader
     }
 
     /**
+     * @param QueryHelper $queryHelper
+     */
+    public function setQueryHelper($queryHelper)
+    {
+        $this->queryHelper = $queryHelper;
+    }
+
+    /**
      * @return array
      */
     public function download()
@@ -86,6 +98,7 @@ class MainDownloader
                 $phoneStats = $this->curlData($link);
                 $this->saveStats($phoneStats);
             }
+            $this->queryHelper->updatePoints($this->provider);
         }
     }
 

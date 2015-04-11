@@ -24,3 +24,4 @@ services:
             - [setEntityManager, [@doctrine.orm.entity_manager]]
             - [setMappingHelper, [@phones_stat_providers_gsm_arena_com_battery_life.mapping_helper]]
             - [setStatsLinks, [%phones_stat_providers_gsm_arena_com_battery_life.main_downloader.stat_links%]]
+            - [setQueryHelper, [@phones_front_end.query_helper]]

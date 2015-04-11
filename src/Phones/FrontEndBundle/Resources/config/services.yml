@@ -39,6 +39,9 @@ parameters:
         PHONES_TABLE: phone
         COSTS_TABLE: cost
 
+    phones_front_end.query_helper.stat_tables_by_providers:
+        gsmArenaComBatterylife: { byColumn: endurance_rating_min, tableName: stat_battery_lifes }
+
 services:
     phones_front_end.query_helper:
         class: %phones_front_end.query_helper.class%
@@ -51,3 +54,4 @@ services:
             - [setDbConnection, [@doctrine.dbal.default_connection]]
             - [setJoinableFormTables, [%phones_front_end.query_helper.joinable_form_tables%]]
             - [setDbTableNamings, [%phones_front_end.query_helper.db_table_namings%]]
+            - [setStatTablesByProviders, [%phones_front_end.query_helper.stat_tables_by_providers%]]

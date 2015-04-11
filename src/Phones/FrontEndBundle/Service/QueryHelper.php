@@ -35,6 +35,9 @@ class QueryHelper
     private $dbTableNamings = [];
 
     /** @var array  */
+    private $statTablesByProviders = [];
+
+    /** @var array  */
     private $leftJoins = [];
     /** @var array  */
     private $whereValues = [];
@@ -108,6 +111,14 @@ class QueryHelper
     }
 
     /**
+     * @param array $statTablesByProviders
+     */
+    public function setStatTablesByProviders($statTablesByProviders)
+    {
+        $this->statTablesByProviders = $statTablesByProviders;
+    }
+
+    /**
      * @param Request $request
      * @return array
      *
@@ -122,6 +133,28 @@ class QueryHelper
         $result = $statement->fetchAll();
 
         return $result;
+    }
+
+    /**
+     * @param string $provider
+     */
+    public function updatePoints($provider)
+    {
+        $tableName = isset($this->statTablesByProviders[$provider]['tableName']) ?
+            $this->statTablesByProviders[$provider]['tableName'] : null;
+        $columnName = isset($this->statTablesByProviders[$provider]['byColumn']) ?
+            $this->statTablesByProviders[$provider]['byColumn'] : null;
+
+        if ($columnName && $tableName) {
+            $query = 'UPDATE '.$tableName.
+                ' LEFT JOIN ('.
+                'SELECT '.$tableName.'.phoneId, '.
+                '(SELECT MAX('.$columnName.') FROM '.$tableName.') as max_value '.
+                'FROM '.$tableName.') virtual_table '.
+                'ON virtual_table.phoneId='.$tableName.'.phoneId '.
+                'SET '.$tableName.'.grade='.$tableName.'.'.$columnName.'*100/virtual_table.max_value';
+            $this->dbConnection->executeUpdate($query);
+        }
     }
 
     /**
