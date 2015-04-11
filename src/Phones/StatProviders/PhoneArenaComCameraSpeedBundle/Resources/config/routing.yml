@@ -1,0 +1,3 @@
+phones_stat_providers_phone_arena_com_camera_speed.get_pages:
+    pattern: /get_camera_speed_stat
+    defaults: { _controller: PhonesFrontEndBundle:Default:phoneArenaComCameraSpeed }

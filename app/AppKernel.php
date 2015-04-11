@@ -33,7 +33,8 @@ class AppKernel extends Kernel
             new Phones\StatProviders\DxOMarkComBundle\PhonesStatProvidersDxOMarkComBundle(),
             new Phones\StatProviders\GsmArenaComBatteryLifeBundle\PhonesStatProvidersGsmArenaComBatteryLifeBundle(),
             new Phones\StatProviders\GsmArenaComBasemarkXBundle\PhonesStatProvidersGsmArenaComBasemarkXBundle(),
-            new Phones\StatProviders\GsmArenaComBasemarkOSIIBundle\PhonesStatProvidersGsmArenaComBasemarkOSIIBundle()
+            new Phones\StatProviders\GsmArenaComBasemarkOSIIBundle\PhonesStatProvidersGsmArenaComBasemarkOSIIBundle(),
+            new Phones\StatProviders\PhoneArenaComCameraSpeedBundle\PhonesStatProvidersPhoneArenaComCameraSpeedBundle(),
         ];
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

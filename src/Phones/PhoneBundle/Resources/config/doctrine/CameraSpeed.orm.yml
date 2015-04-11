@@ -1,6 +1,7 @@
 Phones\PhoneBundle\Entity\CameraSpeed:
     type: entity
     table: stat_camera_speed
+    repositoryClass: Phones\PhoneBundle\Entity\CameraSpeedRepository
     id:
         phoneId:
             type: string

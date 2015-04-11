@@ -159,4 +159,15 @@ class DefaultController extends Controller
 
         return $this->render('PhonesFrontEndBundle:Default:test.html.twig', []);
     }
+
+    /**
+     * @return Response
+     */
+    public function phoneArenaComCameraSpeedAction()
+    {
+        $mainDownloader = $this->get('phones_stat_providers_phone_arena_com_camera_speed.main_downloader');
+        $mainDownloader->download();
+
+        return $this->render('PhonesFrontEndBundle:Default:test.html.twig', []);
+    }
 }
