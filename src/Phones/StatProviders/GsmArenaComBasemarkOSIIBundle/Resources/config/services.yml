@@ -1,0 +1,27 @@
+parameters:
+    phones_stat_providers_gsm_arena_com_basemark_os_ii.providerName: gsmArenaComBasemarkOSII
+
+    phones_stat_providers_gsm_arena_com_basemark_os_ii.mapping_helper.class: Phones\PhoneBundle\Services\MappingHelper
+
+    phones_stat_providers_gsm_arena_com_basemark_os_ii.main_downloader.class: Phones\StatProviders\GsmArenaComBasemarkOSIIBundle\Service\MainDownloader
+
+    phones_stat_providers_gsm_arena_com_basemark_os_ii.main_downloader.stat_links:
+        - http://www.gsmarena.com/benchmark-test.php3
+
+services:
+    phones_stat_providers_gsm_arena_com_basemark_os_ii.mapping_helper:
+        class: %phones_stat_providers_gsm_arena_com_basemark_os_ii.mapping_helper.class%
+        arguments:
+            - %phones_stat_providers_gsm_arena_com_basemark_os_ii.providerName%
+            - @doctrine.orm.entity_manager
+
+    phones_stat_providers_gsm_arena_com_basemark_os_ii.main_downloader:
+        class: %phones_stat_providers_gsm_arena_com_basemark_os_ii.main_downloader.class%
+        calls:
+            - [setProvider, [%phones_stat_providers_gsm_arena_com_basemark_os_ii.providerName%]]
+            - [setDownloader, [@phones_phone.downloader]]
+            - [setTidyService, [@phones_phone.tidy_service]]
+            - [setEntityManager, [@doctrine.orm.entity_manager]]
+            - [setMappingHelper, [@phones_stat_providers_gsm_arena_com_basemark_os_ii.mapping_helper]]
+            - [setStatsLinks, [%phones_stat_providers_gsm_arena_com_basemark_os_ii.main_downloader.stat_links%]]
+            - [setQueryHelper, [@phones_front_end.query_helper]]

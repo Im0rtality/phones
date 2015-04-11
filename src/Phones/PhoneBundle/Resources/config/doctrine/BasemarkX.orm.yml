@@ -1,0 +1,28 @@
+Phones\PhoneBundle\Entity\BasemarkX:
+    type: entity
+    table: stat_basemark_x
+    repositoryClass: Phones\PhoneBundle\Entity\BasemarkXRepository
+    id:
+        phoneId:
+            type: string
+            generator:
+                strategy: NONE
+    fields:
+        provider_id:
+            type: string
+        original_phone_name:
+            type: string
+            nullable: true
+        basemark_x_rating:
+            type: integer
+            nullable: true
+        grade:
+            type: float
+            nullable: true
+    oneToOne:
+        phone:
+            targetEntity: Phone
+            inversedBy: basemarkX
+            joinColumn:
+                name: phoneId
+                referencedColumnName: phoneId

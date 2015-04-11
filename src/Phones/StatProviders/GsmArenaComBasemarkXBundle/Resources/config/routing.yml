@@ -1,0 +1,3 @@
+phones_stat_providers_gsm_arena_com_basemark_x.get_pages:
+    pattern: /get_basemark_x_stats
+    defaults: { _controller: PhonesFrontEndBundle:Default:gsmArenaComBasemarkX }

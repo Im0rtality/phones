@@ -130,6 +130,16 @@ class Phone
     private $audioOutput;
 
     /**
+     * @var \Phones\PhoneBundle\Entity\BasemarkX
+     */
+    private $basemarkX;
+
+    /**
+     * @var \Phones\PhoneBundle\Entity\BasemarkOSII
+     */
+    private $basemarkOSII;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $costs;
@@ -698,6 +708,52 @@ class Phone
     public function getAudioOutput()
     {
         return $this->audioOutput;
+    }
+
+    /**
+     * Set basemarkX
+     *
+     * @param \Phones\PhoneBundle\Entity\BasemarkX $basemarkX
+     * @return Phone
+     */
+    public function setBasemarkX(\Phones\PhoneBundle\Entity\BasemarkX $basemarkX = null)
+    {
+        $this->basemarkX = $basemarkX;
+
+        return $this;
+    }
+
+    /**
+     * Get basemarkX
+     *
+     * @return \Phones\PhoneBundle\Entity\BasemarkX 
+     */
+    public function getBasemarkX()
+    {
+        return $this->basemarkX;
+    }
+
+    /**
+     * Set basemarkOSII
+     *
+     * @param \Phones\PhoneBundle\Entity\BasemarkOSII $basemarkOSII
+     * @return Phone
+     */
+    public function setBasemarkOSII(\Phones\PhoneBundle\Entity\BasemarkOSII $basemarkOSII = null)
+    {
+        $this->basemarkOSII = $basemarkOSII;
+
+        return $this;
+    }
+
+    /**
+     * Get basemarkOSII
+     *
+     * @return \Phones\PhoneBundle\Entity\BasemarkOSII 
+     */
+    public function getBasemarkOSII()
+    {
+        return $this->basemarkOSII;
     }
 
     /**

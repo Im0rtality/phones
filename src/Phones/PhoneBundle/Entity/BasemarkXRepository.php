@@ -4,12 +4,12 @@ namespace Phones\PhoneBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 
-class BatteryLifeRepository extends EntityRepository
+class BasemarkXRepository extends EntityRepository
 {
     /**
-     * @param BatteryLife $stat
+     * @param BasemarkX $stat
      */
-    public function save(BatteryLife $stat)
+    public function save(BasemarkX $stat)
     {
         $em = $this->getEntityManager();
 

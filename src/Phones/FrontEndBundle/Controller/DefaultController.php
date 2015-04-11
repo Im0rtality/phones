@@ -67,6 +67,7 @@ class DefaultController extends Controller
         return $this->render('PhonesFrontEndBundle:Default:results.html.twig', $params);
     }
 
+    /* DATA */
 
     /**
      * @return Response
@@ -77,6 +78,8 @@ class DefaultController extends Controller
 
         return $this->render('PhonesFrontEndBundle:Default:test.html.twig', []);
     }
+
+    /* COSTS */
 
     /**
     * @return Response
@@ -111,6 +114,8 @@ class DefaultController extends Controller
         return $this->render('PhonesFrontEndBundle:Default:test.html.twig', []);
     }
 
+    /* STATS */
+
     /**
      * @return Response
      */
@@ -133,4 +138,25 @@ class DefaultController extends Controller
         return $this->render('PhonesFrontEndBundle:Default:test.html.twig', []);
     }
 
+    /**
+     * @return Response
+     */
+    public function gsmArenaComBasemarkXAction()
+    {
+        $mainDownloader = $this->get('phones_stat_providers_gsm_arena_com_basemark_x.main_downloader');
+        $mainDownloader->download();
+
+        return $this->render('PhonesFrontEndBundle:Default:test.html.twig', []);
+    }
+
+    /**
+     * @return Response
+     */
+    public function gsmArenaComBasemarkOSIIAction()
+    {
+        $mainDownloader = $this->get('phones_stat_providers_gsm_arena_com_basemark_os_ii.main_downloader');
+        $mainDownloader->download();
+
+        return $this->render('PhonesFrontEndBundle:Default:test.html.twig', []);
+    }
 }

@@ -85,3 +85,9 @@ Phones\PhoneBundle\Entity\Phone:
         audioOutput:
             targetEntity: AudioOutput
             mappedBy: phone
+        basemarkX:
+            targetEntity: BasemarkX
+            mappedBy: phone
+        basemarkOSII:
+            targetEntity: BasemarkOSII
+            mappedBy: phone
