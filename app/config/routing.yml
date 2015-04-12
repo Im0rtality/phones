@@ -43,3 +43,7 @@ phones_stat_providers_gsm_arena_com_basemark_os_ii:
 phones_stat_providers_phone_arena_com_camera_speed:
     resource: "@PhonesStatProvidersPhoneArenaComCameraSpeedBundle/Resources/config/routing.yml"
     prefix:   /
+
+phones_stat_providers_phone_arena_com_charging:
+    resource: "@PhonesStatProvidersPhoneArenaComChargingBundle/Resources/config/routing.yml"
+    prefix:   /

@@ -145,17 +145,11 @@ class Phone
     private $costs;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $stats;
-
-    /**
      * Constructor
      */
     public function __construct()
     {
         $this->costs = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->stats = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -787,38 +781,5 @@ class Phone
     public function getCosts()
     {
         return $this->costs;
-    }
-
-    /**
-     * Add stats
-     *
-     * @param \Phones\PhoneBundle\Entity\Stat $stats
-     * @return Phone
-     */
-    public function addStat(\Phones\PhoneBundle\Entity\Stat $stats)
-    {
-        $this->stats[] = $stats;
-
-        return $this;
-    }
-
-    /**
-     * Remove stats
-     *
-     * @param \Phones\PhoneBundle\Entity\Stat $stats
-     */
-    public function removeStat(\Phones\PhoneBundle\Entity\Stat $stats)
-    {
-        $this->stats->removeElement($stats);
-    }
-
-    /**
-     * Get stats
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getStats()
-    {
-        return $this->stats;
     }
 }

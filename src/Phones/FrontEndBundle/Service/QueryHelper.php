@@ -144,7 +144,10 @@ class QueryHelper
             $this->statTablesByProviders[$provider]['tableName'] : null;
         $columnName = isset($this->statTablesByProviders[$provider]['byColumn']) ?
             $this->statTablesByProviders[$provider]['byColumn'] : null;
+        $normaliseBy = isset($this->statTablesByProviders[$provider]['normalisationBy']) ?
+            $this->statTablesByProviders[$provider]['normalisationBy'] : null;
 
+        $query = null;
         if ($columnName && $tableName) {
             $query = 'UPDATE '.$tableName.
                 ' LEFT JOIN ('.
@@ -153,6 +156,19 @@ class QueryHelper
                 'FROM '.$tableName.') virtual_table '.
                 'ON virtual_table.phoneId='.$tableName.'.phoneId '.
                 'SET '.$tableName.'.grade='.$tableName.'.'.$columnName.'*100/virtual_table.max_value';
+
+            if ($normaliseBy == 'MIN') {
+                $query = 'UPDATE '.$tableName.
+                    ' LEFT JOIN ('.
+                    'SELECT '.$tableName.'.phoneId, '.
+                    '(SELECT MAX('.$columnName.') FROM '.$tableName.') as max_value, '.
+                    '(SELECT MIN('.$columnName.') FROM '.$tableName.') as min_value '.
+                    'FROM '.$tableName.') virtual_table '.
+                    'ON virtual_table.phoneId='.$tableName.'.phoneId '.
+                    'SET '.$tableName.'.grade=(virtual_table.max_value-'.$tableName.'.'.$columnName.')/((virtual_table.max_value-virtual_table.min_value)/100)';
+            }
+        }
+        if ($query != null) {
             $this->dbConnection->executeUpdate($query);
         }
     }

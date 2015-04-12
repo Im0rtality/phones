@@ -170,4 +170,15 @@ class DefaultController extends Controller
 
         return $this->render('PhonesFrontEndBundle:Default:test.html.twig', []);
     }
+
+    /**
+     * @return Response
+     */
+    public function phoneArenaComChargingAction()
+    {
+        $mainDownloader = $this->get('phones_stat_providers_phone_arena_com_charging.main_downloader');
+        $mainDownloader->download();
+
+        return $this->render('PhonesFrontEndBundle:Default:test.html.twig', []);
+    }
 }

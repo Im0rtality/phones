@@ -1,6 +1,7 @@
 Phones\PhoneBundle\Entity\BatteryChargingTime:
     type: entity
     table: stat_battery_charging_times
+    repositoryClass: Phones\PhoneBundle\Entity\BatteryChargingTimeRepository
     id:
         phoneId:
             type: string

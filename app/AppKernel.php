@@ -35,6 +35,7 @@ class AppKernel extends Kernel
             new Phones\StatProviders\GsmArenaComBasemarkXBundle\PhonesStatProvidersGsmArenaComBasemarkXBundle(),
             new Phones\StatProviders\GsmArenaComBasemarkOSIIBundle\PhonesStatProvidersGsmArenaComBasemarkOSIIBundle(),
             new Phones\StatProviders\PhoneArenaComCameraSpeedBundle\PhonesStatProvidersPhoneArenaComCameraSpeedBundle(),
+            new Phones\StatProviders\PhoneArenaComChargingBundle\PhonesStatProvidersPhoneArenaComChargingBundle(),
         ];
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

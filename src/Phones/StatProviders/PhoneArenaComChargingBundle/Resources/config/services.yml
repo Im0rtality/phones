@@ -1,0 +1,27 @@
+parameters:
+    phones_stat_providers_phone_arena_com_charging.providerName: phoneArenaComCharging
+
+    phones_stat_providers_phone_arena_com_charging.mapping_helper.class: Phones\PhoneBundle\Services\MappingHelper
+
+    phones_stat_providers_phone_arena_com_charging.main_downloader.class: Phones\StatProviders\PhoneArenaComChargingBundle\Service\MainDownloader
+
+    phones_stat_providers_phone_arena_com_charging.main_downloader.stat_links:
+        - http://www.phonearena.com/phones/benchmarks
+
+services:
+    phones_stat_providers_phone_arena_com_charging.mapping_helper:
+        class: %phones_stat_providers_phone_arena_com_charging.mapping_helper.class%
+        arguments:
+            - %phones_stat_providers_phone_arena_com_charging.providerName%
+            - @doctrine.orm.entity_manager
+
+    phones_stat_providers_phone_arena_com_charging.main_downloader:
+        class: %phones_stat_providers_phone_arena_com_charging.main_downloader.class%
+        calls:
+            - [setProvider, [%phones_stat_providers_phone_arena_com_charging.providerName%]]
+            - [setDownloader, [@phones_phone.downloader]]
+            - [setTidyService, [@phones_phone.tidy_service]]
+            - [setEntityManager, [@doctrine.orm.entity_manager]]
+            - [setMappingHelper, [@phones_stat_providers_phone_arena_com_charging.mapping_helper]]
+            - [setStatsLinks, [%phones_stat_providers_phone_arena_com_charging.main_downloader.stat_links%]]
+            - [setQueryHelper, [@phones_front_end.query_helper]]

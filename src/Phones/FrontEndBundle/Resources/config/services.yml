@@ -40,10 +40,11 @@ parameters:
         COSTS_TABLE: cost
 
     phones_front_end.query_helper.stat_tables_by_providers:
-        gsmArenaComBatterylife:   { byColumn: endurance_rating_min, tableName: stat_battery_lifes }
-        gsmArenaComBasemarkOSII:  { byColumn: basemark_os_ii_rating, tableName: stat_basemark_os_ii }
-        gsmArenaComBasemarkX:     { byColumn: basemark_x_rating, tableName: stat_basemark_x }
-        phoneArenaComCameraSpeed: { byColumn: taking_a_pic_in_sec, tableName: stat_camera_speed }
+        gsmArenaComBatterylife:   { normalisationBy: MAX, byColumn: endurance_rating_min, tableName: stat_battery_lifes }
+        gsmArenaComBasemarkOSII:  { normalisationBy: MAX, byColumn: basemark_os_ii_rating, tableName: stat_basemark_os_ii }
+        gsmArenaComBasemarkX:     { normalisationBy: MAX, byColumn: basemark_x_rating, tableName: stat_basemark_x }
+        phoneArenaComCameraSpeed: { normalisationBy: MAX, byColumn: taking_a_pic_in_sec, tableName: stat_camera_speed }
+        phoneArenaComCharging:    { normalisationBy: MIN, byColumn: charging_min, tableName: stat_battery_charging_times }
 
 services:
     phones_front_end.query_helper:

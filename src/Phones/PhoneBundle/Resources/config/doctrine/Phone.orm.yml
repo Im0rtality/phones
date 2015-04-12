@@ -66,9 +66,6 @@ Phones\PhoneBundle\Entity\Phone:
         costs:
             targetEntity: Cost
             mappedBy: phone
-        stats:
-            targetEntity: Stat
-            mappedBy: phone
     oneToOne:
         cameraRate:
             targetEntity: CameraRate
