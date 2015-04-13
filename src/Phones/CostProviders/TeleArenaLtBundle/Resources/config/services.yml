@@ -8,14 +8,14 @@ parameters:
     phones_cost_providers_tele_arena_lt.main_downloader.class: Phones\CostProviders\TeleArenaLtBundle\Service\MainDownloader
 
     phones_cost_providers_tele_arena_lt.main_downloader.phone_brand_link_map:
-#        Nokia:      http://www.telearena.lt/telefonai/nokia
-#        Samsung:    http://www.telearena.lt/telefonai/samsung
-#        Sony:       http://www.telearena.lt/telefonai/sonyericsson
-#        LG:         http://www.telearena.lt/telefonai/lg
-#        Apple:      http://www.telearena.lt/telefonai/apple
-#        HTC:        http://www.telearena.lt/telefonai/htc
+        Nokia:      http://www.telearena.lt/telefonai/nokia
+        Samsung:    http://www.telearena.lt/telefonai/samsung
+        Sony:       http://www.telearena.lt/telefonai/sonyericsson
+        LG:         http://www.telearena.lt/telefonai/lg
+        Apple:      http://www.telearena.lt/telefonai/apple
+        HTC:        http://www.telearena.lt/telefonai/htc
         BlackBerry: http://www.telearena.lt/telefonai/blackberry
-#        Huawei:     http://www.telearena.lt/telefonai/huawei
+        Huawei:     http://www.telearena.lt/telefonai/huawei
 
 services:
     phones_cost_providers_tele_arena_lt.mapping_helper:

@@ -40,14 +40,14 @@ class Cost
     private $deep_link;
 
     /**
+     * @var \DateTime
+     */
+    private $date_time;
+
+    /**
      * @var \Phones\PhoneBundle\Entity\Phone
      */
     private $phone;
-
-    /**
-     * @var \Phones\PhoneBundle\Entity\Provider
-     */
-    private $provider;
 
 
     /**
@@ -176,6 +176,29 @@ class Cost
     }
 
     /**
+     * Set date_time
+     *
+     * @param \DateTime $dateTime
+     * @return Cost
+     */
+    public function setDateTime($dateTime)
+    {
+        $this->date_time = $dateTime;
+
+        return $this;
+    }
+
+    /**
+     * Get date_time
+     *
+     * @return \DateTime 
+     */
+    public function getDateTime()
+    {
+        return $this->date_time;
+    }
+
+    /**
      * Set phone
      *
      * @param \Phones\PhoneBundle\Entity\Phone $phone
@@ -196,28 +219,5 @@ class Cost
     public function getPhone()
     {
         return $this->phone;
-    }
-
-    /**
-     * Set provider
-     *
-     * @param \Phones\PhoneBundle\Entity\Provider $provider
-     * @return Cost
-     */
-    public function setProvider(\Phones\PhoneBundle\Entity\Provider $provider = null)
-    {
-        $this->provider = $provider;
-
-        return $this;
-    }
-
-    /**
-     * Get provider
-     *
-     * @return \Phones\PhoneBundle\Entity\Provider 
-     */
-    public function getProvider()
-    {
-        return $this->provider;
     }
 }

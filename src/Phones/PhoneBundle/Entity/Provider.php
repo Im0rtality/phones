@@ -29,18 +29,6 @@ class Provider
      */
     private $info;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $costs;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->costs = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Set id
@@ -132,38 +120,5 @@ class Provider
     public function getInfo()
     {
         return $this->info;
-    }
-
-    /**
-     * Add costs
-     *
-     * @param \Phones\PhoneBundle\Entity\Cost $costs
-     * @return Provider
-     */
-    public function addCost(\Phones\PhoneBundle\Entity\Cost $costs)
-    {
-        $this->costs[] = $costs;
-
-        return $this;
-    }
-
-    /**
-     * Remove costs
-     *
-     * @param \Phones\PhoneBundle\Entity\Cost $costs
-     */
-    public function removeCost(\Phones\PhoneBundle\Entity\Cost $costs)
-    {
-        $this->costs->removeElement($costs);
-    }
-
-    /**
-     * Get costs
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getCosts()
-    {
-        return $this->costs;
     }
 }

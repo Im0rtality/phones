@@ -73,6 +73,8 @@ class DefaultController extends Controller
      * @return Response
      */
     public function gsmArenaComAction(){
+        set_time_limit(0);
+
         $mainDownloader = $this->get('phones_data_providers_gsm_arena_com.main_downloader');
         $mainDownloader->download();
 

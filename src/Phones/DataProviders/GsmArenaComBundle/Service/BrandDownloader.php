@@ -129,24 +129,45 @@ class BrandDownloader
             if (isset($phone['link']) && isset($phone['name'])){
                 $phoneId = $this->brand . ' ' . $phone['name'];
                 if (!$this->mappingHelper->isIdImported($phoneId)) {
-                    $dom        = $this->getClearDom($phone['link']);
+                    $dom        = $this->getClearDom($phone['link'], $phone['name']);
                     $phoneSpecs = $this->getPhoneSpecs($dom, $this->brand, $phone['name']);
                     $phone = $this->phoneConverter->convert($phoneSpecs);
                     $phoneId = !empty($phone) ? $phone->getPhoneId() : null;
                     if (!empty($phoneId)) {
-//                        $phones[] = $phone;
                         $this->entityManager
                             ->getRepository('PhonesPhoneBundle:Phone')
                             ->save($phone);
                     }
+                    //sleep 0.2 of sec
+                    usleep(200000);
                 } else {
                 }
             }
-            //sleep 0.5 of sec
-            usleep(500000);
         }
 
         return $phones;
+    }
+
+    /**
+     * @param string $phoneName
+     * @param string $content
+     */
+    private function savePhonePage($phoneName, $content)
+    {
+        $phoneName = str_replace('/', '((m))', $phoneName);
+        $phoneName = str_replace(':', '((p))', $phoneName);
+        $phoneName = str_replace('*', '((s))', $phoneName);
+
+        $dir = '../app/data/phones/' . $this->brand;
+        $fileName = $dir . '/'. $phoneName . '.html';
+
+        if (!file_exists($dir)) {
+            mkdir($dir, 0777, true);
+        }
+
+        if (!file_exists($fileName)) {
+            file_put_contents($fileName, $content);
+        }
     }
 
     /**
@@ -359,15 +380,19 @@ class BrandDownloader
     }
 
     /**
-     * @param $link
+     * @param string $link
+     * @param string $phoneName
      *
      * @return \DOMDocument|null
      */
-    private function getClearDom($link)
+    private function getClearDom($link, $phoneName = null)
     {
         $doc = null;
 
         $content = $this->downloader->getContent($link);
+        if ($phoneName) {
+            $this->savePhonePage($phoneName, $content);
+        }
 
         if (!empty($content)) {
             //tide the html content

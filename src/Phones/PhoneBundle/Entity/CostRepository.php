@@ -19,17 +19,14 @@ class CostRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
 
-        $provider = $em->getRepository('PhonesPhoneBundle:Provider')->find($cost->getProviderId());
-        $phone    = $em->getRepository('PhonesPhoneBundle:Phone')->find($cost->getPhoneId());
+        $phone = $em->getRepository('PhonesPhoneBundle:Phone')->find($cost->getPhoneId());
 
-        if ($provider && $phone) {
-            $cost->setProvider($provider);
+        if ($phone) {
             $cost->setPhone($phone);
 
             $criteria = [
-                'phone_id'            => $cost->getPhoneId(),
-                'provider_id'         => $cost->getProviderId(),
-                'original_phone_name' => $cost->getOriginalPhoneName(),
+                'phone_id'    => $cost->getPhoneId(),
+                'provider_id' => $cost->getProviderId(),
             ];
 
             $entityRez = $this->findBy($criteria);

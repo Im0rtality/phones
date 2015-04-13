@@ -109,7 +109,8 @@ class MappingHelper
         } else {
             $allMatches = [];
             foreach (array_keys($this->dataMapping) as $dataFieldId) {
-                if (preg_match('/'.$dataFieldId.'/i', $id)) {
+                $healed = str_replace(['/', '*', ':', ')', '('], ['\/', '\*', '\:', '\)', '\('], $dataFieldId);
+                if (preg_match('/'.$healed.'/i', $id)) {
                     $allMatches[] = $dataFieldId;
                 }
             }
