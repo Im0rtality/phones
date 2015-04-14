@@ -1,199 +1,218 @@
 {% extends '::base.html.twig' %}
 
-{% block pageheader %} {{ parent() }} {{ 'home page' | trans }}
-{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-{% endblock %}
-
-{% block slider %}
+{% block menuitems %}
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li><a href="{{ path('phones_front_end.homepage') }}">Pagrindinis</a></li>
+            <li><a href="{{ path('phones_front_end.phones') }}">Telefonai</a></li>
+            <li class="active"><a href="{{ path('phones_front_end.best_phone') }}">Paieška</a></li>
+        </ul>
+    </div>
 {% endblock %}
 
 {% block content %}
-    <form role="form" action="{{ path('phones_front_end.results') }}" method="get" class="form-horizontal">
-        <div class="col-md-5">
-                <div class="form-group">
-                    <label for="brand[]" class="col-sm-2 control-label">brand</label>
-                    <div class="col-sm-10">
-                        <select name="brand[]" multiple class="form-control">
-                            <option value="any" selected>Any</option>
-                            {% for brand in distinctBrands %}
-                                <option value="{{ brand }}">{{ brand }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="cost" class="col-sm-2 control-label">cost</label>
-                    <div class="well">
-                        <input name="cost" id="slider1" type="text" class="span2" value="250,1250" data-slider-min="0" data-slider-max="3000" data-slider-step="10" data-slider-value="[250,1250]"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="weight" class="col-sm-2 control-label">weight</label>
-                    <div class="well">
-                        <input name="weight" id="slider2" type="text" class="span2" value="0,200" data-slider-min="50" data-slider-max="200" data-slider-step="5" data-slider-value="[0,200]"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="os[]" class="col-sm-2 control-label">os</label>
-                    <div class="col-sm-10">
-                        <select name="os[]" multiple class="form-control">
-                            <option value="any" selected>Any</option>
-                            {% for os in distinctOs %}
-                            <option value="{{ os }}">{{ os }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="cpu_freq" class="col-sm-2 control-label">cpu_freq</label>
-                    <div class="well">
-                        <input name="cpu_freq" id="slider3" type="text" class="span2" value="500,3000" data-slider-min="500" data-slider-max="3000" data-slider-step="100" data-slider-value="[500,3000]"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="cpu_cores" class="col-sm-2 control-label">cpu_cores</label>
-                    <div class="well">
-                        <input name="cpu_cores" id="slider4" type="text" class="span2" value="1,8" data-slider-min="1" data-slider-max="8" data-slider-step="1" data-slider-value="[1,8]"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="ram_mb" class="col-sm-2 control-label">ram</label>
-                    <div class="well">
-                        <input name="ram_mb" id="slider5" type="text" class="span2" value="0,3072" data-slider-min="0" data-slider-max="3072" data-slider-step="50" data-slider-value="[0,3072]"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="external_sd" class="col-sm-2 control-label">external_sd</label>
-                    <div class="col-sm-10">
-                        <input name="external_sd" type="checkbox" class="form-control"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="display_size" class="col-sm-2 control-label">display_size</label>
-                    <div class="well">
-                        <input name="display_size" id="slider6" type="text" class="span2" value="0,6" data-slider-min="0" data-slider-max="15" data-slider-step="1.1" data-slider-value="[0,6]"/>
-                    </div>
-                </div>
-        </div>
-        <div class="col-md-5">
-            <div class="form-group">
-                <label for="camera_mpx" class="col-sm-2 control-label">camera_mpx</label>
-                <div class="well">
-                    <input name="camera_mpx" id="slider7" type="text" class="span2" value="0,41" data-slider-min="0" data-slider-max="41" data-slider-step="1" data-slider-value="[0,41]"/>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="video_p" class="col-sm-2 control-label">video_p</label>
-                <div class="well">
-                    <input name="video_p" id="slider8" type="text" class="span2" value="0,2160" data-slider-min="0" data-slider-max="4320" data-slider-step="200" data-slider-value="[0,2160]"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="flash" class="col-sm-2 control-label">flash</label>
-                <div class="col-sm-10">
-                    <input name="flash" type="checkbox" class="form-control">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="technology[]" class="col-sm-2 control-label">technology</label>
-                <div class="col-sm-10">
-                    <select name="technology[]" multiple class="form-control">
-                        <option value="any" selected>Any</option>
-                        <option value="GSM">GSM</option>
-                        <option value="HSPA">HSPA</option>
-                        <option value="LTE">LTE</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="gps[]" class="col-sm-2 control-label">gps</label>
-                <div class="col-sm-10">
-                    <select name="gps[]" multiple class="form-control">
-                        <option value="any" selected>Any</option>
-                        <option value="yes">Yes</option>
-                        <option value="A-GPS">A-GPS</option>
-                        <option value="GLONASS">GLONASS</option>
-                        <option>?...</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="wlan[]" class="col-sm-2 control-label">wlan</label>
-                <div class="col-sm-10">
-                    <select name="wlan[]" multiple class="form-control">
-                        <option value="any" selected>Any Wi-Fi</option>
-                        <option value="802.11n">802.11n</option>
-                        <option value="802.11ac">802.11ac</option>
-                        <option value="Direct">Wi-Fi Direct</option>
-                        <option value="hotspot">Wi-Fi hotspot</option>
-                        <option value="DLNA">DLNA</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="bluetooth_version[]" class="col-sm-2 control-label">bluetooth_version</label>
-                <div class="col-sm-10">
-                    <select name="bluetooth_version[]" multiple class="form-control">
-                        <option value="any" selected>any</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="battery_stand_by_h" class="col-sm-2 control-label">battery_stand_by</label>
-                <div class="well">
-                    <input name="battery_stand_by" id="slider9" type="text" class="span2" value="24,828" data-slider-min="0" data-slider-max="828" data-slider-step="24" data-slider-value="[24,828]"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="battery_talk_time" class="col-sm-2 control-label">battery_talk_time</label>
-                <div class="well">
-                    <input name="battery_talk_time" id="slider10" type="text" class="span2" value="4,20" data-slider-min="0" data-slider-max="30" data-slider-step="1" data-slider-value="[4,20]"/>
-                </div>
-            </div>
-
+    <div class="product-big-title-area">
+        <div class="container">
             <div class="row">
-                <div class="span12" style="text-align:center">
-                    <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-search"> Search</span></button>
+                <div class="col-md-12">
+                    <div class="product-bit-title text-center">
+                        <h2>Geriausio telefono paieska</h2>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
-            <div class="form-group">
-                <label for="audio_output" class="col-sm-2 control-label">audio_output</label>
-                <div class="col-sm-10">
-                    <input name="audio_output" type="checkbox" class="form-control"/>
-                </div>
+    </div>
 
-                <label for="battery_charging_times" class="col-sm-2 control-label">battery_charging_times</label>
-                <div class="col-sm-10">
-                    <input name="battery_charging_times" type="checkbox" class="form-control"/>
-                </div>
+    <div class="single-product-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
 
-                <label for="battery_lifes" class="col-sm-2 control-label">battery_lifes</label>
-                <div class="col-sm-10">
-                    <input name="battery_lifes" type="checkbox" class="form-control"/>
+            <form role="form" action="{{ path('phones_front_end.results') }}" method="get" class="form-horizontal">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="brand[]" class="col-sm-2 control-label">brand</label>
+                        <div class="col-sm-10">
+                            <select name="brand[]" multiple class="form-control">
+                                <option value="any" selected>Any</option>
+                                {% for brand in distinctBrands %}
+                                    <option value="{{ brand }}">{{ brand }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cost" class="col-sm-2 control-label">cost</label>
+                        <div class="well">
+                            <input name="cost" id="slider1" type="text" class="span2" value="250,1250" data-slider-min="0" data-slider-max="3000" data-slider-step="10" data-slider-value="[250,1250]"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="weight" class="col-sm-2 control-label">weight</label>
+                        <div class="well">
+                            <input name="weight" id="slider2" type="text" class="span2" value="0,200" data-slider-min="50" data-slider-max="200" data-slider-step="5" data-slider-value="[0,200]"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="os[]" class="col-sm-2 control-label">os</label>
+                        <div class="col-sm-10">
+                            <select name="os[]" multiple class="form-control">
+                                <option value="any" selected>Any</option>
+                                {% for os in distinctOs %}
+                                    <option value="{{ os }}">{{ os }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cpu_freq" class="col-sm-2 control-label">cpu_freq</label>
+                        <div class="well">
+                            <input name="cpu_freq" id="slider3" type="text" class="span2" value="500,3000" data-slider-min="500" data-slider-max="3000" data-slider-step="100" data-slider-value="[500,3000]"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cpu_cores" class="col-sm-2 control-label">cpu_cores</label>
+                        <div class="well">
+                            <input name="cpu_cores" id="slider4" type="text" class="span2" value="1,8" data-slider-min="1" data-slider-max="8" data-slider-step="1" data-slider-value="[1,8]"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ram_mb" class="col-sm-2 control-label">ram</label>
+                        <div class="well">
+                            <input name="ram_mb" id="slider5" type="text" class="span2" value="0,3072" data-slider-min="0" data-slider-max="3072" data-slider-step="50" data-slider-value="[0,3072]"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="external_sd" class="col-sm-2 control-label">external_sd</label>
+                        <div class="col-sm-10">
+                            <input name="external_sd" type="checkbox" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="display_size" class="col-sm-2 control-label">display_size</label>
+                        <div class="well">
+                            <input name="display_size" id="slider6" type="text" class="span2" value="0,6" data-slider-min="0" data-slider-max="15" data-slider-step="1.1" data-slider-value="[0,6]"/>
+                        </div>
+                    </div>
                 </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="camera_mpx" class="col-sm-2 control-label">camera_mpx</label>
+                        <div class="well">
+                            <input name="camera_mpx" id="slider7" type="text" class="span2" value="0,41" data-slider-min="0" data-slider-max="41" data-slider-step="1" data-slider-value="[0,41]"/>
+                        </div>
+                    </div>
 
-                <label for="camera_rates" class="col-sm-2 control-label">camera_rates</label>
-                <div class="col-sm-10">
-                    <input name="camera_rates" type="checkbox" class="form-control"/>
-                </div>
+                    <div class="form-group">
+                        <label for="video_p" class="col-sm-2 control-label">video_p</label>
+                        <div class="well">
+                            <input name="video_p" id="slider8" type="text" class="span2" value="0,2160" data-slider-min="0" data-slider-max="4320" data-slider-step="200" data-slider-value="[0,2160]"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="flash" class="col-sm-2 control-label">flash</label>
+                        <div class="col-sm-10">
+                            <input name="flash" type="checkbox" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="technology[]" class="col-sm-2 control-label">technology</label>
+                        <div class="col-sm-10">
+                            <select name="technology[]" multiple class="form-control">
+                                <option value="any" selected>Any</option>
+                                <option value="GSM">GSM</option>
+                                <option value="HSPA">HSPA</option>
+                                <option value="LTE">LTE</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="gps[]" class="col-sm-2 control-label">gps</label>
+                        <div class="col-sm-10">
+                            <select name="gps[]" multiple class="form-control">
+                                <option value="any" selected>Any</option>
+                                <option value="yes">Yes</option>
+                                <option value="A-GPS">A-GPS</option>
+                                <option value="GLONASS">GLONASS</option>
+                                <option>?...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="wlan[]" class="col-sm-2 control-label">wlan</label>
+                        <div class="col-sm-10">
+                            <select name="wlan[]" multiple class="form-control">
+                                <option value="any" selected>Any Wi-Fi</option>
+                                <option value="802.11n">802.11n</option>
+                                <option value="802.11ac">802.11ac</option>
+                                <option value="Direct">Wi-Fi Direct</option>
+                                <option value="hotspot">Wi-Fi hotspot</option>
+                                <option value="DLNA">DLNA</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bluetooth_version[]" class="col-sm-2 control-label">bluetooth_version</label>
+                        <div class="col-sm-10">
+                            <select name="bluetooth_version[]" multiple class="form-control">
+                                <option value="any" selected>any</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="battery_stand_by_h" class="col-sm-2 control-label">battery_stand_by</label>
+                        <div class="well">
+                            <input name="battery_stand_by" id="slider9" type="text" class="span2" value="24,828" data-slider-min="0" data-slider-max="828" data-slider-step="24" data-slider-value="[24,828]"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="battery_talk_time" class="col-sm-2 control-label">battery_talk_time</label>
+                        <div class="well">
+                            <input name="battery_talk_time" id="slider10" type="text" class="span2" value="4,20" data-slider-min="0" data-slider-max="30" data-slider-step="1" data-slider-value="[4,20]"/>
+                        </div>
+                    </div>
 
-                <label for="camera_speeds" class="col-sm-2 control-label">camera_speeds</label>
-                <div class="col-sm-10">
-                    <input name="camera_speeds" type="checkbox" class="form-control"/>
+                    <div class="row">
+                        <div class="span12" style="text-align:center">
+                            <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-search"> Ieškoti</span></button>
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="audio_output" class="col-sm-2 control-label">audio_output</label>
+                        <div class="col-sm-10">
+                            <input name="audio_output" type="checkbox" class="form-control"/>
+                        </div>
+
+                        <label for="battery_charging_times" class="col-sm-2 control-label">battery_charging_times</label>
+                        <div class="col-sm-10">
+                            <input name="battery_charging_times" type="checkbox" class="form-control"/>
+                        </div>
+
+                        <label for="battery_lifes" class="col-sm-2 control-label">battery_lifes</label>
+                        <div class="col-sm-10">
+                            <input name="battery_lifes" type="checkbox" class="form-control"/>
+                        </div>
+
+                        <label for="camera_rates" class="col-sm-2 control-label">camera_rates</label>
+                        <div class="col-sm-10">
+                            <input name="camera_rates" type="checkbox" class="form-control"/>
+                        </div>
+
+                        <label for="camera_speeds" class="col-sm-2 control-label">camera_speeds</label>
+                        <div class="col-sm-10">
+                            <input name="camera_speeds" type="checkbox" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
         </div>
-    </form>
+    </div>
 {% endblock %}
 
 {% block javascripts %}

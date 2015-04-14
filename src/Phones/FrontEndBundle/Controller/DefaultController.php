@@ -25,10 +25,18 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        return $this->render('PhonesFrontEndBundle:Default:index.html.twig', []);
+    }
+
+    /**
+     * @return Response
+     */
+    public function phonesAction()
+    {
         $params =[];
         $params['products'] = $this->getQueryHelper()->getPhones();
 
-        return $this->render('PhonesFrontEndBundle:Default:index.html.twig', $params);
+        return $this->render('PhonesFrontEndBundle:Default:phones.html.twig', $params);
     }
 
     /**

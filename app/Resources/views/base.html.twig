@@ -1,177 +1,219 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8" />
+        <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="mazvis">
+        <title>{% block title %}eElectronics - HTML eCommerce Template{% endblock %}</title>
 
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {#<link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />#}
         {% block stylesheets %}
-            {#{% stylesheets '@bootstrap_less' combine=true %}#}
-            {#<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />#}
-            {#{% endstylesheets %}#}
+        <!-- Google Fonts -->
+        <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,700,600' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Raleway:400,100' rel='stylesheet' type='text/css'>
 
-            <!-- Bootstrap core CSS -->
-            <link href="{{ asset('assetic/bootstrap-3.0.0/dist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
-            <!-- Custom CSS -->
-            <link href="{{ asset('css/shop-homepage.css') }}" rel="stylesheet" type="text/css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
-            <!-- Slider CSS -->
-            <link href="{{ asset('slider/css/slider.css') }}" rel="stylesheet" type="text/css">
-
-            <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="{{ asset('css/owl.carousel.css') }}">
+        <link rel="stylesheet" href="{{ asset('style.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
         {% endblock %}
 
         {% block headscripts %}
-            <script src="{{ asset('assetic/bootstrap-3.0.0/assets/js/jquery.js') }}"></script>
-            <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-
-            <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-            <!--[if lt IE 9]>
-            <script src="{{ asset('assetic/bootstrap-3.0.0/assets/js/html5shiv.js') }}"></script>
-            <script src="{{ asset('assetic/bootstrap-3.0.0/assets/js/respond.min.js') }}"></script>
-            <![endif]-->
-
-            <script src="{{ asset('assetic/bootstrap-3.0.0/dist/js/bootstrap.js') }}"></script>
+            <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
         {% endblock %}
     </head>
     <body>
-        <!-- Navigation -->
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="site-branding-area">
             <div class="container">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="{{ path('phones_front_end.homepage') }}">Home</a>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="logo">
+                            <h1><a href="{{ path('phones_front_end.homepage') }}">e<span>Mobilieji</span></a></h1>
+                        </div>
+                    </div>
                 </div>
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <a href="{{ path('phones_front_end.best_phone') }}">Search</a>
-                        </li>
-                        <li>
-                            <a href="#">About</a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- /.navbar-collapse -->
             </div>
-            <!-- /.container -->
-        </nav>
+        </div> <!-- End site branding area -->
 
-        <!-- Page Content -->
-        <div class="container">
-
-            <div class="row">
-
-                <div class="col-md-3">
-                    <p class="lead">Paieška</p>
-                    <div class="list-group">
-                        <form class="" method="get" action="search">
-                            <input type="text" class="form-control col-lg-12" name="s" placeholder="Ieškoti">
-                        </form>
+        <div class="mainmenu-area">
+            <div class="container">
+                <div class="row">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
                     </div>
-
-                    <p class="lead">categories</p>
-                    <div class="list-group">
-                        <a class="list-group-item" href="#">about</a>
-                        <a class="list-group-item" href="#">about</a>
+                    {% block menuitems %}
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="{{ path('phones_front_end.homepage') }}">Pagrindinis</a></li>
+                            <li><a href="{{ path('phones_front_end.phones') }}">Telefonai</a></li>
+                            <li><a href="{{ path('phones_front_end.best_phone') }}">Paieška</a></li>
+                        </ul>
                     </div>
+                    {% endblock %}
+                </div>
+            </div>
+        </div> <!-- End mainmenu area -->
 
-                    <p class="lead">countries</p>
-                    <div class="list-group">
-                        <a class="list-group-item" href="#">about</a>
-                        <a class="list-group-item" href="#">about</a>
-                    </div>
+        {% block content %}
+        <div class="slider-area">
+            <div class="zigzag-bottom"></div>
+            <div id="slide-list" class="carousel carousel-fade slide" data-ride="carousel">
 
-                    <p class="lead">providers</p>
-                    <div class="list-group">
-                        <a class="list-group-item" href="#">about</a>
-                        <a class="list-group-item" href="#">about</a>
-                        <a class="list-group-item" href="#">about</a>
+                <div class="slide-bulletz">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ol class="carousel-indicators slide-indicators">
+                                    <li data-target="#slide-list" data-slide-to="0" class="active"></li>
+                                    <li data-target="#slide-list" data-slide-to="1"></li>
+                                    <li data-target="#slide-list" data-slide-to="2"></li>
+                                </ol>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="col-md-9">
-
-                    {% block slider %}
-                        <div class="row carousel-holder">
-                            <div class="col-md-12">
-                                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                                    <ol class="carousel-indicators">
-                                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-                                    </ol>
-                                    <div class="carousel-inner">
-                                        <div class="item active">
-                                            <img class="slide-image" src="{{ asset('img/slider/laptop.jpg') }}" />
-                                        </div>
-                                        <div class="item">
-                                            <img class="slide-image" src="{{ asset('img/slider/phone.jpg') }}" />
-                                        </div>
-                                        <div class="item">
-                                            <img class="slide-image" src="{{ asset('img/slider/laptop.jpg') }}" />
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
+                        <div class="single-slide">
+                            <div class="slide-bg slide-one"></div>
+                            <div class="slide-text-wrapper">
+                                <div class="slide-text">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-6 col-md-offset-6">
+                                                <div class="slide-content">
+                                                    <h2>Peržiūrėk esamus telefonus</h2>
+                                                    <p>Puslapyje yra daug ...</p>
+                                                    <a href="" class="readmore">Sužinok daugiau</a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                                        <span class="glyphicon glyphicon-chevron-left"></span>
-                                    </a>
-                                    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                                        <span class="glyphicon glyphicon-chevron-right"></span>
-                                    </a>
                                 </div>
                             </div>
                         </div>
-                    {% endblock %}
-
-                    {% block content %}{% endblock %}
-
+                    </div>
+                    <div class="item">
+                        <div class="single-slide">
+                            <div class="slide-bg slide-two"></div>
+                            <div class="slide-text-wrapper">
+                                <div class="slide-text">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-6 col-md-offset-6">
+                                                <div class="slide-content">
+                                                    <h2>Surask geriausią telefoną</h2>
+                                                    <p>Įmantrios paieškos pagalba surasi...</p>
+                                                    <a href="" class="readmore">Sužinok daugiau</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="single-slide">
+                            <div class="slide-bg slide-three"></div>
+                            <div class="slide-text-wrapper">
+                                <div class="slide-text">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-6 col-md-offset-6">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
+        </div> <!-- End slider area -->
 
-        </div>
-        <!-- /.container -->
-
-        {% block body %}{% endblock %}
-        {% block javascripts %}
-            {#{% javascripts '@jquery_js' '@bootstrap_js' filter='?yui_js' combine=true %}#}
-            {#<script src="{{ asset_url }}"></script>#}
-            {#{% endjavascripts %}#}
-        {% endblock %}
-
-        {% block footer %}
+        <div class="brands-area">
+            <div class="zigzag-bottom"></div>
             <div class="container">
-                <hr>
-                <!-- Footer -->
-                <footer>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <p>Copyright &copy; Mažvis, 2015</p>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="brand-wrapper">
+                            <h2 class="section-title">Tiekejai</h2>
+                            <div class="brand-list">
+                                <img src="{{ asset('img/services_logo__1.jpg') }}" alt="">
+                                <img src="{{ asset('img/services_logo__2.jpg') }}" alt="">
+                                <img src="{{ asset('img/services_logo__3.jpg') }}" alt="">
+                                <img src="{{ asset('img/services_logo__4.jpg') }}" alt="">
+                                <img src="{{ asset('img/services_logo__1.jpg') }}" alt="">
+                                <img src="{{ asset('img/services_logo__2.jpg') }}" alt="">
+                                <img src="{{ asset('img/services_logo__3.jpg') }}" alt="">
+                                <img src="{{ asset('img/services_logo__4.jpg') }}" alt="">
+                            </div>
                         </div>
                     </div>
-                </footer>
+                </div>
+            </div>
+        </div> <!-- End brands area -->
+
+            <div class="product-widget-area">
+                <div class="zigzag-bottom"></div>
             </div>
         {% endblock %}
 
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="{{ asset('assetic/bootstrap-3.0.0/dist/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('assetic/bootstrap-3.0.0/dist/js/bootstrap.js') }}"></script>
-        <script src="{{ asset('assetic/bootstrap-3.0.0/assets/js/holder.js') }}"></script>
-        <script src="{{ asset('assetic/bootstrap-3.0.0/assets/js/application.js') }}"></script>
+        {% block footer %}
+            <div class="footer-top-area">
+                <div class="zigzag-bottom"></div>
+            </div> <!-- End footer top area -->
 
-        <script src="{{ asset('slider/js/bootstrap-slider.js') }}"></script>
+            <div class="footer-bottom-area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="copyright">
+                                <p><a href="">&copy; 2015</a> Mažvydas Čepulkovskis, IFF-1</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- End footer bottom area -->
+        {% endblock %}
 
+        {% block javascripts %}
+        <!-- Latest jQuery form server -->
+        <script src="https://code.jquery.com/jquery.min.js"></script>
+
+        <!-- Bootstrap JS form CDN -->
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+        <!-- jQuery sticky menu -->
+        <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+        <script src="{{ asset('js/jquery.sticky.js') }}"></script>
+
+        <!-- jQuery easing -->
+        <script src="{{ asset('js/jquery.easing.1.3.min.js') }}"></script>
+
+        <!-- Main Script -->
+        <script src="{{ asset('js/main.js') }}"></script>
+        {% endblock %}
     </body>
 </html>

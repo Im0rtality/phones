@@ -1,6 +1,10 @@
 phones_front_end.homepage:
-    pattern:  /{start}
-    defaults: { _controller: PhonesFrontEndBundle:Default:index, start: 0 }
+    pattern:  /
+    defaults: { _controller: PhonesFrontEndBundle:Default:index}
+
+phones_front_end.phones:
+    pattern:  /phones/{start}
+    defaults: { _controller: PhonesFrontEndBundle:Default:phones, start: 0 }
     requirements:
           start:  \d+
 

@@ -128,7 +128,7 @@ class QueryHelper
 
         $this->setFormValues($request);
         $query = $this->getBestPhonesQuery();
-        var_export($query);
+//        var_export($query);
         $statement = $this->dbConnection->executeQuery($query);
         $result = $statement->fetchAll();
 
@@ -358,7 +358,26 @@ class QueryHelper
     {
         $products = $this->entityManager->getRepository('PhonesPhoneBundle:Phone')->findAll();
 
-        return $products;
+        //temporary limit
+        $rez = [];
+        $i = 0;
+        foreach ($products as $product) {
+            $costsRez = [];
+            $costs = $product->getCosts();
+            foreach ($costs as $cost) {
+                $costsRez[] = $cost;
+            }
+            if (!empty($costsRez)) {
+                $rez[] = $product;
+                $i++;
+            }
+
+            if ($i == 60) {
+                break;
+            }
+        }
+
+        return $rez;
     }
 
     /**
