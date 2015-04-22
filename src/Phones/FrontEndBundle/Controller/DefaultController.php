@@ -29,14 +29,100 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/phones/{currentPage}")
+     * @param int $currentPage
+     *
      * @return Response
      */
-    public function phonesAction()
+    public function phonesAction($currentPage)
     {
-        $params =[];
-        $params['products'] = $this->getQueryHelper()->getPhones();
+        $params = [];
+        $pageSize = 72;
+        $data = $this->getQueryHelper()->getPhones($currentPage, $pageSize);
+        list($phones, $pageCount) = $data;
+
+        $params['products']       = $phones;
+        $params['dynamicPages']   = range(1, $pageCount);
+        $params['totalPageCount'] = $pageCount;
+        $params['currentPage']    = $currentPage;
+
+        $params['dynamicPages'] = $this->getDynamicPages($currentPage, $pageCount);
 
         return $this->render('PhonesFrontEndBundle:Default:phones.html.twig', $params);
+    }
+
+    /**
+     * @param $currentPage
+     * @param $pageCount
+     *
+     * @return array
+     */
+    private function getDynamicPages($currentPage, $pageCount)
+    {
+        $previousPageCount = $currentPage > 1 ? $currentPage - 1 : 0;
+        $nextPageCount = $pageCount - $currentPage;
+
+        $totalPreviousPageCount = ($previousPageCount >= 5) ? 5 : $previousPageCount;
+        $totalNextPageCount = ($nextPageCount >= 5) ? 5 + (5 - $totalPreviousPageCount) : $nextPageCount;
+//        $totalPreviousPageCount += 5 - $totalNextPageCount;
+
+        $pages = [];
+        if ($previousPageCount != 0) {
+            $pages = range($currentPage - $totalPreviousPageCount, $previousPageCount);
+        }
+        $pages = array_merge($pages, range($currentPage, $currentPage + $totalNextPageCount));
+
+        if (($currentPage - (5+1)) > 0) {
+            if ($currentPage - (5+1) > 1) {
+                array_unshift($pages, '...');
+            }
+            array_unshift($pages, 1);
+        }
+
+        if (($pageCount - $currentPage) > 5) {
+            if ($currentPage != ($pageCount - 1)) {
+                $pages[] = '...';
+            }
+            $pages[] = $pageCount;
+        }
+
+        return $pages;
+    }
+
+    /**
+     * @Route("/phones/phone/{phoneId}")
+     */
+    public function singlePhoneAction($phoneId)
+    {
+        $phone = $this->getQueryHelper()->getPhone($phoneId);
+
+        if (!empty($phone)) {
+            $params = [];
+            $params['phone']               = $phone;
+            $params['relatedPhones']       = $this->getQueryHelper()->getRelatedPhonesByBrand($phone);
+            $params['specificationsMain']  = $this->getQueryHelper()->getPhoneMainSpecs($phone);
+            $params['specificationsOther'] = $this->getQueryHelper()->getPhoneOtherSpecs($phone);
+            $params['costs']               = $this->getQueryHelper()->getPhoneCosts($phone);
+            $params['generalRating']       = $this->getQueryHelper()->getPhoneGeneralRating($phone, 2);
+            $params['ratings']             = $this->getQueryHelper()->getPhoneRatings($phone, 0);
+
+            return $this->render('PhonesFrontEndBundle:Default:single.phone.html.twig', $params);
+        } else {
+            return $this->render('PhonesFrontEndBundle:Default:404.html.twig', []);
+        }
+    }
+
+    /**
+     * @return Response
+     */
+    public function getPhonesJsonAction()
+    {
+        $phones = $this->getQueryHelper()->getPhonesJson();
+
+        $response = new Response(json_encode($phones));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
 
     /**
@@ -44,8 +130,7 @@ class DefaultController extends Controller
      */
     public function bestPhoneSearchAction()
     {
-        $params =[];
-        $params['products'] = $this->getQueryHelper()->getPhones();
+        $params = [];
         $params['distinctOs'] = $this->getQueryHelper()->getExistingOs();
         $params['distinctBrands'] = $this->getQueryHelper()->getExistingBrands();
 

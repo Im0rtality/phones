@@ -1,0 +1,36 @@
+{% extends '::base.html.twig' %}
+
+{% block menuitems %}
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li><a href="{{ path('phones_front_end.homepage') }}">Pagrindinis</a></li>
+            <li><a href="{{ path('phones_front_end.phones') }}">Telefonai</a></li>
+            <li><a href="{{ path('phones_front_end.best_phone') }}">Paieška</a></li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-nav-right">
+            <li style="padding-left:0">
+                <form action="">
+                    <input type="text" placeholder="ieškoti telefonų...">
+                    <input type="submit" value="Search" class="icon-search">
+                </form>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="product-big-title-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="product-bit-title text-center">
+                        <h2>Puslapis nerastas</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

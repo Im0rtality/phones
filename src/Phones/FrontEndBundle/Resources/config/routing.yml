@@ -3,15 +3,23 @@ phones_front_end.homepage:
     defaults: { _controller: PhonesFrontEndBundle:Default:index}
 
 phones_front_end.phones:
-    pattern:  /phones/{start}
-    defaults: { _controller: PhonesFrontEndBundle:Default:phones, start: 0 }
+    pattern:  /phones/{currentPage}
+    defaults: { _controller: PhonesFrontEndBundle:Default:phones, currentPage: 1 }
     requirements:
-          start:  \d+
+        start:  \d+
 
 phones_front_end.best_phone:
     pattern: /search
     defaults: { _controller: PhonesFrontEndBundle:Default:bestPhoneSearch }
 
+phones_front_end.single_phone:
+    pattern:  /phones/phone/{phoneId}
+    defaults: { _controller: PhonesFrontEndBundle:Default:singlePhone, phoneId: 0 }
+
 phones_front_end.results:
     pattern:  /results
     defaults: { _controller: PhonesFrontEndBundle:Default:searchResults }
+
+phones_front_end.phones_json:
+    pattern:  /phones_json
+    defaults: { _controller: PhonesFrontEndBundle:Default:getPhonesJson }

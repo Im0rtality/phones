@@ -1,0 +1,264 @@
+{% extends '::base.html.twig' %}
+
+{% block menuitems %}
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li><a href="{{ path('phones_front_end.homepage') }}">Pagrindinis</a></li>
+            <li class="active"><a href="{{ path('phones_front_end.phones') }}">Telefonai</a></li>
+            <li><a href="{{ path('phones_front_end.best_phone') }}">Paieška</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-nav-right">
+            <li style="padding-left:0">
+                <form action="">
+                    <input type="text" placeholder="ieškoti telefonų...">
+                    <input type="submit" value="Search" class="icon-search">
+                </form>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="product-big-title-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="product-bit-title text-center">
+                        <h2>Telefono perziura</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="single-product-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="row">
+                {#<div class="col-md-4">#}
+                    {#<div class="single-sidebar">#}
+                        {#<h2 class="sidebar-title">Search Products</h2>#}
+                        {#<form action="">#}
+                            {#<input type="text" placeholder="Search products...">#}
+                            {#<input type="submit" value="Search">#}
+                        {#</form>#}
+                    {#</div>#}
+
+                    {#<div class="single-sidebar">#}
+                        {#<h2 class="sidebar-title">Products</h2>#}
+                        {#<div class="thubmnail-recent">#}
+                            {#<img src="{{ asset('img/product-thumb-1.jpg') }}" class="recent-thumb" alt="">#}
+                            {#<h2><a href="">Sony Smart TV - 2015</a></h2>#}
+                            {#<div class="product-sidebar-price">#}
+                                {#<ins>$700.00</ins> <del>$800.00</del>#}
+                            {#</div>#}
+                        {#</div>#}
+                        {#<div class="thubmnail-recent">#}
+                            {#<img src="{{ asset('img/product-thumb-1.jpg') }}" class="recent-thumb" alt="">#}
+                            {#<h2><a href="">Sony Smart TV - 2015</a></h2>#}
+                            {#<div class="product-sidebar-price">#}
+                                {#<ins>$700.00</ins> <del>$800.00</del>#}
+                            {#</div>#}
+                        {#</div>#}
+                        {#<div class="thubmnail-recent">#}
+                            {#<img src="{{ asset('img/product-thumb-1.jpg') }}" class="recent-thumb" alt="">#}
+                            {#<h2><a href="">Sony Smart TV - 2015</a></h2>#}
+                            {#<div class="product-sidebar-price">#}
+                                {#<ins>$700.00</ins> <del>$800.00</del>#}
+                            {#</div>#}
+                        {#</div>#}
+                        {#<div class="thubmnail-recent">#}
+                            {#<img src="{{ asset('img/product-thumb-1.jpg') }}" class="recent-thumb" alt="">#}
+                            {#<h2><a href="">Sony Smart TV - 2015</a></h2>#}
+                            {#<div class="product-sidebar-price">#}
+                                {#<ins>$700.00</ins> <del>$800.00</del>#}
+                            {#</div>#}
+                        {#</div>#}
+                    {#</div>#}
+
+                    {#<div class="single-sidebar">#}
+                        {#<h2 class="sidebar-title">Recent Posts</h2>#}
+                        {#<ul>#}
+                            {#<li><a href="">Sony Smart TV - 2015</a></li>#}
+                            {#<li><a href="">Sony Smart TV - 2015</a></li>#}
+                            {#<li><a href="">Sony Smart TV - 2015</a></li>#}
+                            {#<li><a href="">Sony Smart TV - 2015</a></li>#}
+                            {#<li><a href="">Sony Smart TV - 2015</a></li>#}
+                        {#</ul>#}
+                    {#</div>#}
+                {#</div>#}
+
+                <div class="col-md-12">
+                    <div class="product-content-right">
+                        <div class="product-breadcroumb">
+                            <a href="{{ path('phones_front_end.homepage') }}">Pagrindinis</a>
+                            <a href="{{ path('phones_front_end.phones') }}">Telefonai</a>
+                            <a href="{{ path('phones_front_end.single_phone') ~ '/' ~ phone.getPhoneId() }}">{{ phone.getPhoneId() }}</a>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="product-images">
+                                    <div class="product-main-img">
+                                        <img src="{{ phone.getImage() }}" style="max-width: 90%; padding: 22%" height="120%" width="120%" alt="">
+                                        {% if (generalRating) %}<span class="product-rating single-phone-rating" title="Bendras balas">{{ generalRating }}</span>{% endif %}
+                                    </div>
+
+                                    {#<div class="product-gallery">#}
+                                        {#<img src="{{ asset('img/product-thumb-1.jpg') }}" alt="">#}
+                                        {#<img src="{{ asset('img/product-thumb-2.jpg') }}" alt="">#}
+                                        {#<img src="{{ asset('img/product-thumb-3.jpg') }}" alt="">#}
+                                        {#<img src="{{ asset('img/product-thumb-4.jpg') }}" alt="">#}
+                                        {#<img src="{{ asset('img/product-thumb-4.jpg') }}" alt="">#}
+                                        {#<img src="{{ asset('img/product-thumb-4.jpg') }}" alt="">#}
+                                    {#</div>#}
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="product-inner">
+                                    <h2 class="product-name">{{ phone.getPhoneId() }}</h2>
+
+                                    <div class="cart_totals phone_specs phone_costs">
+                                        <br/>
+                                        <h4>Kainos</h4>
+                                        <table cellspacing="0">
+                                            <tbody>
+                                                <tr>
+                                                    {% set i = 0 %}
+                                                    {% for costData in costs %}
+                                                    <td><a href="{{ costData.deepLink }}" target="_blank"><strong>{{ costData.provider }}:</strong><strong style="color: dodgerblue">&nbsp&nbsp&nbsp{{ costData.cost }}&nbsp€</strong></a></td>
+                                                    {#<td><span class="amount">fdfdf</span></td>#}
+                                                    {#<td><span class="amount">fdfdf</span></td>#}
+                                                        {% set i = i+1 %}
+                                                    {% endfor %}
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    {#<div class="product-inner-price">#}
+                                        {#<ins>$700.00</ins> <del>$800.00</del>#}
+                                    {#</div>#}
+
+                                    {#<form action="" class="cart">#}
+                                        {#<div class="quantity">#}
+                                            {#<input type="number" size="4" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">#}
+                                        {#</div>#}
+                                        {#<button class="add_to_cart_button" type="submit">Add to cart</button>#}
+                                    {#</form>#}
+
+                                    {#<div class="product-inner-category">#}
+                                        {#<p>Category: <a href="">Summer</a>. Tags: <a href="">awesome</a>, <a href="">best</a>, <a href="">sale</a>, <a href="">shoes</a>. </p>#}
+                                    {#</div>#}
+
+                                    <div role="tabpanel">
+                                        <ul class="product-tab" role="tablist">
+                                            <li role="presentation" class="active"><a href="#stats" aria-controls="stats" role="tab" data-toggle="tab">Kokybiniai kriterijai</a></li>
+                                            <li role="presentation"><a href="#specs" aria-controls="specs" role="tab" data-toggle="tab">Bendri parametrai</a></li>
+                                            <li role="presentation"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Kiti parametrai</a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div role="tabpanel" class="tab-pane fade in active" id="stats">
+                                                <h2>Kokybiniai kriterijai</h2>
+                                                <div class="cart_totals phone_specs">
+                                                    {% for name,statData in ratings %}
+
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-custom-{{ statData.color }}" role="progressbar" aria-valuenow="{{ statData.value }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ statData.value }}%;">
+                                                            <span>{{ name }}</span>
+                                                        </div>
+                                                    </div>
+                                                    {% endfor %}
+                                                    {#<div class="progress">#}
+                                                        {#<div class="progress-bar progress-bar-custom-red" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">#}
+                                                            {#<span>sss</span>#}
+                                                        {#</div>#}
+                                                    {#</div>#}
+                                                    {#<div class="progress">#}
+                                                        {#<div class="progress-bar progress-bar-custom-orange" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">#}
+                                                            {#<span></span>#}
+                                                        {#</div>#}
+                                                    {#</div>#}
+                                                    {#<div class="progress">#}
+                                                        {#<div class="progress-bar progress-bar-custom-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">#}
+                                                            {#<span></span>#}
+                                                        {#</div>#}
+                                                    {#</div>#}
+                                                    {#<div class="progress">#}
+                                                        {#<div class="progress-bar progress-bar-custom-yellow" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">#}
+                                                            {#<span></span>#}
+                                                        {#</div>#}
+                                                    {#</div>#}
+                                                </div>
+                                            </div>
+                                            <div role="tabpanel" class="tab-pane fade" id="specs">
+                                                <h2>Pagrindiniai parametrai</h2>
+                                                <div class="cart_totals phone_specs">
+                                                    <table cellspacing="0">
+                                                        <tbody>
+                                                        {% for name,spec in specificationsMain %}
+                                                        <tr>
+                                                            <th>{{ name }}</th>
+                                                            <td><span class="amount">{{ spec }}</span></td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                        {#<tr>#}
+                                                            {#<th>Order Total</th>#}
+                                                            {#<td><strong><span class="amount">£15.00</span></strong> </td>#}
+                                                        {#</tr>#}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div role="tabpanel" class="tab-pane fade" id="home">
+                                                <h2>Kiti parametrai</h2>
+                                                <div class="cart_totals phone_specs">
+                                                    <table cellspacing="0">
+                                                        <tbody>
+                                                        {% for name,spec in specificationsOther %}
+                                                            <tr>
+                                                                <th>{{ name }}</th>
+                                                                <td><span class="amount">{{ spec }}</span></td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="related-products-wrapper">
+                            <h2 class="related-products-title">Susiję telefonai</h2>
+                            <div class="related-products-carousel">
+                                {% for relatedPhone in relatedPhones %}
+                                <div class="single-product">
+                                    <div class="product-f-image">
+                                        <img src="{{ relatedPhone.getImage() }}" alt="">
+                                        <div class="product-hover">
+                                            {#<a href="" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Add to cart</a>#}
+                                            <a href="{{ path('phones_front_end.single_phone') ~ '/' ~ relatedPhone.getPhoneId() }}" class="view-details-link"><i class="fa fa-link"></i> Peržiūrėti</a>
+                                        </div>
+                                    </div>
+
+                                    <h2><a href="{{ path('phones_front_end.single_phone') ~ '/' ~ relatedPhone.getPhoneId() }}">{{ relatedPhone.getPhoneId() }}</a></h2>
+
+                                    {#<div class="product-carousel-price">#}
+                                        {#<ins>$700.00</ins> <del>$800.00</del>#}
+                                    {#</div>#}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,105 @@
+.product-rating {
+  background: none repeat scroll 0 0 #1ABC22;
+  border-radius: 50%;
+  color: #fff;
+  display: inline-block;
+  font-size: 20px;
+  height: 50px;
+  padding-top: 10px;
+  position: absolute;
+  left: -10px;
+  text-align: center;
+  top: -10px;
+  width: 50px;
+}
+
+.single-phone-rating {
+    background: none repeat scroll 0 0 #1ABC22;
+    border-radius: 50%;
+    color: #fff;
+    display: inline-block;
+    font-size: 25px;
+    height: 100px;
+    padding-top: 29px;
+    position: absolute;
+    left: 50px;
+    text-align: center;
+    top: 55px;
+    width: 100px;
+}
+
+/* paging */
+a.disabled-link,
+a.disabled-link:visited ,
+a.disabled-link:active,
+a.disabled-link:hover {
+    background-color:#d9d9d9 !important;
+    color:#aaa !important;
+}
+
+/* specs */
+.phone_specs {
+    float: left;
+    margin-bottom: 50px;
+    width: 100%;
+}
+
+.phone_costs,
+.phone_costs table,
+.phone_costs td{
+    border-style: hidden;
+}
+
+.owl-carousel .owl-item img {
+    display: block;
+    width: 100%;
+    padding: 15%;
+    -webkit-transform-style: preserve-3d;
+}
+
+.navbar-nav-right {
+    float: right;
+}
+
+.navbar-nav-right input {
+    padding: 19px;
+}
+
+.navbar-nav-right button {
+    padding: 19px;
+}
+
+/* Progress bars*/
+.progress {
+    background: rgba(240, 240, 240, 1);
+    border: 0px solid rgba(255, 255, 255, 1);
+    border-radius: 0px;
+    height: 40px;
+}
+
+.progress-bar-custom-red {
+    background: rgba(245, 86, 86, 0.6);
+}
+.progress-bar-custom-orange {
+    background: rgba(245, 177, 86, 0.6);
+}
+.progress-bar-custom-green {
+    background: rgba(26, 188, 156, 0.6);
+}
+.progress-bar-custom-yellow {
+    background: rgba(245, 217, 20, 0.6);
+}
+
+/**
+ * Progress bars with centered text
+ */
+.progress {
+    position: relative;
+}
+
+.progress span {
+    position: absolute;
+    display: block;
+    width: 100%;
+    color: white;
+}

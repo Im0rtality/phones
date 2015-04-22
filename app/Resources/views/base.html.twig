@@ -23,6 +23,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="{{ asset('css/owl.carousel.css') }}">
         <link rel="stylesheet" href="{{ asset('style.css') }}">
+        <link rel="stylesheet" href="{{ asset('style-custom.css') }}">
         <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
         {% endblock %}
 
@@ -66,6 +67,16 @@
                             <li><a href="{{ path('phones_front_end.phones') }}">Telefonai</a></li>
                             <li><a href="{{ path('phones_front_end.best_phone') }}">Paieška</a></li>
                         </ul>
+
+                        <ul class="nav navbar-nav navbar-nav-right">
+                            <li style="padding-left:0">
+                                <form action="">
+                                    <input type="text" placeholder="ieškoti telefonų..." id="ajax" list="json-datalist">
+                                    <datalist id="json-datalist"></datalist>
+                                    <input type="submit" value="Search" class="icon-search">
+                                </form>
+                            </li>
+                        </ul>
                     </div>
                     {% endblock %}
                 </div>
@@ -103,7 +114,7 @@
                                                 <div class="slide-content">
                                                     <h2>Peržiūrėk esamus telefonus</h2>
                                                     <p>Puslapyje yra daug ...</p>
-                                                    <a href="" class="readmore">Sužinok daugiau</a>
+                                                    <a href="{{ path('phones_front_end.phones') }}" class="readmore">Sužinok daugiau</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -123,7 +134,7 @@
                                                 <div class="slide-content">
                                                     <h2>Surask geriausią telefoną</h2>
                                                     <p>Įmantrios paieškos pagalba surasi...</p>
-                                                    <a href="" class="readmore">Sužinok daugiau</a>
+                                                    <a href="{{ path('phones_front_end.best_phone') }}" class="readmore">Sužinok daugiau</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -214,6 +225,56 @@
 
         <!-- Main Script -->
         <script src="{{ asset('js/main.js') }}"></script>
+
+        <script>
+            $(".disabled-link").click(function(event) {
+                event.preventDefault();
+            });
+        </script>
+
+
+        <script>
+            // Get the <datalist> and <input> elements.
+            var dataList = document.getElementById('json-datalist');
+            var input = document.getElementById('ajax');
+
+            // Create a new XMLHttpRequest.
+            var request = new XMLHttpRequest();
+
+            // Handle state changes for the request.
+            request.onreadystatechange = function(response) {
+                if (request.readyState === 4) {
+                    if (request.status === 200) {
+                        // Parse the JSON
+                        var jsonOptions = JSON.parse(request.responseText);
+
+                        // Loop over the JSON array.
+                        jsonOptions.forEach(function(item) {
+                            // Create a new <option> element.
+                            var option = document.createElement('option');
+                            // Set the value using the item in the JSON array.
+                            option.value = item;
+                            // Add the <option> element to the <datalist>.
+                            dataList.appendChild(option);
+                        });
+
+                        // Update the placeholder text.
+                        input.placeholder = "e.g. datalist";
+                    } else {
+                        // An error occured :(
+                        input.placeholder = "Couldn't load datalist options :(";
+                    }
+                }
+            };
+
+            // Update the placeholder text.
+            input.placeholder = "Loading options...";
+
+            // Set up and make the request.
+            request.open('GET', 'phones_json', true);
+            request.send();
+        </script>
+
         {% endblock %}
     </body>
 </html>

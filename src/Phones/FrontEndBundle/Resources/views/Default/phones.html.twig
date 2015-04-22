@@ -7,6 +7,14 @@
             <li class="active"><a href="{{ path('phones_front_end.phones') }}">Telefonai</a></li>
             <li><a href="{{ path('phones_front_end.best_phone') }}">Paieška</a></li>
         </ul>
+        <ul class="nav navbar-nav navbar-nav-right">
+            <li style="padding-left:0">
+                <form action="">
+                    <input type="text" placeholder="ieškoti telefonų...">
+                    <input type="submit" value="Search" class="icon-search">
+                </form>
+            </li>
+        </ul>
     </div>
 {% endblock %}
 
@@ -27,27 +35,38 @@
         <div class="zigzag-bottom"></div>
         <div class="container">
             <div class="row">
+                {% set phoneNr = 0 %}
                 {% for phone in products %}
-                <div class="col-md-3 col-sm-6">
+                <div class="col-md-3 col-sm-6" {% if (phoneNr==4) %}{% set phoneNr = 0 %}style="clear: both"{% endif %}>
                     <div class="single-shop-product">
                         <div class="product-upper">
-                            <img src="{{ phone.getImage() }}" alt="">
+                            <a href="{{ path('phones_front_end.single_phone') ~ '/' ~ phone.getPhoneId() }}"><img src="{{ phone.getImage() }}" alt=""></a>
+                            {#<a href="{{ path('phones_front_end.single_phone') ~ '/' ~ phone.getPhoneId()|replace({' ':'-'}) }}"><img src="{{ phone.getImage() }}" alt=""></a>#}
                         </div>
-                        <h2><a href="#">{{ phone.getPhoneId() }}</a></h2>
+                        <h2><a href="{{ path('phones_front_end.single_phone') ~ '/' ~ phone.getPhoneId() }}">{{ phone.getPhoneId() }}</a></h2>
 
                         <div class="product-carousel-price">
+                        {% set i = 0 %}
                         {% if (phone.costs) %}
                             {% for cost in phone.costs %}
                                 <a href="{{ cost.deeplink }}"><ins style="color: limegreen">€{{ cost.cost }}</ins></a>&nbsp
+                                {% set i = i+1 %}
                             {% endfor %}
+                        {% endif %}
+
+                        {% if (i == 0) %}
+                            <ins style="color: darkred">Kainos duomenų nerasta</ins>
                         {% endif %}
                         </div>
 
                         <div class="product-option-shop">
-                            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="#">Peržiūrėti</a>
+                            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="{{ path('phones_front_end.single_phone') ~ '/' ~ phone.getPhoneId() }}">Peržiūrėti</a>
                         </div>
+
+                        <span class="product-rating" title="Bendras balas">89</span>
                     </div>
                 </div>
+                    {% set phoneNr = phoneNr+1 %}
                 {% endfor %}
             </div>
 
@@ -57,17 +76,16 @@
                         <nav>
                             <ul class="pagination">
                                 <li>
-                                    <a href="#" aria-label="Previous">
+                                    <a {% if (currentPage==1) %}class="disabled-link" href="#"{% else %}href="{{ path('phones_front_end.phones') ~ '/' ~ (currentPage - 1) }}"{% endif %} aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 </li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
+                                {% for page in dynamicPages %}
+                                <li><a class="{% if (page==currentPage) %}disabled-link{% endif %}" href="{{ path('phones_front_end.phones') ~ '/' ~ page }}">{{ page }}</a></li>
+                                {% endfor %}
+
                                 <li>
-                                    <a href="#" aria-label="Next">
+                                    <a {% if ((currentPage + 1)<=totalPageCount) %}href="{{ path('phones_front_end.phones') ~ '/' ~ (currentPage + 1) }}"{% else %}class="disabled-link" href="#"{% endif %} aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
                                 </li>
