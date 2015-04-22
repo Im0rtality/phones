@@ -7,6 +7,9 @@
             <li><a href="{{ path('phones_front_end.phones') }}">Telefonai</a></li>
             <li class="active"><a href="{{ path('phones_front_end.best_phone') }}">Paieška</a></li>
         </ul>
+        {% block searchbox %}
+            {{ parent() }}
+        {% endblock %}
     </div>
 {% endblock %}
 

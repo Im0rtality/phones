@@ -68,6 +68,7 @@
                             <li><a href="{{ path('phones_front_end.best_phone') }}">Paieška</a></li>
                         </ul>
 
+                        {% block searchbox %}
                         <ul class="nav navbar-nav navbar-nav-right">
                             <li style="padding-left:0">
                                 <form action="">
@@ -77,6 +78,7 @@
                                 </form>
                             </li>
                         </ul>
+                        {% endblock %}
                     </div>
                     {% endblock %}
                 </div>

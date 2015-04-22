@@ -7,14 +7,9 @@
             <li class="active"><a href="{{ path('phones_front_end.phones') }}">Telefonai</a></li>
             <li><a href="{{ path('phones_front_end.best_phone') }}">Paieška</a></li>
         </ul>
-        <ul class="nav navbar-nav navbar-nav-right">
-            <li style="padding-left:0">
-                <form action="">
-                    <input type="text" placeholder="ieškoti telefonų...">
-                    <input type="submit" value="Search" class="icon-search">
-                </form>
-            </li>
-        </ul>
+        {% block searchbox %}
+            {{ parent() }}
+        {% endblock %}
     </div>
 {% endblock %}
 
