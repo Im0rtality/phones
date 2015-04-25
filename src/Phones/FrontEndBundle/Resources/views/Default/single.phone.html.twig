@@ -30,59 +30,6 @@
         <div class="zigzag-bottom"></div>
         <div class="container">
             <div class="row">
-                {#<div class="col-md-4">#}
-                    {#<div class="single-sidebar">#}
-                        {#<h2 class="sidebar-title">Search Products</h2>#}
-                        {#<form action="">#}
-                            {#<input type="text" placeholder="Search products...">#}
-                            {#<input type="submit" value="Search">#}
-                        {#</form>#}
-                    {#</div>#}
-
-                    {#<div class="single-sidebar">#}
-                        {#<h2 class="sidebar-title">Products</h2>#}
-                        {#<div class="thubmnail-recent">#}
-                            {#<img src="{{ asset('img/product-thumb-1.jpg') }}" class="recent-thumb" alt="">#}
-                            {#<h2><a href="">Sony Smart TV - 2015</a></h2>#}
-                            {#<div class="product-sidebar-price">#}
-                                {#<ins>$700.00</ins> <del>$800.00</del>#}
-                            {#</div>#}
-                        {#</div>#}
-                        {#<div class="thubmnail-recent">#}
-                            {#<img src="{{ asset('img/product-thumb-1.jpg') }}" class="recent-thumb" alt="">#}
-                            {#<h2><a href="">Sony Smart TV - 2015</a></h2>#}
-                            {#<div class="product-sidebar-price">#}
-                                {#<ins>$700.00</ins> <del>$800.00</del>#}
-                            {#</div>#}
-                        {#</div>#}
-                        {#<div class="thubmnail-recent">#}
-                            {#<img src="{{ asset('img/product-thumb-1.jpg') }}" class="recent-thumb" alt="">#}
-                            {#<h2><a href="">Sony Smart TV - 2015</a></h2>#}
-                            {#<div class="product-sidebar-price">#}
-                                {#<ins>$700.00</ins> <del>$800.00</del>#}
-                            {#</div>#}
-                        {#</div>#}
-                        {#<div class="thubmnail-recent">#}
-                            {#<img src="{{ asset('img/product-thumb-1.jpg') }}" class="recent-thumb" alt="">#}
-                            {#<h2><a href="">Sony Smart TV - 2015</a></h2>#}
-                            {#<div class="product-sidebar-price">#}
-                                {#<ins>$700.00</ins> <del>$800.00</del>#}
-                            {#</div>#}
-                        {#</div>#}
-                    {#</div>#}
-
-                    {#<div class="single-sidebar">#}
-                        {#<h2 class="sidebar-title">Recent Posts</h2>#}
-                        {#<ul>#}
-                            {#<li><a href="">Sony Smart TV - 2015</a></li>#}
-                            {#<li><a href="">Sony Smart TV - 2015</a></li>#}
-                            {#<li><a href="">Sony Smart TV - 2015</a></li>#}
-                            {#<li><a href="">Sony Smart TV - 2015</a></li>#}
-                            {#<li><a href="">Sony Smart TV - 2015</a></li>#}
-                        {#</ul>#}
-                    {#</div>#}
-                {#</div>#}
-
                 <div class="col-md-12">
                     <div class="product-content-right">
                         <div class="product-breadcroumb">
@@ -123,10 +70,11 @@
                                                     {% set i = 0 %}
                                                     {% for costData in costs %}
                                                     <td><a href="{{ costData.deepLink }}" target="_blank"><strong>{{ costData.provider }}:</strong><strong style="color: dodgerblue">&nbsp&nbsp&nbsp{{ costData.cost }}&nbsp€</strong></a></td>
-                                                    {#<td><span class="amount">fdfdf</span></td>#}
-                                                    {#<td><span class="amount">fdfdf</span></td>#}
                                                         {% set i = i+1 %}
                                                     {% endfor %}
+                                                    {% if costs is empty %}
+                                                        <td><strong>Nėra duomenų</strong></td>
+                                                    {% endif %}
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -160,30 +108,11 @@
 
                                                     <div class="progress">
                                                         <div class="progress-bar progress-bar-custom-{{ statData.color }}" role="progressbar" aria-valuenow="{{ statData.value }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ statData.value }}%;">
-                                                            <span>{{ name }}</span>
+                                                            <span {% if (statData.value is empty) %}class="empty-rewrite-style"{% endif %}>{{ name }}</span>
                                                         </div>
+                                                        <span class="progress-bar-left {% if (statData.value is empty) %}empty-rewrite-style{% endif %}">{% if (statData.value is empty) %}N/A{% endif %}{{ statData.value }}</span>
                                                     </div>
                                                     {% endfor %}
-                                                    {#<div class="progress">#}
-                                                        {#<div class="progress-bar progress-bar-custom-red" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">#}
-                                                            {#<span>sss</span>#}
-                                                        {#</div>#}
-                                                    {#</div>#}
-                                                    {#<div class="progress">#}
-                                                        {#<div class="progress-bar progress-bar-custom-orange" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">#}
-                                                            {#<span></span>#}
-                                                        {#</div>#}
-                                                    {#</div>#}
-                                                    {#<div class="progress">#}
-                                                        {#<div class="progress-bar progress-bar-custom-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">#}
-                                                            {#<span></span>#}
-                                                        {#</div>#}
-                                                    {#</div>#}
-                                                    {#<div class="progress">#}
-                                                        {#<div class="progress-bar progress-bar-custom-yellow" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">#}
-                                                            {#<span></span>#}
-                                                        {#</div>#}
-                                                    {#</div>#}
                                                 </div>
                                             </div>
                                             <div role="tabpanel" class="tab-pane fade" id="specs">
@@ -256,4 +185,3 @@
         </div>
     </div>
 {% endblock %}
-

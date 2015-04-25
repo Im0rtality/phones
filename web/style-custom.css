@@ -7,7 +7,7 @@
   height: 50px;
   padding-top: 10px;
   position: absolute;
-  left: -10px;
+  left: 50px;
   text-align: center;
   top: -10px;
   width: 50px;
@@ -26,6 +26,44 @@
     text-align: center;
     top: 55px;
     width: 100px;
+}
+/* phone search field not used */
+.shopping-item {
+    border: 1px solid #ddd;
+    border-right: none;
+    float: right;
+    /* font-size: 18px; */
+    margin-top: 37px;
+    padding: 0px;
+    position: relative;
+}
+
+.shopping-item:hover {
+    background: none;
+}
+
+.shopping-item input[type="text"],
+.shopping-item input[type="search"] {
+    border: none;
+    padding: 11px 20px;
+}
+
+.shopping-item input[type="submit"] {
+    padding: 13px 20px;
+}
+
+.shopping-item input:focus{
+    outline: none;
+}
+/* Mobile Layout: 320px. */
+@media only screen and (max-width: 767px) {
+    .shopping-item {
+        border-right: 1px solid #ddd;
+        float: none;
+        margin-bottom: 20px;
+        margin-top: 5px;
+        text-align: center;
+    }
 }
 
 /* paging */
@@ -69,6 +107,11 @@ a.disabled-link:hover {
     padding: 19px;
 }
 
+/* phones page */
+.single-shop-product {
+    margin-left: 60px;
+}
+
 /* Progress bars*/
 .progress {
     background: rgba(240, 240, 240, 1);
@@ -97,9 +140,44 @@ a.disabled-link:hover {
     position: relative;
 }
 
-.progress span {
+/*.progress span {
     position: absolute;
     display: block;
     width: 100%;
     color: white;
+}*/
+
+.progress span {
+    display: block;
+    color: rgb(49, 86, 51);
+    float: left;
+    font-size: large;
+    font-weight: bold;
+    padding-left: 12px;
+    padding-top: 10px;
+}
+
+.progress span.progress-bar-left {
+    display: block;
+    color: rgb(223, 19, 42);
+    float: right;
+    font-size: large;
+    font-weight: bold;
+    padding-right: 12px;
+    padding-top: 10px;
+}
+
+.progress span.empty-rewrite-style {
+    color: gray;
+    font-weight: normal;
+}
+
+.title-custom-best-phones-area {
+    background: url(img/crossword.png) repeat scroll 0 0 #1ABC3B;
+    padding: 40px 0;
+}
+
+.title-custom-best-phones-area .single-shop-product {
+    margin-left: 0px;
+    margin-bottom: 0px;
 }

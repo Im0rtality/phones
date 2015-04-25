@@ -16,6 +16,10 @@ phones_front_end.single_phone:
     pattern:  /phones/phone/{phoneId}
     defaults: { _controller: PhonesFrontEndBundle:Default:singlePhone, phoneId: 0 }
 
+phones_front_end.single_phone_form_search:
+    pattern:  /phone_search
+    defaults: { _controller: PhonesFrontEndBundle:Default:phoneSearch }
+
 phones_front_end.results:
     pattern:  /results
     defaults: { _controller: PhonesFrontEndBundle:Default:searchResults }

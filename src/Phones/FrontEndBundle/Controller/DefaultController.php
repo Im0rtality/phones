@@ -113,6 +113,18 @@ class DefaultController extends Controller
     }
 
     /**
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function phoneSearchAction(Request $request)
+    {
+        $phoneId = $request->get('phone-search-value', null);
+
+        return $this->singlePhoneAction($phoneId);
+    }
+
+    /**
      * @return Response
      */
     public function getPhonesJsonAction()

@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="mazvis">
-        <title>{% block title %}eElectronics - HTML eCommerce Template{% endblock %}</title>
+        <title>{% block title %}eMobilūs - surask geriausią telefoną{% endblock %}</title>
 
         {% block stylesheets %}
         <!-- Google Fonts -->
@@ -45,9 +45,22 @@
                             <h1><a href="{{ path('phones_front_end.homepage') }}">e<span>Mobilieji</span></a></h1>
                         </div>
                     </div>
+
+                    <div class="col-sm-6">
+                        <div class="shopping-item coupon">
+                            <form action="{{ path('phones_front_end.single_phone_form_search') }}">
+                                <input type="text" placeholder="Ieškoti telefono..." value="" id="ajax" list="json-datalist" class="input-text" name="phone-search-value">
+                                <datalist id="json-datalist">
+\                                    <option value=" "></option>
+                                </datalist>
+                                <input type="submit" value="Ieškoti" class="button">
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div> <!-- End site branding area -->
+
 
         <div class="mainmenu-area">
             <div class="container">
@@ -69,15 +82,6 @@
                         </ul>
 
                         {% block searchbox %}
-                        <ul class="nav navbar-nav navbar-nav-right">
-                            <li style="padding-left:0">
-                                <form action="">
-                                    <input type="text" placeholder="ieškoti telefonų..." id="ajax" list="json-datalist">
-                                    <datalist id="json-datalist"></datalist>
-                                    <input type="submit" value="Search" class="icon-search">
-                                </form>
-                            </li>
-                        </ul>
                         {% endblock %}
                     </div>
                     {% endblock %}
@@ -261,7 +265,7 @@
                         });
 
                         // Update the placeholder text.
-                        input.placeholder = "e.g. datalist";
+                        input.placeholder = "pvz.: Nokia 101";
                     } else {
                         // An error occured :(
                         input.placeholder = "Couldn't load datalist options :(";
